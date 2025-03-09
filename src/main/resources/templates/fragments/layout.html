@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title + ' - 獨立新聞'}">獨立新聞</title>
+    <style>
+        :root {
+            --primary-color: #333;
+            --secondary-color: #666;
+            --background-color: #f4f4f4;
+            --text-color: #1a1a1a;
+            --border-color: #ddd;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Nanum Myeongjo', serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .main-content {
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<header th:fragment="header">
+    <div class="header">
+        <div class="header-content">
+            <a href="/" class="logo">獨立新聞</a>
+            <nav class="nav-menu">
+                <a href="/articles" class="nav-link">기사</a>
+                <a href="/articles/write" class="nav-link">기사작성</a>
+                <a href="/about" class="nav-link">소개</a>
+                <a href="/contact" class="nav-link">문의</a>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<footer th:fragment="footer">
+    <div class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 獨立新聞. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+</html> 

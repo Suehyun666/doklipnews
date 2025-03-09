@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/layout :: head('기사 작성')">
+</head>
+<body>
+<div th:replace="fragments/layout :: header"></div>
+
+<div class="main-content">
+    <div class="container">
+        <div class="write-form">
+            <h1>기사 작성</h1>
+            <!-- enctype을 multipart/form-data로 설정하여 파일 업로드 가능하게 함 -->
+            <form th:action="@{/articles}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" name="title" required
+                           placeholder="기사 제목을 입력하세요">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="author">작성자</label>
+                        <input type="text" id="author" name="author" required
+                               placeholder="작성자 이름을 입력하세요">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">카테고리</label>
+                        <select id="category" name="category" required>
+                            <option value="">카테고리 선택</option>
+                            <option value="정치">정치</option>
+                            <option value="경제">경제</option>
+                            <option value="사회">사회</option>
+                            <option value="문화">문화</option>
+                            <option value="국제">국제</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea id="content" name="content" required
+                              placeholder="기사 내용을 입력하세요"></textarea>
+                </div>
+
+                <!-- 이미지 파일을 입력받는 필드 추가 -->
+                <div class="form-group">
+                    <label for="image">이미지 업로드</label>
+                    <input type="file" id="image" name="imageFile">
+                </div>
+
+                <div class="form-actions">
+                    <a href="/articles" class="cancel-button">취소</a>
+                    <button type="submit" class="submit-button">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+
+<style>
+    .write-form {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        color: var(--text-color);
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+        font-weight: 500;
+    }
+
+    input[type="text"],
+    select,
+    textarea,
+    input[type="file"] {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        font-size: 1rem;
+        font-family: inherit;
+        background-color: white;
+        transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus,
+    select:focus,
+    textarea:focus,
+    input[type="file"]:focus {
+        outline: none;
+        border-color: var(--primary-color);
+    }
+
+    textarea {
+        height: 400px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .submit-button,
+    .cancel-button {
+        padding: 0.75rem 2rem;
+        border-radius: 4px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .submit-button {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+    }
+
+    .cancel-button {
+        background-color: transparent;
+        color: var(--secondary-color);
+        border: 1px solid var(--border-color);
+    }
+
+    .submit-button:hover {
+        background-color: #1a1a1a;
+    }
+
+    .cancel-button:hover {
+        background-color: var(--background-color);
+    }
+
+    ::placeholder {
+        color: #aaa;
+    }
+</style>
+</body>
+</html>
