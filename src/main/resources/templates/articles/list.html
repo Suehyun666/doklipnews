@@ -14,11 +14,14 @@
 
         <div class="category-nav">
             <a th:href="@{/articles}" th:classappend="${category == null} ? 'active'" class="category-link">전체</a>
+            <a th:href="@{/articles?category=국제}" th:classappend="${category == '국제'} ? 'active'" class="category-link">국제</a>
             <a th:href="@{/articles?category=정치}" th:classappend="${category == '정치'} ? 'active'" class="category-link">정치</a>
             <a th:href="@{/articles?category=경제}" th:classappend="${category == '경제'} ? 'active'" class="category-link">경제</a>
-            <a th:href="@{/articles?category=사회}" th:classappend="${category == '사회'} ? 'active'" class="category-link">사회</a>
-            <a th:href="@{/articles?category=문화}" th:classappend="${category == '문화'} ? 'active'" class="category-link">문화</a>
-            <a th:href="@{/articles?category=국제}" th:classappend="${category == '국제'} ? 'active'" class="category-link">국제</a>
+            <a th:href="@{/articles?category=산업}" th:classappend="${category == '산업'} ? 'active'" class="category-link">산업</a>
+            <a th:href="@{/articles?category=예술}" th:classappend="${category == '예술'} ? 'active'" class="category-link">예술</a>
+            <a th:href="@{/articles?category=외신}" th:classappend="${category == '외신'} ? 'active'" class="category-link">외신</a>
+            <a th:href="@{/articles?category=칼럼}" th:classappend="${category == '칼럼'} ? 'active'" class="category-link">칼럼</a>
+
         </div>
 
         <div class="articles-grid">

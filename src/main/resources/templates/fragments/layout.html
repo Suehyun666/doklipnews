@@ -12,20 +12,20 @@
             --text-color: #1a1a1a;
             --border-color: #ddd;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Nanum Myeongjo', serif;
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
         }
-        
+
         .header {
             background-color: white;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -34,7 +34,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .header-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -43,48 +43,73 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .logo {
             font-size: 2rem;
             font-weight: bold;
             color: var(--primary-color);
             text-decoration: none;
         }
-        
+
         .nav-menu {
             display: flex;
             gap: 2rem;
+            position: relative;
         }
-        
+
         .nav-link {
             color: var(--secondary-color);
             text-decoration: none;
             font-size: 1.1rem;
             transition: color 0.3s;
         }
-        
+
         .nav-link:hover {
             color: var(--primary-color);
         }
-        
+
+        /* 문의 서브 메뉴 스타일 */
+        .submenu {
+            display: none;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 4px;
+            min-width: 200px;
+        }
+
+        .submenu a {
+            display: block;
+            padding: 1rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .submenu a:hover {
+            background-color: var(--background-color);
+        }
+
         .main-content {
             margin-top: 80px;
             min-height: calc(100vh - 80px);
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem;
         }
-        
+
         .footer {
             background-color: var(--primary-color);
             color: white;
             padding: 2rem 0;
             margin-top: 4rem;
         }
-        
+
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
@@ -92,6 +117,18 @@
             text-align: center;
         }
     </style>
+    <script>
+        // 문의 메뉴 클릭 시 서브 메뉴 토글
+        document.addEventListener("DOMContentLoaded", function() {
+            const contactLink = document.querySelector('.contact-link');
+            const submenu = document.querySelector('.submenu');
+
+            contactLink.addEventListener('click', function(e) {
+                e.preventDefault(); // 기본 링크 동작을 막습니다.
+                submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
 </head>
 
 <header th:fragment="header">
@@ -102,7 +139,14 @@
                 <a href="/articles" class="nav-link">기사</a>
                 <a href="/articles/write" class="nav-link">기사작성</a>
                 <a href="/about" class="nav-link">소개</a>
-                <a href="/contact" class="nav-link">문의</a>
+                <a href="#" class="nav-link contact-link">문의</a>
+
+                <!-- 문의 서브 메뉴 -->
+                <div class="submenu">
+                    <a href="https://www.instagram.com/novu_naga" target="_blank">SNS</a>
+                    <a href="/contact">연락처</a>
+                    <a href="/donation">후원계좌</a>
+                </div>
             </nav>
         </div>
     </div>
@@ -115,4 +159,4 @@
         </div>
     </div>
 </footer>
-</html> 
+</html>

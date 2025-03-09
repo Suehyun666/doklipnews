@@ -42,13 +42,13 @@ public class ArticleController {
     }
 
     // 특정 기사 조회
-    @GetMapping("/articles/{id}")
+    @GetMapping("/{id}")
     public String viewArticle(@PathVariable Long id, Model model) {
         Article article = articleService.findById(id);
-        String currentUser = getCurrentUser();
+        //String currentUser = getCurrentUser();
         model.addAttribute("article", article);
-        model.addAttribute("currentUser", currentUser);
-        return "article/detail";
+        //model.addAttribute("currentUser", currentUser);
+        return "articles/detail";
     }
 
     // 기사 수정 페이지
