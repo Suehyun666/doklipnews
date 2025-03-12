@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동백일보 - 채용</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #222;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-header {
+            background-color: #d64123;
+            color: white;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .top-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .date-weather {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .header-actions a:hover {
+            opacity: 0.8;
+        }
+
+        .main-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d64123;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .nav-menu a:hover {
+            color: #d64123;
+        }
+
+        .nav-menu a:hover::after, .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #d64123;
+        }
+
+        .nav-menu a.active {
+            color: #d64123;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 30px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #d64123;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #222;
+            font-family: 'Noto Serif KR', serif;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .careers-banner {
+            background-color: #f5f5f5;
+            border-radius: 5px;
+            padding: 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), url('/api/placeholder/1000/300');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .banner-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .banner-text {
+            font-size: 16px;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            line-height: 1.8;
+        }
+
+        .banner-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #d64123;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        .banner-button:hover {
+            background-color: #c33a1e;
+        }
+
+        .careers-section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif KR', serif;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 20px;
+            background-color: #d64123;
+        }
+
+        .section-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .value-card {
+            background-color: #f9f9f9;
+            padding: 25px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .value-icon {
+            font-size: 36px;
+            color: #d64123;
+            margin-bottom: 15px;
+        }
+
+        .value-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .value-text {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .benefit-icon {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            background-color: #f1f1f1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d64123;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .benefit-content {
+            flex: 1;
+        }
+
+        .benefit-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .benefit-desc {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .job-listing {
+            margin: 30px 0;
+        }
+
+        .job-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-button {
+            padding: 8px 16px;
+            background-color: #f1f1f1;
+            color: #333;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .filter-button:hover {
+            background-color: #e1e1e1;
+        }
+
+        .filter-button.active {
+            background-color: #d64123;
+            color: white;
+        }
+
+        .job-card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .job-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .job-department {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .job-type {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #eef7ff;
+            color: #4a7bde;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .job-type.full-time {
+            background-color: #eef7ff;
+            color: #4a7bde;
+        }
+
+        .job-type.part-time {
+            background-color: #eefbf3;
+            color: #37c273;
+        }
+
+        .job-type.contract {
+            background-color: #fff7e6;
+            color: #f5a623;
+        }
+
+        .job-type.internship {
+            background-color: #f4eeff;
+            color: #7b5dd2;
+        }
+
+        .job-details {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .job-description {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .job-actions {
+            text-align: right;
+        }
+
+        .apply-button {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #d64123;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .apply-button:hover {
+            background-color: #c33a1e;
+        }
+
+        .view-link {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: transparent;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .view-link:hover {
+            text-decoration: underline;
+        }
+
+        .team-photos {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+            overflow-x: auto;
+            padding-bottom: 15px;
+        }
+
+        .team-photo {
+            flex-shrink: 0;
+            width: 300px;
+            height: 200px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .team-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .team-photo:hover img {
+            transform: scale(1.05);
+        }
+
+        .testimonials {
+            margin: 40px 0;
+        }
+
+        .testimonial-card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .testimonial-content {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .testimonial-content::before,
+        .testimonial-content::after {
+            content: '"';
+            font-size: 40px;
+            font-family: Georgia, serif;
+            color: #e0e0e0;
+            position: absolute;
+        }
+
+        .testimonial-content::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .testimonial-content::after {
+            bottom: -30px;
+            right: 0;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .author-position {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .application-process {
+            margin: 40px 0;
+        }
+
+        .process-steps {
+            counter-reset: step;
+            margin: 30px 0;
+        }
+
+        .process-step {
+            position: relative;
+            padding-left: 70px;
+            margin-bottom: 30px;
+        }
+
+        .process-step::before {
+            counter-increment: step;
+            content: counter(step);
+            width: 50px;
+            height: 50px;
+            background-color: #d64123;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .process-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: #eee;
+            left: 24px;
+            top: 50px;
+            bottom: -30px;
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .step-desc {
+            color: #555;
+        }
+
+        .faq-section {
+            margin: 40px 0;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+        }
+
+        .faq-question {
+            background-color: #f9f9f9;
+            padding: 15px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            position: relative;
+            padding-right: 40px;
+            transition: background-color 0.2s;
+        }
+
+        .faq-question::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            transition: transform 0.2s;
+        }
+
+        .faq-question.active {
+            background-color: #f1f1f1;
+        }
+
+        .faq-question.active::after {
+            content: '-';
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, padding 0.3s;
+        }
+
+        .faq-answer.show {
+            padding: 15px 20px;
+            max-height: 300px;
+        }
+
+        .careers-cta {
+            background-color: #f5f5f5;
+            padding: 30px;
+            border-radius: 5px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .cta-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .cta-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #d64123;
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .cta-button:hover {
+            background-color: #c33a1e;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            font-size: 13px;
+            color: #999;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-list {
+                grid-template-columns: 1fr;
+            }
+
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-menu {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .nav-menu li {
+                margin: 5px 10px 5px 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="top-header">
+        <div class="top-header-content">
+            <div class="date-weather">
+                <span id="current-date">2025년 03월 12일 수요일</span> |
+                <span>서울 20°C 맑음</span>
+            </div>
+            <div class="header-actions">
+                <a href="#">구독신청</a>
+                <a href="#">로그인</a>
+                <a href="#">회원가입</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-header">
+        <a href="/" class="logo">
+            <img src="/images/logo.jpg" alt="동백일보 로고">
+            동백일보
+        </a>
+        <ul class="nav-menu">
+            <li><a href="/">메인</a></li>
+            <li><a href="/articles?category=국제">국제</a></li>
+            <li><a href="/articles?category=정치">정치</a></li>
+            <li><a href="/articles?category=경제">경제</a></li>
+            <li><a href="/articles?category=산업">산업</a></li>
+            <li><a href="/articles?category=예술">예술</a></li>
+            <li><a href="/articles?category=외신">외신</a></li>
+            <li><a href="/articles?category=칼럼">칼럼</a></li>
+            <li><a href="/about">소개</a></li>
+            <li><a href="/history">연혁</a></li>
+            <li><a href="/careers" class="active">채용</a></li>
+            <li><a href="/contact">문의</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="main-content">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">채용 정보</h1>
+            <p class="page-subtitle">동백일보와 함께 대한민국 언론의 미래를 만들어갈 인재를 찾습니다</p>
+        </div>
+
+        <div class="careers-banner">
+            <h2 class="banner-title">우리와 함께 새로운 이야기를 만들어가세요</h2>
+            <p class="banner-text">동백일보는 1956년 창간 이래 진실을 추구하며 대한민국의 역사적 순간들을 독자와 함께해왔습니다. 디지털 시대에도 변함없는, 깊이 있는 저널리즘으로 더 나은 사회를 만들기 위해 노력하고 있습니다. 변화하는 미디어 환경 속에서 혁신을 주도할 열정적인 인재를 기다립니다.</p>
+            <a href="#job-openings" class="banner-button">채용 공고 보기</a>
+        </div>
+
+        <div class="careers-section">
+            <h2 class="section-title">동백일보의 가치</h2>
+            <p class="section-content">동백일보는 진실, 공정성, 혁신을 핵심 가치로 삼고 있습니다. 이 가치들은 우리의 업무 방식과 조직 문화에 깊이 뿌리내리고 있으며, 모든 팀원이 공유하는 철학입니다.</p>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">◯</div>
+                    <h3 class="value-title">진실 추구</h3>
+                    <p class="value-text">사실에 기반한 보도와 심층적인 분석을 통해 독자에게 진실을 전달합니다. 어떠한 압력에도 굴하지 않고 진실을 추구하는 것이 우리의 사명입니다.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">◯</div>
+                    <h3 class="value-title">공정성</h3>
+                    <p class="value-text">다양한 관점을 균형 있게 다루며, 편향 없는 보도를 지향합니다. 투명한 프로세스와 윤리적 판단으로 독자의 신뢰를 얻습니다.</p>
+                </div>
+                <div class="value-card">
+                    <div class="value-icon">◯</div>
+                    <h3 class="value-title">혁신</h3>
+                    <p class="value-text">변화하는 미디어 환경에 적응하고 새로운 기술을 적극 수용합니다. 끊임없는 실험과 도전으로 미래 언론의 모습을 모색합니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="careers-section">
+            <h2 class="section-title">복리후생</h2>
+            <p class="section-content">동백일보는 구성원들이 최고의 역량을 발휘할 수 있도록 다양한 복리후생을 제공합니다. 일과 삶의 균형을 중요시하며, 지속적인 성장을 지원합니다.</p>
+
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">♥</div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">유연한 근무환경</h3>
+                        <p class="benefit-desc">자율출퇴근제와 재택근무를 통해 업무와 삶의 균형을 지원합니다.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">♥</div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">성장 지원</h3>
+                        <p class="benefit-desc">교육비 지원, 사내 멘토링, 콘퍼런스 참가 지원 등 구성원의 성장을 적극 지원합니다.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">♥</div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">건강 관리</h3>
+                        <p class="benefit-desc">종합건강검진, 단체보험 가입, 체력단련비 지원 등으로 구성원의 건강을 챙깁니다.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">♥</div>
+                    <div class="benefit-content">
+                        <h3 class="benefit-title">생활 지원</h3>
+                        <p class="benefit-desc">자녀 학자금 지원, 경조사 지원, 주택자금 대출 등 구성원의 안정적인 재정을 책임집니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

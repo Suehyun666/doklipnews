@@ -1,0 +1,588 @@
+    <!DOCTYPE html>
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title th:text="${article.title + ' - 동백일보'}">기사 제목 - 동백일보</title>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                background-color: #f9f9f9;
+                color: #222;
+                font-family: 'Noto Sans KR', sans-serif;
+                line-height: 1.6;
+            }
+
+            .header {
+                background-color: #fff;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .top-header {
+                background-color: #d64123;
+                color: white;
+                padding: 8px 0;
+                border-bottom: 1px solid rgba(255,255,255,0.2);
+            }
+
+            .top-header-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+
+            .date-weather {
+                font-size: 14px;
+                letter-spacing: 0.5px;
+            }
+
+            .header-actions a {
+                color: white;
+                text-decoration: none;
+                margin-left: 15px;
+                font-size: 14px;
+                transition: opacity 0.2s;
+            }
+
+            .header-actions a:hover {
+                opacity: 0.8;
+            }
+
+            .main-header {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 15px 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo {
+                font-size: 32px;
+                font-weight: 700;
+                color: #d64123;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                font-family: 'Noto Serif KR', serif;
+            }
+
+            .logo img {
+                height: 40px;
+                margin-right: 10px;
+            }
+
+            .nav-menu {
+                display: flex;
+                list-style: none;
+            }
+
+            .nav-menu li {
+                margin: 0 15px;
+            }
+
+            .nav-menu a {
+                color: #333;
+                text-decoration: none;
+                font-weight: 500;
+                padding: 5px 0;
+                position: relative;
+                transition: color 0.2s;
+            }
+
+            .nav-menu a:hover {
+                color: #d64123;
+            }
+
+            .nav-menu a:hover::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: #d64123;
+            }
+
+            .container {
+                max-width: 1000px;
+                margin: 30px auto;
+                padding: 0 20px;
+            }
+
+            .main-content {
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+                padding: 30px;
+            }
+
+            /* 기사 메인 이미지 */
+            .article-main-image {
+                width: 100%;
+                max-height: 500px;
+                object-fit: contain;
+                margin-bottom: 30px;
+                display: block;
+            }
+
+            .article-detail {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .article-header {
+                margin-bottom: 30px;
+                text-align: center;
+                padding-bottom: 25px;
+                border-bottom: 1px solid #eee;
+            }
+
+            .category-tag {
+                display: inline-block;
+                background-color: #d64123;
+                color: white;
+                padding: 6px 12px;
+                border-radius: 3px;
+                font-size: 14px;
+                font-weight: 500;
+                margin-bottom: 15px;
+            }
+
+            .article-title {
+                font-size: 32px;
+                font-weight: 700;
+                line-height: 1.3;
+                margin-bottom: 20px;
+                color: #222;
+                font-family: 'Noto Serif KR', serif;
+            }
+
+            .article-meta {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: #666;
+                font-size: 14px;
+            }
+
+            .meta-left {
+                display: flex;
+                gap: 15px;
+            }
+
+            .author {
+                font-weight: 500;
+            }
+
+            .date {
+                color: #888;
+            }
+
+            .share-button {
+                background-color: #f5f5f5;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13px;
+                color: #555;
+                transition: background-color 0.2s;
+            }
+
+            .share-button:hover {
+                background-color: #eaeaea;
+            }
+
+            .article-content {
+                font-size: 16px;
+                line-height: 1.8;
+                color: #333;
+                padding: 0 10px;
+                margin-bottom: 40px;
+                text-align: justify;
+                font-family: 'Noto Sans KR', sans-serif;
+            }
+
+            .article-content p {
+                margin-bottom: 20px;
+            }
+
+            .article-content h2, .article-content h3 {
+                font-family: 'Noto Serif KR', serif;
+                margin: 30px 0 15px;
+                color: #222;
+            }
+
+            .article-content h2 {
+                font-size: 24px;
+            }
+
+            .article-content h3 {
+                font-size: 20px;
+            }
+
+            /* 이미지 가운데 정렬 및 스타일링 */
+            .article-content img {
+                display: block;
+                max-width: 100%;
+                height: auto;
+                margin: 30px auto;
+                border-radius: 5px;
+            }
+
+            .article-footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-top: 20px;
+                border-top: 1px solid #eee;
+            }
+
+            .tags {
+                display: flex;
+                gap: 10px;
+            }
+
+            .tag {
+                color: #d64123;
+                font-size: 14px;
+            }
+
+            .actions {
+                display: flex;
+                gap: 15px;
+            }
+
+            .back-button {
+                display: inline-block;
+                background-color: #f5f5f5;
+                color: #555;
+                text-decoration: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-size: 14px;
+                transition: background-color 0.2s;
+            }
+
+            .back-button:hover {
+                background-color: #eaeaea;
+            }
+
+            .edit-button {
+                display: inline-block;
+                background-color: #4a7bde;
+                color: white;
+                text-decoration: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-size: 14px;
+                transition: background-color 0.2s;
+            }
+
+            .edit-button:hover {
+                background-color: #3e69c2;
+            }
+
+            .delete-button {
+                display: inline-block;
+                background-color: #e74c3c;
+                color: white;
+                text-decoration: none;
+                padding: 8px 16px;
+                border-radius: 4px;
+                font-size: 14px;
+                transition: background-color 0.2s;
+                cursor: pointer;
+                border: none;
+            }
+
+            .delete-button:hover {
+                background-color: #c0392b;
+            }
+
+            .footer {
+                background-color: #333;
+                color: #ccc;
+                padding: 40px 0 20px;
+                margin-top: 50px;
+            }
+
+            .footer-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 30px;
+            }
+
+            .footer-section h3 {
+                color: #fff;
+                margin-bottom: 15px;
+                font-size: 18px;
+                font-family: 'Noto Serif KR', serif;
+            }
+
+            .footer-section p {
+                margin-bottom: 10px;
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+            .footer-links {
+                list-style: none;
+            }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: #ccc;
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s;
+            }
+
+            .footer-links a:hover {
+                color: #fff;
+            }
+
+            .copyright {
+                text-align: center;
+                padding-top: 20px;
+                margin-top: 30px;
+                border-top: 1px solid #444;
+                font-size: 13px;
+                color: #999;
+                font-family: 'Noto Serif KR', serif;
+            }
+
+            /* 반응형 */
+            @media (max-width: 768px) {
+                .article-title {
+                    font-size: 26px;
+                }
+
+                .article-meta {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 10px;
+                }
+
+                .meta-right {
+                    align-self: flex-end;
+                }
+
+                .main-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .nav-menu {
+                    margin-top: 15px;
+                    flex-wrap: wrap;
+                }
+
+                .nav-menu li {
+                    margin: 5px 10px 5px 0;
+                }
+
+                .footer-content {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .article-footer {
+                    flex-direction: column;
+                    gap: 15px;
+                    align-items: flex-start;
+                }
+
+                .actions {
+                    width: 100%;
+                    justify-content: space-between;
+                }
+
+                .footer-content {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+    <header class="header">
+        <div class="top-header">
+            <div class="top-header-content">
+                <div class="date-weather">
+                    <span id="current-date">2025년 03월 12일 수요일</span> |
+                    <span>서울 20°C 맑음</span>
+                </div>
+                <div class="header-actions">
+                    <a href="/contact#donation">구독신청</a>
+                    <a href="/login">로그인</a>
+                    <a href="/signup">회원가입</a>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <a href="/" class="logo">
+                <img src="/images/logo.jpg" alt="동백일보 로고">
+                동백일보
+            </a>
+            <ul class="nav-menu">
+                <li><a href="/">메인</a></li>
+                <li><a href="/articles?category=국제">국제</a></li>
+                <li><a href="/articles?category=정치">정치</a></li>
+                <li><a href="/articles?category=경제">경제</a></li>
+                <li><a href="/articles?category=산업">산업</a></li>
+                <li><a href="/articles?category=예술">예술</a></li>
+                <li><a href="/articles?category=외신">외신</a></li>
+                <li><a href="/articles?category=칼럼">칼럼</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <article class="article-detail">
+                <!-- 대표 이미지가 있으면 표시 -->
+                <img th:if="${article.imageUrl != null && !article.imageUrl.isEmpty()}"
+                     th:src="${article.imageUrl}"
+                     class="article-main-image"
+                     alt="기사 대표 이미지"
+                     onerror="this.style.display='none'">
+
+                <div class="article-header">
+                    <div class="category-tag" th:text="${article.category}">카테고리</div>
+                    <h1 class="article-title" th:text="${article.title}">제목</h1>
+                    <div class="article-meta">
+                        <div class="meta-left">
+                            <span class="author" th:text="${article.author}">작성자</span>
+                            <span class="date" th:text="${#temporals.format(article.createdAt, 'yyyy.MM.dd HH:mm')}">날짜</span>
+                        </div>
+                        <div class="meta-right">
+                            <button class="share-button" onclick="shareArticle()">공유하기</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 기사 내용 처리 -->
+                <div class="article-content" th:utext="${@articleContentFormatter.format(article.content)}">
+                    내용
+                </div>
+
+                <div class="article-footer">
+                    <div class="tags">
+                        <span class="tag">#뉴스</span>
+                        <span class="tag" th:text="${'#' + article.category}">#카테고리</span>
+                    </div>
+                    <div class="actions">
+                        <a href="/articles" class="back-button">목록으로</a>
+                        <a th:href="@{/articles/{id}/edit(id=${article.id})}" class="edit-button">수정</a>
+                        <form th:action="@{/articles/{id}(id=${article.id})}" method="post" style="display: inline;">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="delete-button" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>동백일보 소개</h3>
+                <p>동백일보는 1956년 창간된 대한민국의 대표적인 일간지로, 공정하고 신뢰할 수 있는 보도를 통해 독자들에게 가치 있는 정보를 제공합니다.</p>
+                <p>우리는 언론의 독립성과 공정성을 최우선 가치로 삼고 있습니다.</p>
+            </div>
+            <div class="footer-section">
+                <h3>소개</h3>
+                <ul class="footer-links">
+                    <li><a href="#">기업 소개</a></li>
+                    <li><a href="/team">팀원 소개</a></li>
+                    <li><a href="/mission">비전</a></li>
+                    <li><a href="/jobs">채용</a></li>
+                    <li><a href="/history">연혁</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>서비스</h3>
+                <ul class="footer-links">
+                    <li><a href="/faq">FAQ</a></li>
+                    <li><a href="/donation">기사 제보</a></li>
+                    <li><a href="/contact">광고 문의</a></li>
+                    <li><a href="/privacy">개인정보처리방침</a></li>
+                    <li><a href="/terms">이용약관</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>연락처</h3>
+                <p>서울특별시 중구 세종대로 110</p>
+                <p>전화: 02-123-4567</p>
+                <p>이메일: info@dongbaek.news</p>
+                <p>팩스: 02-123-4568</p>
+            </div>
+        </div>
+        <div class="copyright">
+            Copyright © 1956-2025 동백일보. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // 현재 날짜 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateElement = document.getElementById('current-date');
+            const now = new Date();
+
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            const dayOfWeek = days[now.getDay()];
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+
+            dateElement.textContent = `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
+        });
+
+        // 공유하기 기능
+        function shareArticle() {
+            // 현재 페이지 URL
+            const url = window.location.href;
+
+            // 웹 공유 API 사용 (지원되는 브라우저의 경우)
+            if (navigator.share) {
+                navigator.share({
+                    title: document.querySelector('.article-title').textContent,
+                    url: url
+                }).catch(console.error);
+            } else {
+                // 클립보드에 복사
+                const tempInput = document.createElement('input');
+                document.body.appendChild(tempInput);
+                tempInput.value = url;
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+
+                alert('기사 주소가 클립보드에 복사되었습니다.');
+            }
+        }
+    </script>
+    </body>
+    </html>

@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동백일보 - 연혁</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #222;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-header {
+            background-color: #d64123;
+            color: white;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .top-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .date-weather {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .header-actions a:hover {
+            opacity: 0.8;
+        }
+
+        .main-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d64123;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .nav-menu a:hover {
+            color: #d64123;
+        }
+
+        .nav-menu a:hover::after, .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #d64123;
+        }
+
+        .nav-menu a.active {
+            color: #d64123;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 30px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #d64123;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #222;
+            font-family: 'Noto Serif KR', serif;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        /* 타임라인 스타일 */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #ddd;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border: 4px solid #d64123;
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .timeline-item-left {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-item-right {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-item-left::after {
+            right: -14px;
+        }
+
+        .timeline-item-right::after {
+            left: -14px;
+        }
+
+        .timeline-year {
+            font-size: 24px;
+            font-weight: 700;
+            color: #d64123;
+            margin-bottom: 8px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .timeline-text {
+            color: #555;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-image {
+            margin-top: 15px;
+            width: 100%;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .timeline-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .timeline-caption {
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        /* 초기 역사 섹션 */
+        .early-history {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif KR', serif;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 20px;
+            background-color: #d64123;
+        }
+
+        .history-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 20px;
+        }
+
+        .history-image {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .history-image img {
+            max-width: 100%;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .caption {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .historic-frontpage {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .frontpage-item {
+            width: 220px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .frontpage-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 3px;
+            margin-bottom: 10px;
+        }
+
+        .frontpage-caption {
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .frontpage-date {
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .milestone-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .milestone-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .milestone-year {
+            font-size: 18px;
+            font-weight: 600;
+            color: #d64123;
+            margin-bottom: 10px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .milestone-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .milestone-desc {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            font-size: 13px;
+            color: #999;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+                text-align: left;
+            }
+
+            .timeline-item-left, .timeline-item-right {
+                left: 0;
+            }
+
+            .timeline-item-left::after, .timeline-item-right::after {
+                left: 17px;
+            }
+
+            .milestone-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .historic-frontpage {
+                justify-content: center;
+            }
+
+            .frontpage-item {
+                width: 80%;
+                max-width: 220px;
+            }
+
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-menu {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .nav-menu li {
+                margin: 5px 10px 5px 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="top-header">
+        <div class="top-header-content">
+            <div class="date-weather">
+                <span id="current-date">2025년 03월 12일 수요일</span> |
+                <span>서울 20°C 맑음</span>
+            </div>
+            <div class="header-actions">
+                <a href="#">구독신청</a>
+                <a href="#">로그인</a>
+                <a href="#">회원가입</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-header">
+        <a href="/" class="logo">
+            <img src="/images/logo.jpg" alt="동백일보 로고">
+            동백일보
+        </a>
+        <ul class="nav-menu">
+            <li><a href="/">메인</a></li>
+            <li><a href="/articles?category=국제">국제</a></li>
+            <li><a href="/articles?category=정치">정치</a></li>
+            <li><a href="/articles?category=경제">경제</a></li>
+            <li><a href="/articles?category=산업">산업</a></li>
+            <li><a href="/articles?category=예술">예술</a></li>
+            <li><a href="/articles?category=외신">외신</a></li>
+            <li><a href="/articles?category=칼럼">칼럼</a></li>
+            <li><a href="/about">소개</a></li>
+            <li><a href="/history" class="active">연혁</a></li>
+            <li><a href="/contact">문의</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="main-content">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">동백일보 연혁</h1>
+            <p class="page-subtitle">1956년부터 대한민국 언론의 역사와 함께해온 동백일보의 발자취</p>
+        </div>
+
+        <div class="early-history">
+            <h2 class="section-title">창간 배경</h2>
+            <p class="history-content">동백일보는 1956년 6월 12일, 대한민국이 전쟁의 상흔을 딛고 재건의 시기를 맞이하던 때 창간되었습니다. 창립자 이동백 선생은 '진실을 통해 더 나은 사회를 만든다'는 사명으로 대한민국 국민의 알 권리를 위해 일생을 바친 언론인이었습니다. 초기 4명의 기자와 2명의 편집인으로 시작한 동백일보는 당시 4면 분량의 소규모 신문이었으나, 객관적인 정보 전달과 깊이 있는 분석으로 빠르게 독자층을 확보해 나갔습니다.</p>
+
+            <div class="history-image">
+                <img src="/api/placeholder/800/450" alt="동백일보 창간호">
+                <p class="caption">1956년 6월 12일 발행된 동백일보 창간호</p>
+            </div>
+
+            <p class="history-content">창간 당시 국내 언론 환경은 매우 제한적이었으나, 동백일보는 그 어려운 환경 속에서도 권력에 대한 감시와 비판이라는 언론 본연의 역할을 충실히 수행하며 대한민국 민주주의의 성장과 함께해왔습니다. 특히 1960년대 민주화 운동 과정에서 동백일보는 국민의 목소리를 대변하는 중요한 창구 역할을 하였으며, 이로 인해 여러 차례 발행 정지와 탄압을 받기도 했습니다.</p>
+        </div>
+
+        <h2 class="section-title">주요 역사적 순간들</h2>
+
+        <div class="historic-frontpage">
+            <div class="frontpage-item">
+                <img src="/api/placeholder/220/300" alt="1960년 4.19 혁명 보도" class="frontpage-image">
+                <p class="frontpage-caption">4.19 혁명 보도</p>
+                <p class="frontpage-date">1960년 4월 20일</p>
+            </div>
+            <div class="frontpage-item">
+                <img src="/api/placeholder/220/300" alt="1980년 5.18 광주민주화운동 보도" class="frontpage-image">
+                <p class="frontpage-caption">5.18 광주민주화운동</p>
+                <p class="frontpage-date">1980년 5월 19일</p>
+            </div>
+            <div class="frontpage-item">
+                <img src="/api/placeholder/220/300" alt="1987년 6.10 민주항쟁 보도" class="frontpage-image">
+                <p class="frontpage-caption">6.10 민주항쟁</p>
+                <p class="frontpage-date">1987년 6월 11일</p>
+            </div>
+            <div class="frontpage-item">
+                <img src="/api/placeholder/220/300" alt="1997년 IMF 구제금융 보도" class="frontpage-image">
+                <p class="frontpage-caption">IMF 구제금융 타결</p>
+                <p class="frontpage-date">1997년 12월 4일</p>
+            </div>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item timeline-item-left">
+                <div class="timeline-year">1956</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">동백일보 창간</h3>
+                    <p class="timeline-text">이동백 선생이 '진실을 통해 더 나은 사회를 만든다'는 사명 아래 4면 분량의 일간지로 시작했습니다. 초기 발행부수는 3,000부에 불과했으나, 신뢰도 높은 보도로 빠르게 성장하였습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-right">
+                <div class="timeline-year">1960</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">4.19 혁명 보도</h3>
+                    <p class="timeline-text">4.19 혁명을 객관적으로 보도하며 언론의 사회적 책임을 다하였습니다. 이 시기 동백일보는 '국민의 목소리'라는 별칭을 얻게 되었습니다.</p>
+                    <div class="timeline-image">
+                        <img src="/api/placeholder/400/200" alt="4.19 혁명 당시 신문 1면">
+                        <p class="timeline-caption">4.19 혁명 당시 보도한 동백일보 1면</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-left">
+                <div class="timeline-year">1965</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">8면 증면 및 본사 이전</h3>
+                    <p class="timeline-text">발행 부수 10만부를 돌파하며 4면에서 8면으로 증면하고, 서울 중구 세종대로에 현재의 본사 건물을 신축하여 이전하였습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-right">
+                <div class="timeline-year">1975</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">언론 탄압과 발행 정지</h3>
+                    <p class="timeline-text">유신 체제하에서 정부 비판 기사로 인해 3개월간 발행 정지 처분을 받았으나, 이후 더욱 굳건한 언론 정신으로 독자들의 신뢰를 얻었습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-left">
+                <div class="timeline-year">1980</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">5.18 광주민주화운동 보도</h3>
+                    <p class="timeline-text">언론 통제 속에서도 광주의 진실을 알리기 위해 노력하였고, 이로 인해 임시 폐간 위기를 겪기도 했습니다. 이 시기 많은 기자들이 해직되는 아픔을 겪었습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-right">
+                <div class="timeline-year">1987</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">민주화 시대의 개막</h3>
+                    <p class="timeline-text">6월 민주항쟁을 집중 보도하며 한국 민주주의의 발전에 기여했습니다. 이 해 발행부수 100만부를 돌파하는 기록을 세웠습니다.</p>
+                    <div class="timeline-image">
+                        <img src="/api/placeholder/400/200" alt="6월 민주항쟁 당시 신문 1면">
+                        <p class="timeline-caption">6월 민주항쟁을 보도한 동백일보 1면</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-left">
+                <div class="timeline-year">1995</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">인터넷 뉴스 서비스 시작</h3>
+                    <p class="timeline-text">국내 언론사 중 가장 먼저 인터넷 뉴스 서비스를 시작하며 디지털 시대의 선두주자로 자리매김했습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-right">
+                <div class="timeline-year">2000</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">동백미디어그룹 출범</h3>
+                    <p class="timeline-text">신문, 방송, 인터넷 미디어를 통합한 동백미디어그룹을 출범시켜 종합 미디어 기업으로 발돋움했습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-left">
+                <div class="timeline-year">2010</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">디지털 퍼스트 전략 도입</h3>
+                    <p class="timeline-text">모바일 앱 출시와 함께 '디지털 퍼스트' 전략을 도입하여 디지털 환경에 맞는 콘텐츠 생산에 집중했습니다. 이 해 디지털 구독자 수 50만 명을 달성했습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-right">
+                <div class="timeline-year">2016</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">창간 60주년</h3>
+                    <p class="timeline-text">창간 60주년을 맞아 '뉴스룸 혁신 프로젝트'를 실시하여 멀티미디어 콘텐츠 제작 역량을 강화하고, 데이터 저널리즘 팀을 신설했습니다.</p>
+                    <div class="timeline-image">
+                        <img src="/api/placeholder/400/200" alt="창간 60주년 기념 행사">
+                        <p class="timeline-caption">창간 60주년 기념 행사 모습</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-left">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">팩트체크센터 설립</h3>
+                    <p class="timeline-text">가짜뉴스 확산에 대응하기 위한 팩트체크센터를 설립하고, AI 기반 뉴스 분석 시스템을 도입하여 보도의 정확성을 높였습니다.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item timeline-item-right">
+                <div class="timeline-year">2025</div>
+                <div class="timeline-content">
+                    <h3 class="timeline-title">현재</h3>
+                    <p class="timeline-text">종이신문과 디지털 플랫폼을 통합한 하이브리드 미디어 전략으로 전통 있는 언론사의 가치를 지키며 변화하는 미디어 환경에 적응하고 있습니다. 현재 500명의 기자와 편집인력이 전 세계 10개국에서 활동하고 있습니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">수상 및 업적</h2>
+
+        <div class="milestone-grid">
+            <div class="milestone-card">
+                <div class="milestone-year">1980</div>
+                <h3 class="milestone-title">한국기자상 최초 수상</h3>
+                <p class="milestone-desc">광주민주화운동 취재로 한국기자협회가 수여하는 첫 한국기자상을 수상</p>
+            </div>
+            <div class="milestone-card">
+                <div class="milestone-year">1995</div>
+                <h3 class="milestone-title">국제언론인협회상</h3>
+                <p class="milestone-desc">한국 언론의 디지털화 선도와 언론 자유 수호 공로로 국제언론인협회상 수상</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>동백일보 소개</h3>
+            <p>동백일보는 1956년 창간된 대한민국의 대표적인 일간지로, 공정하고 신뢰할 수 있는 보도를 통해 독자들에게 가치 있는 정보를 제공합니다.</p>
+            <p>우리는 언론의 독립성과 공정성을 최우선 가치로 삼고 있습니다.</p>
+        </div>
+        <div class="footer-section">
+            <h3>구독 안내</h3>
+            <ul class="footer-links">
+                <li><a href="#">종이신문 구독신청</a></li>
+                <li><a href="#">디지털 구독신청</a></li>
+                <li><a href="#">해외 구독신청</a></li>
+                <li><a href="#">구독료 결제</a></li>
+                <li><a href="#">구독 문의</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>서비스</h3>
+            <ul class="footer-links">
+                <li><a href="#">모바일 앱</a></li>
+                <li><a href="#">기사 제보</a></li>
+                <li><a href="#">광고 문의</a></li>
+                <li><a href="#">개인정보처리방침</a></li>
+                <li><a href="#">이용약관</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>연락처</h3>
+            <p>서울특별시 중구 세종대로 110</p>
+            <p>전화: 02-123-4567</p>
+            <p>이메일: info@dongbaek.news</p>
+            <p>팩스: 02-123-4568</p>
+        </div>
+    </div>
+    <div class="copyright">
+        Copyright © 1956-2025 동백일보. All rights reserved.
+    </div>
+</footer>
+
+<script>
+    // 현재 날짜 표시
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateElement = document.getElementById('current-date');
+        const now = new Date();
+
+        const days = ['일', '월', '화', '수', '목', '금', '토'];
+        const dayOfWeek = days[now.getDay()];
+
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+
+        dateElement.textContent = `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
+    });
+</script>
+</body>
+</html>

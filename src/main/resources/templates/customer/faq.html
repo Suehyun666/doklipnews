@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동백일보 - 문의</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #222;
+            font-family: 'Noto Sans KR', sans-serif;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-header {
+            background-color: #d64123;
+            color: white;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .top-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .date-weather {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+            transition: opacity 0.2s;
+        }
+
+        .header-actions a:hover {
+            opacity: 0.8;
+        }
+
+        .main-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d64123;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .nav-menu a:hover {
+            color: #d64123;
+        }
+
+        .nav-menu a:hover::after, .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #d64123;
+        }
+
+        .nav-menu a.active {
+            color: #d64123;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 30px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #d64123;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #222;
+            font-family: 'Noto Serif KR', serif;
+            margin-bottom: 15px;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .contact-form {
+            grid-column: 1 / 2;
+        }
+
+        .contact-info {
+            grid-column: 2 / 3;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            font-family: 'Noto Serif KR', serif;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 5px;
+            height: 20px;
+            background-color: #d64123;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .submit-button {
+            background-color: #d64123;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        .submit-button:hover {
+            background-color: #c33a1e;
+        }
+
+        .contact-info-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .contact-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-icon {
+            min-width: 30px;
+            text-align: center;
+            font-size: 20px;
+            color: #d64123;
+            margin-right: 15px;
+        }
+
+        .contact-text {
+            flex: 1;
+        }
+
+        .contact-text h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .contact-text p {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .contact-card {
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .contact-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .department-list {
+            list-style: none;
+        }
+
+        .department-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .department-item:last-child {
+            border-bottom: none;
+        }
+
+        .department-name {
+            font-weight: 500;
+            color: #444;
+        }
+
+        .department-contact {
+            color: #666;
+        }
+
+        .map-container {
+            margin-top: 40px;
+            border-radius: 5px;
+            overflow: hidden;
+            height: 300px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            font-size: 13px;
+            color: #999;
+            font-family: 'Noto Serif KR', serif;
+        }
+
+        /* 완료 메시지 스타일 */
+        .success-message {
+            background-color: #f0f9eb;
+            color: #67c23a;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .contact-form {
+                grid-column: 1;
+            }
+
+            .contact-info {
+                grid-column: 1;
+            }
+
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-menu {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .nav-menu li {
+                margin: 5px 10px 5px 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <div class="top-header">
+        <div class="top-header-content">
+            <div class="date-weather">
+                <span id="current-date">2025년 03월 12일 수요일</span> |
+                <span>서울 20°C 맑음</span>
+            </div>
+            <div class="header-actions">
+                <a href="#">구독신청</a>
+                <a href="#">로그인</a>
+                <a href="#">회원가입</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-header">
+        <a href="/" class="logo">
+            <img src="images/logo.jpg" alt="동백일보 로고">
+            동백일보
+        </a>
+        <ul class="nav-menu">
+            <li><a href="/">메인</a></li>
+            <li><a href="/articles?category=국제">국제</a></li>
+            <li><a href="/articles?category=정치">정치</a></li>
+            <li><a href="/articles?category=경제">경제</a></li>
+            <li><a href="/articles?category=산업">산업</a></li>
+            <li><a href="/articles?category=예술">예술</a></li>
+            <li><a href="/articles?category=외신">외신</a></li>
+            <li><a href="/articles?category=칼럼">칼럼</a></li>
+            <li><a href="/about">소개</a></li>
+            <li><a href="/contact" class="active">문의</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="main-content">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">문의하기</h1>
+            <p class="page-subtitle">동백일보에 의견, 제안, 문의사항을 보내주세요</p>
+        </div>
+
+        <div id="successMessage" class="success-message">
+            문의가 성공적으로 접수되었습니다. 빠른 시일 내에 답변 드리겠습니다.
+        </div>
+
+        <div class="contact-container">
+            <div class="contact-form">
+                <h2 class="section-title">문의 양식</h2>
+
+                <form id="contactForm" action="/contact/submit" method="post">
+                    <div class="form-group">
+                        <label for="name">이름 *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">이메일 *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">전화번호</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inquiryType">문의 유형 *</label>
+                        <select id="inquiryType" name="inquiryType" required>
+                            <option value="">선택하세요</option>
+                            <option value="구독문의">구독 문의</option>
+                            <option value="기사제보">기사 제보</option>
+                            <option value="광고문의">광고 문의</option>
+                            <option value="콘텐츠사용">콘텐츠 사용 문의</option>
+                            <option value="취재요청">취재 요청</option>
+                            <option value="기타">기타 문의</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">제목 *</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">문의 내용 *</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="privacy">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            개인정보 수집 및 이용에 동의합니다. *
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-button">문의하기</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="contact-info">
+                <h2 class="section-title">연락처 정보</h2>
+
+                <ul class="contact-info-list">
+                    <li class="contact-info-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-text">
+                            <h4>대표 전화</h4>
+                            <p>02-123-4567</p>
+                            <p>평일 09:00 - 18:00 운영</p>
+                        </div>
+                    </li>
+                    <li class="contact-info-item">
+                        <div class="contact-icon">✉️</div>
+                        <div class="contact-text">
+                            <h4>이메일</h4>
+                            <p>info@dongbaek.news</p>
+                            <p>제보: report@dongbaek.news</p>
+                        </div>
+                    </li>
+                    <li class="contact-info-item">
+                        <div class="contact-icon">📠</div>
+                        <div class="contact-text">
+                            <h4>팩스</h4>
+                            <p>02-123-4568</p>
+                        </div>
+                    </li>
+                    <li class="contact-info-item">
+                        <div class="contact-icon">🏢</div>
+                        <div class="contact-text">
+                            <h4>본사</h4>
+                            <p>서울특별시 중구 세종대로 110</p>
+                            <p>우편번호: 04523</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="contact-card">
+                    <h3>부서별 연락처</h3>
+                    <ul class="department-list">
+                        <li class="department-item">
+                            <span class="department-name">편집국</span>
+                            <span class="department-contact">02-123-4500</span>
+                        </li>
+                        <li class="department-item">
+                            <span class="department-name">광고국</span>
+                            <span class="department-contact">02-123-4510</span>
+                        </li>
+                        <li class="department-item">
+                            <span class="department-name">구독센터</span>
+                            <span class="department-contact">02-123-4520</span>
+                        </li>
+                        <li class="department-item">
+                            <span class="department-name">디지털미디어국</span>
+                            <span class="department-contact">02-123-4530</span>
+                        </li>
+                        <li class="department-item">
+                            <span class="department-name">고객센터</span>
+                            <span class="department-contact">02-123-4540</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="map-container">
+                    <iframe src="/api/placeholder/800/400" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>동백일보 소개</h3>
+            <p>동백일보는 1956년 창간된 대한민국의 대표적인 일간지로, 공정하고 신뢰할 수 있는 보도를 통해 독자들에게 가치 있는 정보를 제공합니다.</p>
+            <p>우리는 언론의 독립성과 공정성을 최우선 가치로 삼고 있습니다.</p>
+        </div>
+        <div class="footer-section">
+            <h3>구독 안내</h3>
+            <ul class="footer-links">
+                <li><a href="#">종이신문 구독신청</a></li>
+                <li><a href="#">디지털 구독신청</a></li>
+                <li><a href="#">해외 구독신청</a></li>
+                <li><a href="#">구독료 결제</a></li>
+                <li><a href="#">구독 문의</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>서비스</h3>
+            <ul class="footer-links">
+                <li><a href="#">모바일 앱</a></li>
+                <li><a href="#">기사 제보</a></li>
+                <li><a href="#">광고 문의</a></li>
+                <li><a href="#">개인정보처리방침</a></li>
+                <li><a href="#">이용약관</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>연락처</h3>
+            <p>서울특별시 중구 세종대로 110</p>
+            <p>전화: 02-123-4567</p>
+            <p>이메일: info@dongbaek.news</p>
+            <p>팩스: 02-123-4568</p>
+        </div>
+    </div>
+    <div class="copyright">
+        Copyright © 1956-2025 동백일보. All rights reserved.
+    </div>
+</footer>
+
+<script>
+    // 현재 날짜 표시
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateElement = document.getElementById('current-date');
+        const now = new Date();
+
+        const days = ['일', '월', '화', '수', '목', '금', '토'];
+        const dayOfWeek = days[now.getDay()];
+
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+
+        dateElement.textContent = `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
+
+        // 폼 제출 처리
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // 실제 폼 제출 방지
+
+            // 폼 검증
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const privacy = document.getElementById('privacy').checked;
+
+            if (!name || !email || !subject || !message || !privacy) {
+                alert('필수 항목을 모두 입력해주세요.');
+                return;
+            }
+
+            // 여기서 실제로는 서버에 데이터를 전송합니다.
+            // 데모 목적으로 성공 메시지만 표시
+            successMessage.style.display = 'block';
+            contactForm.reset();
+
+            // 5초 후에 성공 메시지 숨기기
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 5000);
+        });
+    });
+</script>
+</body>
+</html>

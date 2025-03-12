@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>동백일보 - 기사 작성</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-header {
+            background-color: #d64123;
+            color: white;
+            padding: 8px 0;
+        }
+
+        .top-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .date-weather {
+            font-size: 14px;
+        }
+
+        .header-actions a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .main-header {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: #d64123;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin: 0 15px;
+        }
+
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+
+        .nav-menu a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #d64123;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .main-content {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .write-form h1 {
+            color: #333;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 300px;
+            resize: vertical;
+        }
+
+        select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23555" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        input[type="file"] {
+            padding: 10px 0;
+        }
+
+        .simple-editor-toolbar {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+            background-color: #f6f6f6;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .simple-editor-toolbar button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .simple-editor-toolbar button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .thumbnail-preview {
+            margin-top: 10px;
+            max-width: 300px;
+        }
+
+        .thumbnail-preview img {
+            max-width: 100%;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .cancel-button {
+            padding: 12px 25px;
+            background-color: #f3f3f3;
+            color: #666;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            border: 1px solid #ddd;
+        }
+
+        .submit-button {
+            padding: 12px 25px;
+            background-color: #d64123;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #c23920;
+        }
+
+        .footer {
+            background-color: #333;
+            color: #ccc;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .footer-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            font-size: 13px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .main-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-menu {
+                margin-top: 15px;
+                flex-wrap: wrap;
+            }
+
+            .nav-menu li {
+                margin: 5px 10px 5px 0;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header class="header">
+    <div class="top-header">
+        <div class="top-header-content">
+            <div class="date-weather">
+                <span th:text="${#dates.format(#dates.createNow(), 'yyyy년 MM월 dd일')}">2025년 03월 12일</span> |
+                <span>서울 20°C 맑음</span>
+            </div>
+            <div class="header-actions">
+                <a href="/contact#donation">구독신청</a>
+                <a href="/login">로그인</a>
+                <a href="/signup">회원가입</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-header">
+        <a href="#" class="logo">
+            <img src="/images/logo.jpg" alt="동백일보 로고">
+            동백일보
+        </a>
+        <ul class="nav-menu">
+            <li><a href="#">국제</a></li>
+            <li><a href="#">정치</a></li>
+            <li><a href="#">경제</a></li>
+            <li><a href="#">산업</a></li>
+            <li><a href="#">예술</a></li>
+            <li><a href="#">외신</a></li>
+            <li><a href="#">칼럼</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="main-content">
+    <div class="container">
+        <div class="write-form">
+            <h1>기사 작성</h1>
+
+            <!-- enctype="multipart/form-data"로 설정하여 이미지 업로드 지원 -->
+            <form th:action="@{/articles}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" name="title" required
+                           placeholder="기사 제목을 입력하세요">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="author">작성자</label>
+                        <input type="text" id="author" name="author" required
+                               placeholder="작성자 이름을 입력하세요">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">카테고리</label>
+                        <select id="category" name="category" required>
+                            <option value="">카테고리 선택</option>
+                            <option value="국제">국제</option>
+                            <option value="정치">정치</option>
+                            <option value="경제">경제</option>
+                            <option value="산업">산업</option>
+                            <option value="예술">예술</option>
+                            <option value="외신">외신</option>
+                            <option value="칼럼">칼럼</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <!-- 기본 textarea 사용 - 에디터가 로드되지 않는 경우를 대비 -->
+                    <textarea id="content" name="content" required placeholder="기사 내용을 입력하세요..."></textarea>
+
+                    <!-- 간단한 텍스트 서식 도구 모음 -->
+                    <div class="simple-editor-toolbar">
+                        <button type="button" onclick="formatText('bold')"><strong>B</strong></button>
+                        <button type="button" onclick="formatText('italic')"><em>I</em></button>
+                        <button type="button" onclick="formatText('underline')"><u>U</u></button>
+                        <button type="button" onclick="formatText('h2')">H2</button>
+                        <button type="button" onclick="formatText('h3')">H3</button>
+                        <button type="button" onclick="insertImage()">이미지 삽입</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageFile">대표 이미지</label>
+                    <!-- name이 "imageFile"이어야 컨트롤러에서 RequestParam으로 처리 가능 -->
+                    <input type="file" id="imageFile" name="imageFile" accept="image/*">
+                    <div class="thumbnail-preview" id="thumbnail-preview"></div>
+                </div>
+
+                <!-- 추가 이미지 업로드를 위한 숨겨진 파일 입력 필드 -->
+                <input type="file" id="content-image-upload" style="display: none;" accept="image/*">
+
+                <div class="form-actions">
+                    <a href="/articles" class="cancel-button">취소</a>
+                    <button type="submit" class="submit-button">저장</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>동백일보 소개</h3>
+            <p>동백일보는 1956년 창간된 대한민국의 대표적인 일간지로, 공정하고 신뢰할 수 있는 보도를 통해 독자들에게 가치 있는 정보를 제공합니다.</p>
+            <p>우리는 언론의 독립성과 공정성을 최우선 가치로 삼고 있습니다.</p>
+        </div>
+        <div class="footer-section">
+            <h3>소개</h3>
+            <ul class="footer-links">
+                <li><a href="#">기업 소개</a></li>
+                <li><a href="/team">팀원 소개</a></li>
+                <li><a href="/mission">비전</a></li>
+                <li><a href="/jobs">채용</a></li>
+                <li><a href="/history">연혁</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>서비스</h3>
+            <ul class="footer-links">
+                <li><a href="/faq">FAQ</a></li>
+                <li><a href="/donation">기사 제보</a></li>
+                <li><a href="/contact">광고 문의</a></li>
+                <li><a href="/privacy">개인정보처리방침</a></li>
+                <li><a href="/terms">이용약관</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>연락처</h3>
+            <p>서울특별시 중구 세종대로 110</p>
+            <p>전화: 02-123-4567</p>
+            <p>이메일: info@dongbaek.news</p>
+            <p>팩스: 02-123-4568</p>
+        </div>
+    </div>
+    <div class="copyright">
+        Copyright © 2025 동백일보. All rights reserved.
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 대표 이미지 미리보기
+        const thumbnailInput = document.getElementById('imageFile');
+        const thumbnailPreview = document.getElementById('thumbnail-preview');
+
+        if (thumbnailInput && thumbnailPreview) {
+            thumbnailInput.addEventListener('change', function() {
+                thumbnailPreview.innerHTML = '';
+
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = '대표 이미지 미리보기';
+                        thumbnailPreview.appendChild(img);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+
+        // 본문 이미지 업로드 이벤트 리스너
+        const contentImageUpload = document.getElementById('content-image-upload');
+        if (contentImageUpload) {
+            contentImageUpload.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        // 커서 위치에 이미지 HTML 삽입
+                        insertAtCursor(document.getElementById('content'),
+                            `<img src="${e.target.result}" alt="본문 이미지" style="max-width: 100%; height: auto; margin: 10px 0;">`);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+    });
+
+    // 텍스트 서식 지정 함수
+    function formatText(format) {
+        const textarea = document.getElementById('content');
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = textarea.value.substring(start, end);
+        let formattedText = '';
+
+        switch(format) {
+            case 'bold':
+                formattedText = `<strong>${selectedText}</strong>`;
+                break;
+            case 'italic':
+                formattedText = `<em>${selectedText}</em>`;
+                break;
+            case 'underline':
+                formattedText = `<u>${selectedText}</u>`;
+                break;
+            case 'h2':
+                formattedText = `<h2>${selectedText}</h2>`;
+                break;
+            case 'h3':
+                formattedText = `<h3>${selectedText}</h3>`;
+                break;
+            default:
+                formattedText = selectedText;
+        }
+
+        insertAtCursor(textarea, formattedText, true);
+    }
+
+    // 이미지 삽입 함수
+    function insertImage() {
+        document.getElementById('content-image-upload').click();
+    }
+
+    // 커서 위치에 텍스트 삽입 함수
+    function insertAtCursor(textarea, text, replaceSelection = false) {
+        const startPos = textarea.selectionStart;
+        const endPos = textarea.selectionEnd;
+
+        if (replaceSelection) {
+            textarea.value = textarea.value.substring(0, startPos) + text +
+                textarea.value.substring(endPos, textarea.value.length);
+            textarea.selectionStart = startPos + text.length;
+            textarea.selectionEnd = startPos + text.length;
+        } else {
+            textarea.value = textarea.value.substring(0, startPos) + text +
+                textarea.value.substring(startPos, textarea.value.length);
+            textarea.selectionStart = startPos + text.length;
+            textarea.selectionEnd = startPos + text.length;
+        }
+
+        textarea.focus();
+    }
+</script>
+</body>
+</html>

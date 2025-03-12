@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${title + ' - 獨立新聞'}">獨立新聞</title>
+  <style>
+    :root {
+      --primary-color: #333;
+      --secondary-color: #666;
+      --background-color: #f4f4f4;
+      --text-color: #1a1a1a;
+      --border-color: #ddd;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nanum Myeongjo', serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .header {
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      position: relative;
+    }
+
+    .nav-link {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-size: 1.5rem;    /* 폰트 크기 */
+      font-weight: 600;     /* 폰트 굵기 */
+      font-family: 'Nanum Gothic', sans-serif; /* 폰트 종류 */
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--primary-color);
+    }
+
+    /* 문의 서브 메뉴 스타일 */
+    .submenu {
+      display: none;
+      position: absolute;
+      top: 40px;
+      left: 0;
+      background-color: white;
+      font-size: 1.5rem;    /* 폰트 크기 */
+      font-weight: 600;     /* 폰트 굵기 */
+      font-family: 'Nanum Gothic', sans-serif; /* 폰트 종류 */
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      min-width: 200px;
+    }
+
+    .submenu a {
+      display: block;
+      padding: 1rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    .submenu a:hover {
+      background-color: var(--background-color);
+    }
+
+    .main-content {
+      margin-top: 80px;
+      min-height: calc(100vh - 80px);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .footer {
+      background-color: var(--primary-color);
+      color: white;
+      font-size: 1.0rem;    /* 폰트 크기 */
+      font-weight: 100;     /* 폰트 굵기 */
+      font-family: 'Nanum Gothic', sans-serif; /* 폰트 종류 */
+      padding: 2rem 0;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      text-align: center;
+    }
+    .footer-sns {
+      width: 24px;
+      height: auto; /* 비율 유지 */
+      transition: transform 0.3s;
+    }
+  </style>
+  <script>
+    // 문의 메뉴 클릭 시 서브 메뉴 토글
+    document.addEventListener("DOMContentLoaded", function() {
+      const contactLink = document.querySelector('.contact-link');
+      const submenu = document.querySelector('.submenu');
+
+      contactLink.addEventListener('click', function(e) {
+        e.preventDefault(); // 기본 링크 동작을 막습니다.
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+</head>
+
+<header th:fragment="header">
+  <div class="header">
+    <div class="header-content">
+      <a href="/" class="logo">獨立新聞</a>
+      <nav class="nav-menu">
+        <a href="/articles" class="nav-link">기사</a>
+        <a href="/" class="nav-link">소개</a>
+        <a href="#" class="nav-link contact-link">문의</a>
+        <a href=""  class="nav-menu profile">"profile_menu"</a>
+
+        <!-- 문의 서브 메뉴 -->
+        <div class="submenu">
+          <a href="https://www.instagram.com/novu_naga" target="_blank">SNS</a>
+          <a href="/contact">연락처</a>
+          <a href="/contact">후원계좌</a>
+        </div>
+      </nav>
+    </div>
+  </div>
+</header>
+
+
+<div class="main-content">
+  <div class="container">
+    <div class="team-page">
+      <div class="team-header">
+        <h1>독립뉴스 팀 소개</h1>
+        <p class="team-description">저희 독립뉴스는 공정하고 독립적인 시각으로 세상을 바라보는 언론사입니다. 다양한 분야의 전문가들이 모여 정확하고 깊이 있는 뉴스를 전달하기 위해 노력하고 있습니다.</p>
+      </div>
+
+      <div class="team-mission">
+        <h2>우리의 미션</h2>
+        <div class="mission-content">
+          <div class="mission-image">
+            <img src="/images/mission.jpg" alt="독립뉴스 미션">
+          </div>
+          <div class="mission-text">
+            <p>독립뉴스는 다음과 같은 미션을 바탕으로 저널리즘을 실천합니다:</p>
+            <ul>
+              <li><strong>진실 추구</strong> - 정확한 사실 확인과 깊이 있는 분석을 통해 진실을 전달합니다.</li>
+              <li><strong>독립성 유지</strong> - 외부 압력이나 이해관계로부터 자유로운 독립적인 보도를 지향합니다.</li>
+              <li><strong>다양성 존중</strong> - 다양한 관점과 의견을 균형 있게 다루며 사회적 다양성을 존중합니다.</li>
+              <li><strong>혁신적 접근</strong> - 디지털 시대에 맞는 혁신적인 방식으로 뉴스를 전달합니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-members">
+        <h2>핵심 구성원</h2>
+        <div class="members-grid">
+          <!-- 편집장 -->
+          <div class="member-card">
+            <div class="member-image">
+              <img src="/images/editor-chief.jpg" alt="김도현 편집장">
+            </div>
+            <div class="member-info">
+              <h3>김지환</h3>
+              <p class="member-title">편집장</p>
+              <p class="member-description">20년 이상의 언론 경력을 바탕으로 독립뉴스의 전체적인 방향성과 편집 방침을 이끌고 있습니다. 국내외 주요 이슈에 대한 깊은 이해와 분석력을 바탕으로 양질의 콘텐츠 제작을 총괄합니다.</p>
+              <div class="member-contact">
+                <a href="mailto:editor@doklipnews.com" class="contact-link">editor@doklipnews.com</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 정치 부장 -->
+          <div class="member-card">
+            <div class="member-image">
+              <img src="/images/politics-editor.jpg" alt="이정민 정치부장">
+            </div>
+            <div class="member-info">
+              <h3>박수현</h3>
+              <p class="member-title">엔지니어</p>
+              <p class="member-description">소프트웨어 분야 전문 분야에서 15년간 활동해왔으며, 모든 기술적 부분을 담당합니다. </p>
+              <div class="member-contact">
+                <a href="tee4w@mju.ac.kr" class="contact-link">tee4w@mju.ac.kr</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 경제 부장 -->
+          <div class="member-card">
+            <div class="member-image">
+              <img src="/images/economy-editor.jpg" alt="박서연 경제부장">
+            </div>
+            <div class="member-info">
+              <h3>박서연</h3>
+              <p class="member-title">경제부장</p>
+              <p class="member-description">금융권 출신으로 경제 분야에 대한 전문성을 바탕으로 경제 이슈를 쉽고 명확하게 전달합니다. 글로벌 경제 동향과 국내 경제 정책에 대한 분석을 주도합니다.</p>
+              <div class="member-contact">
+                <a href="mailto:economy@doklipnews.com" class="contact-link">economy@doklipnews.com</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 국제 부장 -->
+          <div class="member-card">
+            <div class="member-image">
+              <img src="/images/international-editor.jpg" alt="최준호 국제부장">
+            </div>
+            <div class="member-info">
+              <h3>최준호</h3>
+              <p class="member-title">국제부장</p>
+              <p class="member-description">다양한 국가에서의 특파원 경험을 바탕으로 글로벌 이슈에 대한 깊이 있는 시각을 제공합니다. 국제 관계와 글로벌 트렌드에 대한 전문가입니다.</p>
+              <div class="member-contact">
+                <a href="mailto:international@doklipnews.com" class="contact-link">international@doklipnews.com</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 문화 부장 -->
+          <div class="member-card">
+            <div class="member-image">
+              <img src="/images/culture-editor.jpg" alt="윤미래 문화부장">
+            </div>
+            <div class="member-info">
+              <h3>윤미래</h3>
+              <p class="member-title">문화부장</p>
+              <p class="member-description">예술과 문화에 대한 폭넓은 이해를 바탕으로 문화계 소식과 트렌드를 선도적으로 보도합니다. 영화, 음악, 미술 등 다양한 문화 분야의 전문성을 갖추고 있습니다.</p>
+              <div class="member-contact">
+                <a href="mailto:culture@doklipnews.com" class="contact-link">culture@doklipnews.com</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 디지털 콘텐츠 팀장 -->
+          <div class="member-card">
+            <div class="member-image">
+              <img src="/images/digital-editor.jpg" alt="강민수 디지털콘텐츠팀장">
+            </div>
+            <div class="member-info">
+              <h3>강민수</h3>
+              <p class="member-title">디지털콘텐츠팀장</p>
+              <p class="member-description">디지털 미디어 전략과 콘텐츠 혁신을 담당합니다. 최신 기술 트렌드와 사용자 경험을 고려한 디지털 콘텐츠 제작을 이끌고 있습니다.</p>
+              <div class="member-contact">
+                <a href="mailto:digital@doklipnews.com" class="contact-link">digital@doklipnews.com</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="join-us">
+        <h2>함께 일해요</h2>
+        <p>독립뉴스는 항상 열정적이고 전문성을 갖춘 인재를 찾고 있습니다. 공정하고 깊이 있는 저널리즘에 관심이 있으시다면 저희와 함께 해주세요.</p>
+        <a href="/careers" class="join-button">채용 정보 보기</a>
+      </div>
+
+      <div class="contact-section">
+        <h2>연락처</h2>
+        <div class="contact-info">
+          <div class="contact-details">
+            <p><strong>주소:</strong> 서울특별시 종로구 독립로 123 독립뉴스 빌딩</p>
+            <p><strong>대표전화:</strong> 02-123-4567</p>
+            <p><strong>이메일:</strong> info@doklipnews.com</p>
+          </div>
+          <div class="social-links">
+            <a href="#" class="social-link">Facebook</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">Instagram</a>
+            <a href="#" class="social-link">YouTube</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer th:fragment="footer">
+  <div class="footer">
+    <div class="footer-content">
+      <!--            <img src="/images/logo.svg" alt="독립신문 로고" class="footer-logo"> &lt;!&ndash; 로고 추가 &ndash;&gt;-->
+      <p>연합뉴스 : 서울시 종로구 율곡로 2길 666 (02-666-418) │ 대표이사 : 김지환 │ 편집인 : 박수현<br>
+        등록번호 : 문화, 나00009 │ 등록일자 : 2025.3.29 │ 발행일자 : 2025.3.29 │ 사업자번호 : 102-1-23273<br>
+        통신판매업신고번호 : 2025-서울종로-0666 │ <a href="/terms" class="footer-link">이용약관</a> │
+        <a href="/privacy" class="footer-link">개인정보처리방침</a> │
+        <a href="/youth-policy" class="footer-link">청소년보호정책</a>(책임자 : 이충원)
+      </p>
+      <p>&copy; 2025 DoklipNews Agency. All rights reserved.</p>
+    </div>
+
+    <!-- SNS 버튼 -->
+    <!--        <div class="footer-sns">-->
+    <!--            <a href="https://www.facebook.com" target="_blank"><img src="/images/facebook.svg" alt="Facebook"></a>-->
+    <!--            <a href="https://www.instagram.com/novu_naga" target="_blank"><img src="/images/instagram.svg" alt="Instagram"></a>-->
+    <!--            <a href="https://www.youtube.com" target="_blank"><img src="/images/youtube.svg" alt="YouTube"></a>-->
+    <!--            <a href="https://twitter.com" target="_blank"><img src="/images/x.jpg"></a>-->
+    <!--        </div>-->
+
+    <!-- 맨 위로 버튼 -->
+    <button id="top-button" onclick="scrollToTop()">▲</button>
+  </div>
+</footer>
+
+</body>
+</html>
