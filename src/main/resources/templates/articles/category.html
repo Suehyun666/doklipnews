@@ -502,6 +502,44 @@
         font-size: 2rem;
       }
     }
+    @media (max-width: 768px) {
+      /* 네비게이션 가로 스크롤 처리 */
+      .main-nav .container {
+        padding: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .nav-items {
+        display: flex;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        width: max-content;
+        min-width: 100%;
+      }
+
+      /* 스크롤바 숨기기 */
+      .main-nav .container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .main-nav .container {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+
+      /* 네비게이션 항목 간격 조정 */
+      .nav-item {
+        padding: 10px 12px; /* 좌우 패딩 줄이기 */
+        font-size: 0.9rem; /* 글자 크기 줄이기 */
+      }
+
+      /* 검색 아이콘 위치 조정 */
+      .search-nav-item {
+        margin-left: 0;
+        padding-right: 15px;
+      }
+    }
 
     @media (max-width: 768px) {
       .grid-news {
