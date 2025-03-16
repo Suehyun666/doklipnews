@@ -220,4 +220,14 @@ public class ArticleController {
 
         return categoryData;
     }
+
+    @PostMapping("/{id}/set-featured")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> setFeatured(@PathVariable Long id) {
+        Article article = articleService.setAsFeatured(id);
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("featured", article.getFeatured());
+        return ResponseEntity.ok(response);
+    }
 }

@@ -41,4 +41,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     // 좋아요 기준 인기 기사
     List<Article> findTop10ByOrderByLikeCountDesc();
+
+    List<Article> findByFeaturedTrue();
+
+
 }

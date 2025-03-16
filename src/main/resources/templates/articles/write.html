@@ -126,6 +126,9 @@
         .form-group {
             margin-bottom: 20px;
         }
+        .form-group2 {
+            margin-bottom: 20px;
+        }
 
         .form-row {
             display: flex;
@@ -407,6 +410,12 @@
 
                 <!-- 추가 이미지 업로드를 위한 숨겨진 파일 입력 필드 -->
                 <input type="file" id="content-image-upload" style="display: none;" accept="image/*">
+
+                <!-- 특집 기사 체크박스를 상단으로 이동하고 스타일 수정 -->
+                <div class="form-group featured-checkbox">
+                    <input type="checkbox" id="featured" name="featured">
+                    <label for="featured">특집 기사로 지정</label>
+                </div>
 
                 <div class="form-actions">
                     <a href="/articles" class="cancel-button">취소</a>

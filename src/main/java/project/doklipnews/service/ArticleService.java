@@ -162,4 +162,19 @@ public class ArticleService {
     public void deleteArticle(Long id) {
         articleRepository.deleteById(id);
     }
+
+    public Article setAsFeatured(Long id) {
+        // 1. 기존 모든 특집 기사의 featured 상태를 false로 변경
+        List<Article> featuredArticles = articleRepository.findByFeaturedTrue();
+        for (Article article : featuredArticles) {
+            article.setFeatured(false);
+            articleRepository.save(article);
+        }
+
+        // 2. 새로운 특집 기사 지정
+        Article newFeaturedArticle = articleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Article not found"));
+        newFeaturedArticle.setFeatured(true);
+        return articleRepository.save(newFeaturedArticle);
+    }
 }
