@@ -1,588 +1,758 @@
-    <!DOCTYPE html>
-    <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title th:text="${article.title + ' - 동백일보'}">기사 제목 - 동백일보</title>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-
-            body {
-                background-color: #f9f9f9;
-                color: #222;
-                font-family: 'Noto Sans KR', sans-serif;
-                line-height: 1.6;
-            }
-
-            .header {
-                background-color: #fff;
-                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-                position: sticky;
-                top: 0;
-                z-index: 100;
-            }
-
-            .top-header {
-                background-color: #d64123;
-                color: white;
-                padding: 8px 0;
-                border-bottom: 1px solid rgba(255,255,255,0.2);
-            }
-
-            .top-header-content {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 20px;
-            }
-
-            .date-weather {
-                font-size: 14px;
-                letter-spacing: 0.5px;
-            }
-
-            .header-actions a {
-                color: white;
-                text-decoration: none;
-                margin-left: 15px;
-                font-size: 14px;
-                transition: opacity 0.2s;
-            }
-
-            .header-actions a:hover {
-                opacity: 0.8;
-            }
-
-            .main-header {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 15px 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .logo {
-                font-size: 32px;
-                font-weight: 700;
-                color: #d64123;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                font-family: 'Noto Serif KR', serif;
-            }
-
-            .logo img {
-                height: 40px;
-                margin-right: 10px;
-            }
-
-            .nav-menu {
-                display: flex;
-                list-style: none;
-            }
-
-            .nav-menu li {
-                margin: 0 15px;
-            }
-
-            .nav-menu a {
-                color: #333;
-                text-decoration: none;
-                font-weight: 500;
-                padding: 5px 0;
-                position: relative;
-                transition: color 0.2s;
-            }
-
-            .nav-menu a:hover {
-                color: #d64123;
-            }
-
-            .nav-menu a:hover::after {
-                content: '';
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                height: 2px;
-                background-color: #d64123;
-            }
-
-            .container {
-                max-width: 1000px;
-                margin: 30px auto;
-                padding: 0 20px;
-            }
-
-            .main-content {
-                background-color: #fff;
-                border-radius: 5px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-                padding: 30px;
-            }
-
-            /* 기사 메인 이미지 */
-            .article-main-image {
-                width: 100%;
-                max-height: 500px;
-                object-fit: contain;
-                margin-bottom: 30px;
-                display: block;
-            }
-
-            .article-detail {
-                max-width: 800px;
-                margin: 0 auto;
-            }
-
-            .article-header {
-                margin-bottom: 30px;
-                text-align: center;
-                padding-bottom: 25px;
-                border-bottom: 1px solid #eee;
-            }
-
-            .category-tag {
-                display: inline-block;
-                background-color: #d64123;
-                color: white;
-                padding: 6px 12px;
-                border-radius: 3px;
-                font-size: 14px;
-                font-weight: 500;
-                margin-bottom: 15px;
-            }
-
-            .article-title {
-                font-size: 32px;
-                font-weight: 700;
-                line-height: 1.3;
-                margin-bottom: 20px;
-                color: #222;
-                font-family: 'Noto Serif KR', serif;
-            }
-
-            .article-meta {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                color: #666;
-                font-size: 14px;
-            }
-
-            .meta-left {
-                display: flex;
-                gap: 15px;
-            }
-
-            .author {
-                font-weight: 500;
-            }
-
-            .date {
-                color: #888;
-            }
-
-            .share-button {
-                background-color: #f5f5f5;
-                border: none;
-                padding: 6px 12px;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 13px;
-                color: #555;
-                transition: background-color 0.2s;
-            }
-
-            .share-button:hover {
-                background-color: #eaeaea;
-            }
-
-            .article-content {
-                font-size: 16px;
-                line-height: 1.8;
-                color: #333;
-                padding: 0 10px;
-                margin-bottom: 40px;
-                text-align: justify;
-                font-family: 'Noto Sans KR', sans-serif;
-            }
-
-            .article-content p {
-                margin-bottom: 20px;
-            }
-
-            .article-content h2, .article-content h3 {
-                font-family: 'Noto Serif KR', serif;
-                margin: 30px 0 15px;
-                color: #222;
-            }
-
-            .article-content h2 {
-                font-size: 24px;
-            }
-
-            .article-content h3 {
-                font-size: 20px;
-            }
-
-            /* 이미지 가운데 정렬 및 스타일링 */
-            .article-content img {
-                display: block;
-                max-width: 100%;
-                height: auto;
-                margin: 30px auto;
-                border-radius: 5px;
-            }
-
-            .article-footer {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding-top: 20px;
-                border-top: 1px solid #eee;
-            }
-
-            .tags {
-                display: flex;
-                gap: 10px;
-            }
-
-            .tag {
-                color: #d64123;
-                font-size: 14px;
-            }
-
-            .actions {
-                display: flex;
-                gap: 15px;
-            }
-
-            .back-button {
-                display: inline-block;
-                background-color: #f5f5f5;
-                color: #555;
-                text-decoration: none;
-                padding: 8px 16px;
-                border-radius: 4px;
-                font-size: 14px;
-                transition: background-color 0.2s;
-            }
-
-            .back-button:hover {
-                background-color: #eaeaea;
-            }
-
-            .edit-button {
-                display: inline-block;
-                background-color: #4a7bde;
-                color: white;
-                text-decoration: none;
-                padding: 8px 16px;
-                border-radius: 4px;
-                font-size: 14px;
-                transition: background-color 0.2s;
-            }
-
-            .edit-button:hover {
-                background-color: #3e69c2;
-            }
-
-            .delete-button {
-                display: inline-block;
-                background-color: #e74c3c;
-                color: white;
-                text-decoration: none;
-                padding: 8px 16px;
-                border-radius: 4px;
-                font-size: 14px;
-                transition: background-color 0.2s;
-                cursor: pointer;
-                border: none;
-            }
-
-            .delete-button:hover {
-                background-color: #c0392b;
-            }
-
-            .footer {
-                background-color: #333;
-                color: #ccc;
-                padding: 40px 0 20px;
-                margin-top: 50px;
-            }
-
-            .footer-content {
-                max-width: 1200px;
-                margin: 0 auto;
-                padding: 0 20px;
-                display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 30px;
-            }
-
-            .footer-section h3 {
-                color: #fff;
-                margin-bottom: 15px;
-                font-size: 18px;
-                font-family: 'Noto Serif KR', serif;
-            }
-
-            .footer-section p {
-                margin-bottom: 10px;
-                font-size: 14px;
-                line-height: 1.7;
-            }
-
-            .footer-links {
-                list-style: none;
-            }
-
-            .footer-links li {
-                margin-bottom: 10px;
-            }
-
-            .footer-links a {
-                color: #ccc;
-                text-decoration: none;
-                font-size: 14px;
-                transition: color 0.2s;
-            }
-
-            .footer-links a:hover {
-                color: #fff;
-            }
-
-            .copyright {
-                text-align: center;
-                padding-top: 20px;
-                margin-top: 30px;
-                border-top: 1px solid #444;
-                font-size: 13px;
-                color: #999;
-                font-family: 'Noto Serif KR', serif;
-            }
-
-            /* 반응형 */
-            @media (max-width: 768px) {
-                .article-title {
-                    font-size: 26px;
-                }
-
-                .article-meta {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 10px;
-                }
-
-                .meta-right {
-                    align-self: flex-end;
-                }
-
-                .main-header {
-                    flex-direction: column;
-                    align-items: flex-start;
-                }
-
-                .nav-menu {
-                    margin-top: 15px;
-                    flex-wrap: wrap;
-                }
-
-                .nav-menu li {
-                    margin: 5px 10px 5px 0;
-                }
-
-                .footer-content {
-                    grid-template-columns: 1fr 1fr;
-                }
-            }
-
-            @media (max-width: 480px) {
-                .article-footer {
-                    flex-direction: column;
-                    gap: 15px;
-                    align-items: flex-start;
-                }
-
-                .actions {
-                    width: 100%;
-                    justify-content: space-between;
-                }
-
-                .footer-content {
-                    grid-template-columns: 1fr;
-                }
-            }
-        </style>
-    </head>
-    <body>
-    <header class="header">
-        <div class="top-header">
-            <div class="top-header-content">
-                <div class="date-weather">
-                    <span id="current-date">2025년 03월 12일 수요일</span> |
-                    <span>서울 20°C 맑음</span>
-                </div>
-                <div class="header-actions">
-                    <a href="/contact#donation">구독신청</a>
-                    <a href="/login">로그인</a>
-                    <a href="/signup">회원가입</a>
-                </div>
-            </div>
-        </div>
-        <div class="main-header">
-            <a href="/" class="logo">
-                <img src="/images/logo.jpg" alt="동백일보 로고">
-                동백일보
-            </a>
-            <ul class="nav-menu">
-                <li><a href="/">메인</a></li>
-                <li><a href="/articles?category=국제">국제</a></li>
-                <li><a href="/articles?category=정치">정치</a></li>
-                <li><a href="/articles?category=경제">경제</a></li>
-                <li><a href="/articles?category=산업">산업</a></li>
-                <li><a href="/articles?category=예술">예술</a></li>
-                <li><a href="/articles?category=외신">외신</a></li>
-                <li><a href="/articles?category=칼럼">칼럼</a></li>
-            </ul>
-        </div>
-    </header>
-
-    <div class="main-content">
-        <div class="container">
-            <article class="article-detail">
-                <!-- 대표 이미지가 있으면 표시 -->
-                <img th:if="${article.imageUrl != null && !article.imageUrl.isEmpty()}"
-                     th:src="${article.imageUrl}"
-                     class="article-main-image"
-                     alt="기사 대표 이미지"
-                     onerror="this.style.display='none'">
-
-                <div class="article-header">
-                    <div class="category-tag" th:text="${article.category}">카테고리</div>
-                    <h1 class="article-title" th:text="${article.title}">제목</h1>
-                    <div class="article-meta">
-                        <div class="meta-left">
-                            <span class="author" th:text="${article.author}">작성자</span>
-                            <span class="date" th:text="${#temporals.format(article.createdAt, 'yyyy.MM.dd HH:mm')}">날짜</span>
-                        </div>
-                        <div class="meta-right">
-                            <button class="share-button" onclick="shareArticle()">공유하기</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 기사 내용 처리 -->
-                <div class="article-content" th:utext="${@articleContentFormatter.format(article.content)}">
-                    내용
-                </div>
-
-                <div class="article-footer">
-                    <div class="tags">
-                        <span class="tag">#뉴스</span>
-                        <span class="tag" th:text="${'#' + article.category}">#카테고리</span>
-                    </div>
-                    <div class="actions">
-                        <a href="/articles" class="back-button">목록으로</a>
-                        <a th:href="@{/articles/{id}/edit(id=${article.id})}" class="edit-button">수정</a>
-                        <form th:action="@{/articles/{id}(id=${article.id})}" method="post" style="display: inline;">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="delete-button" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
-                        </form>
-                    </div>
-                </div>
-            </article>
-        </div>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${article.title + ' - 동백일보'}">기사 제목 - 동백일보</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* 헤더 스타일 */
+    header {
+      background-color: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      position: relative;
+      top: 0;
+      z-index: 99;
+    }
+
+    .main-header {
+      padding: 20px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #1e3a8a;
+      text-align: center;
+      font-family: 'Times New Roman', serif;
+      letter-spacing: -0.5px;
+    }
+
+    /* 네비게이션 스타일 */
+    .main-nav {
+      background-color: #1e3a8a;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-items {
+      display: flex;
+    }
+
+    .nav-item {
+      padding: 15px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: #2c4ba3;
+    }
+
+    .nav-item a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .search-nav-item {
+      margin-left: auto;
+      cursor: pointer;
+    }
+
+    .search-icon-css {
+      position: relative;
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+
+    .search-icon-css:after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 6px;
+      height: 2px;
+      background: white;
+      transform: rotate(45deg);
+      transform-origin: 0 0;
+    }
+
+    /* 기사 레이아웃 */
+    .article-container {
+      display: flex;
+      gap: 30px;
+      margin: 30px auto;
+    }
+
+    .article-main {
+      flex: 3;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .article-sidebar {
+      flex: 1;
+    }
+
+    /* 기사 타이틀 섹션 */
+    .article-header {
+      position: relative;
+      padding: 0 0 20px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .article-category {
+      display: inline-block;
+      background-color: #1e3a8a;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+
+    .article-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.3;
+      color: #222;
+      margin-bottom: 15px;
+      letter-spacing: -0.5px;
+    }
+
+    .article-metadata {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .article-metadata span {
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+    }
+
+    .article-metadata i {
+      margin-right: 6px;
+    }
+
+    /* 기사 본문 */
+    .article-body {
+      padding: 25px;
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    .article-image-container {
+      margin: 0 -25px 25px;
+      background-color: #f9f9f9;
+      text-align: center;
+    }
+
+    .article-image {
+      max-width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+    }
+
+    .article-text {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #333;
+      margin-bottom: 25px;
+    }
+
+    .article-text p {
+      margin-bottom: 20px;
+    }
+
+    /* 기사 액션 */
+    .article-actions {
+      display: flex;
+      gap: 15px;
+      margin: 30px 0;
+      padding: 15px 0;
+      border-top: 1px solid #e5e5e5;
+    }
+
+    .like-button, .share-button {
+      display: flex;
+      align-items: center;
+      padding: 10px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .like-button {
+      background-color: #f8f8f8;
+      color: #333;
+    }
+
+    .like-button i {
+      margin-right: 8px;
+      font-size: 1.1rem;
+    }
+
+    .like-button.liked {
+      background-color: #ffeded;
+      color: #e53e3e;
+    }
+
+    .share-button {
+      background-color: #1e3a8a;
+      color: white;
+    }
+
+    .share-button i {
+      margin-right: 8px;
+    }
+
+    /* 기사 푸터 */
+    .article-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 25px;
+      background-color: #f9f9f9;
+      border-top: 1px solid #eee;
+    }
+
+    .admin-actions {
+      display: none; /* 처음에는 숨겨진 상태 */
+      gap: 10px;
+    }
+
+    .back-button, .edit-button, .delete-button {
+      padding: 8px 15px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .back-button {
+      background-color: #f0f0f0;
+      color: #555;
+    }
+
+    .back-button:hover {
+      background-color: #e0e0e0;
+    }
+
+    .edit-button {
+      background-color: #4a7bde;
+      color: white;
+    }
+
+    .edit-button:hover {
+      background-color: #3e69c2;
+    }
+
+    .delete-button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .delete-button:hover {
+      background-color: #c0392b;
+    }
+
+    /* 관련 기사 */
+    .related-articles {
+      margin-top: 40px;
+    }
+
+    .related-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #1e3a8a;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #1e3a8a;
+    }
+
+    .related-articles-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .related-article-card {
+      background-color: #fff;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .related-article-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .related-article-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .related-article-card:hover .related-article-title {
+      color: #1e3a8a;
+    }
+
+    .related-article-date {
+      font-size: 0.85rem;
+      color: #777;
+    }
+
+    /* 사이드바 */
+    .sidebar-section {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .sidebar-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #1e3a8a;
+      color: #1e3a8a;
+    }
+
+    .trending-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+    }
+
+    .trending-list li:last-child {
+      border-bottom: none;
+    }
+
+    .trending-list .number {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-color: #1e3a8a;
+      color: white;
+      text-align: center;
+      line-height: 24px;
+      border-radius: 4px;
+      margin-right: 10px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .trending-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #333;
+      transition: color 0.2s;
+    }
+
+    .trending-list li:hover .trending-title {
+      color: #1e3a8a;
+    }
+
+    /* 푸터 */
+    footer {
+      background-color: #2c2c2c;
+      color: #f5f5f5;
+      padding: 40px 0;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .footer-column {
+      flex: 1;
+      padding: 0 15px;
+    }
+
+    .footer-title {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #444;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .copy-right {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid #444;
+    }
+
+    /* 반응형 */
+    @media (max-width: 992px) {
+      .article-container {
+        flex-direction: column;
+      }
+
+      .article-title {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .related-articles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .article-title {
+        font-size: 1.8rem;
+      }
+
+      .article-body {
+        padding: 15px;
+      }
+
+      .article-image-container {
+        margin: 0 -15px 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container">
+    <div class="main-header">
+      <a href="/main" class="logo">동백일보</a>
     </div>
+  </div>
+</header>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>동백일보 소개</h3>
-                <p>동백일보는 1956년 창간된 대한민국의 대표적인 일간지로, 공정하고 신뢰할 수 있는 보도를 통해 독자들에게 가치 있는 정보를 제공합니다.</p>
-                <p>우리는 언론의 독립성과 공정성을 최우선 가치로 삼고 있습니다.</p>
-            </div>
-            <div class="footer-section">
-                <h3>소개</h3>
-                <ul class="footer-links">
-                    <li><a href="#">기업 소개</a></li>
-                    <li><a href="/team">팀원 소개</a></li>
-                    <li><a href="/mission">비전</a></li>
-                    <li><a href="/jobs">채용</a></li>
-                    <li><a href="/history">연혁</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>서비스</h3>
-                <ul class="footer-links">
-                    <li><a href="/faq">FAQ</a></li>
-                    <li><a href="/donation">기사 제보</a></li>
-                    <li><a href="/contact">광고 문의</a></li>
-                    <li><a href="/privacy">개인정보처리방침</a></li>
-                    <li><a href="/terms">이용약관</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>연락처</h3>
-                <p>서울특별시 중구 세종대로 110</p>
-                <p>전화: 02-123-4567</p>
-                <p>이메일: info@dongbaek.news</p>
-                <p>팩스: 02-123-4568</p>
-            </div>
+<nav class="main-nav">
+  <div class="container">
+    <ul class="nav-items">
+      <li class="nav-item">
+        <a th:href="@{/main}">전체</a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/articles/category(category='politics')}">정치</a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/articles/category(category='economy')}">경제</a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/articles/category(category='society')}">사회</a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/articles/category(category='world')}">국제</a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/articles/category(category='culture')}">문화</a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/articles/category(category='sports')}">스포츠</a>
+      </li>
+      <li class="nav-item">
+        <a th:href="@{/articles/category(category='opinion')}">오피니언</a>
+      </li>
+      <li class="nav-item search-nav-item">
+        <span class="search-icon-css"></span>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="article-container">
+    <main class="article-main">
+      <!-- 기사 헤더 -->
+      <div class="article-body">
+        <div class="article-header">
+          <div class="article-category" th:text="${article.category}">카테고리</div>
+          <h1 class="article-title" th:text="${article.title}">기사 제목 - 더 크고 굵게 표시됩니다</h1>
+          <div class="article-metadata">
+            <span><i class="fas fa-user"></i> <span th:text="${article.author}">저자</span></span>
+            <span><i class="fas fa-calendar"></i> <span th:text="${#temporals.format(article.createdAt, 'yyyy년 MM월 dd일 HH:mm')}">작성일</span></span>
+            <span><i class="fas fa-eye"></i> <span th:text="${article.viewCount}">조회수</span></span>
+            <span><i class="fas fa-heart"></i> <span class="like-count" th:attr="data-article-id=${article.id}" th:text="${article.likeCount}">좋아요수</span></span>
+          </div>
         </div>
-        <div class="copyright">
-            Copyright © 1956-2025 동백일보. All rights reserved.
+
+        <!-- 기사 이미지 -->
+        <div class="article-image-container" th:if="${article.imageUrl != null}">
+          <img th:src="${article.imageUrl}" th:alt="${article.title}" class="article-image">
         </div>
-    </footer>
 
-    <script>
-        // 현재 날짜 표시
-        document.addEventListener('DOMContentLoaded', function() {
-            const dateElement = document.getElementById('current-date');
-            const now = new Date();
+        <!-- 기사 본문 -->
+        <div class="article-text" th:utext="${@articleContentFormatter.format(article.content)}">
+          기사 내용이 여기에 표시됩니다. 더 좁은 폭과 적절한 여백으로 가독성이 높아집니다.
+        </div>
 
-            const days = ['일', '월', '화', '수', '목', '금', '토'];
-            const dayOfWeek = days[now.getDay()];
+        <!-- 기사 액션 -->
+        <div class="article-actions">
+          <button class="like-button"
+                  th:data-article-id="${article.id}"
+                  data-liked="false">
+            <i class="far fa-heart"></i> 좋아요
+          </button>
 
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
+          <button class="share-button" onclick="shareArticle()">
+            <i class="fas fa-share-alt"></i> 공유하기
+          </button>
+        </div>
 
-            dateElement.textContent = `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
-        });
+        <!-- 관련 기사 -->
+        <div class="related-articles" th:if="${relatedArticles != null && !relatedArticles.empty}">
+          <h3 class="related-title">관련 기사</h3>
+          <div class="related-articles-list">
+            <div th:each="relatedArticle : ${relatedArticles}"
+                 class="related-article-card"
+                 th:if="${relatedArticle.id != article.id}"
+                 th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${relatedArticle.id})} + '\''">
+              <h4 class="related-article-title" th:text="${relatedArticle.title}">관련 기사 제목</h4>
+              <div class="related-article-date" th:text="${#temporals.format(relatedArticle.createdAt, 'yyyy년 MM월 dd일')}">2023년 5월 10일</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        // 공유하기 기능
-        function shareArticle() {
-            // 현재 페이지 URL
-            const url = window.location.href;
+      <!-- 기사 푸터 -->
+      <div class="article-footer">
+        <a href="/articles" class="back-button">
+          <i class="fas fa-arrow-left"></i> 목록으로
+        </a>
+        <div class="admin-actions" id="adminActions">
+          <a th:href="@{/articles/{id}/edit(id=${article.id})}" class="edit-button">
+            <i class="fas fa-edit"></i> 수정
+          </a>
+          <form th:action="@{/articles/{id}(id=${article.id})}" method="post" style="display: inline;">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="delete-button" onclick="return confirm('정말 삭제하시겠습니까?')">
+              <i class="fas fa-trash"></i> 삭제
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
 
-            // 웹 공유 API 사용 (지원되는 브라우저의 경우)
-            if (navigator.share) {
-                navigator.share({
-                    title: document.querySelector('.article-title').textContent,
-                    url: url
-                }).catch(console.error);
-            } else {
-                // 클립보드에 복사
-                const tempInput = document.createElement('input');
-                document.body.appendChild(tempInput);
-                tempInput.value = url;
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
+    <!-- 사이드바 -->
+    <aside class="article-sidebar">
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">많이 본 뉴스</h3>
+        <ul class="trending-list">
+          <li th:each="trendingArticle, stat : ${@articleService.findTrendingArticles()}"
+              th:if="${stat.index < 5}"
+              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${trendingArticle.id})} + '\''">
+            <span class="number" th:text="${stat.count}">1</span>
+            <span class="trending-title" th:text="${trendingArticle.title}">인기 뉴스 제목</span>
+          </li>
+        </ul>
+      </div>
 
-                alert('기사 주소가 클립보드에 복사되었습니다.');
-            }
+      <div class="sidebar-section">
+        <h3 class="sidebar-title" th:text="${article.category + ' 카테고리 뉴스'}">카테고리 뉴스</h3>
+        <ul class="trending-list">
+          <li th:each="categoryArticle, stat : ${@articleService.findLatestArticlesByCategory(article.category)}"
+              th:if="${stat.index < 5 && categoryArticle.id != article.id}"
+              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${categoryArticle.id})} + '\''">
+            <span class="trending-title" th:text="${categoryArticle.title}">카테고리 뉴스 제목</span>
+          </li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3 class="footer-title">회사 소개</h3>
+        <ul class="footer-links">
+          <li><a th:href="@{/about}">동백일보 소개</a></li>
+          <li><a th:href="@{/history}">회사 연혁</a></li>
+          <li><a th:href="@{/team}">편집 이념</a></li>
+          <li><a th:href="@{/jobs}">인재 채용</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="footer-title">고객 센터</h3>
+        <ul class="footer-links">
+          <li><a th:href="@{/contact}">구독 문의</a></li>
+          <li><a th:href="@{/contact}">독자 의견</a></li>
+          <li><a th:href="@{/faq}">자주 묻는 질문</a></li>
+          <li><a th:href="@{/contact}">오류 신고</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="footer-title">이용 안내</h3>
+        <ul class="footer-links">
+          <li><a th:href="@{/terms}">이용약관</a></li>
+          <li><a th:href="@{/privacy}">개인정보처리방침</a></li>
+          <li><a th:href="@{/donation}">후원하기</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy-right">
+      © 2025 동백일보. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const likeButton = document.querySelector('.like-button');
+    const adminActions = document.getElementById('adminActions');
+
+    // 키보드 단축키 핸들러 추가 (Ctrl+Shift+?)
+    document.addEventListener('keydown', function(event) {
+      // Ctrl+Shift+? (물음표 키코드는 191)
+      if (event.ctrlKey && event.shiftKey && event.keyCode === 191) {
+        event.preventDefault(); // 기본 브라우저 동작 방지
+
+        // admin-actions 요소의 display 상태를 토글
+        if (adminActions.style.display === 'flex') {
+          adminActions.style.display = 'none';
+        } else {
+          adminActions.style.display = 'flex';
         }
-    </script>
-    </body>
-    </html>
+      }
+    });
+
+    if (likeButton) {
+      const articleId = likeButton.getAttribute('data-article-id');
+      const likeCountElement = document.querySelector('.like-count');
+
+      // 로컬 스토리지에서 좋아요 상태 가져오기
+      const isLiked = localStorage.getItem(`liked_${articleId}`) === 'true';
+
+      // 초기 상태 설정
+      if (isLiked) {
+        likeButton.classList.add('liked');
+        likeButton.innerHTML = '<i class="fas fa-heart"></i> 좋아요 취소';
+      }
+
+      likeButton.addEventListener('click', function() {
+        const isCurrentlyLiked = likeButton.classList.contains('liked');
+        const url = isCurrentlyLiked
+                ? `/articles/${articleId}/unlike`
+                : `/articles/${articleId}/like`;
+
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+                .then(response => response.json())
+                .then(data => {
+                  // 좋아요 수 업데이트
+                  if (likeCountElement) {
+                    likeCountElement.textContent = data.likeCount;
+                  }
+
+                  // 버튼 상태 업데이트
+                  if (isCurrentlyLiked) {
+                    likeButton.classList.remove('liked');
+                    likeButton.innerHTML = '<i class="far fa-heart"></i> 좋아요';
+                    localStorage.removeItem(`liked_${articleId}`);
+                  } else {
+                    likeButton.classList.add('liked');
+                    likeButton.innerHTML = '<i class="fas fa-heart"></i> 좋아요 취소';
+                    localStorage.setItem(`liked_${articleId}`, 'true');
+                  }
+                })
+                .catch(error => {
+                  console.error('좋아요 처리 중 오류가 발생했습니다:', error);
+                });
+      });
+    }
+  });
+
+  function shareArticle() {
+    // 현재 페이지 URL
+    const url = window.location.href;
+
+    // 문서의 제목 (h1 태그에서 가져옴)
+    const title = document.querySelector('.article-title').textContent;
+
+    // 웹 공유 API 사용 (지원되는 브라우저의 경우)
+    if (navigator.share) {
+      navigator.share({
+        title: title,
+        url: url
+      }).catch(console.error);
+    } else {
+      // 클립보드에 복사
+      const tempInput = document.createElement('input');
+      document.body.appendChild(tempInput);
+      tempInput.value = url;
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+
+      alert('기사 주소가 클립보드에 복사되었습니다.');
+    }
+  }
+</script>
+</body>
+</html>

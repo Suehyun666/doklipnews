@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${category + ' 뉴스 - 동백일보'}">카테고리 뉴스 - 동백일보</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- 고도체 폰트 (로고용) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/webfontworld/godo/GodoB.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    }
+
+    body {
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    /* 헤더 스타일 */
+    header {
+      background-color: #fff;
+      border-bottom: 1px solid #e5e5e5;
+      position: relative;
+      top: 0;
+      z-index: 99;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .main-header {
+      padding: 25px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #1e3a8a;
+      text-align: center;
+      font-family: 'GodoB', serif;
+      letter-spacing: -0.5px;
+      transition: color 0.3s;
+    }
+
+    .logo:hover {
+      color: #2c4ba3;
+    }
+
+    /* 네비게이션 스타일 */
+    .main-nav {
+      background-color: #1e3a8a;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-items {
+      display: flex;
+    }
+
+    .nav-item {
+      padding: 15px;
+      cursor: pointer;
+      position: relative;
+      transition: background-color 0.2s;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      background-color: #2c4ba3;
+    }
+
+    .nav-item a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .search-nav-item {
+      margin-left: auto;
+      cursor: pointer;
+    }
+
+    .search-icon-css {
+      position: relative;
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+
+    .search-icon-css:after {
+      content: '';
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 6px;
+      height: 2px;
+      background: white;
+      transform: rotate(45deg);
+      transform-origin: 0 0;
+    }
+
+    .search-form {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      display: none;
+    }
+
+    .search-input {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 200px;
+    }
+
+    .search-button {
+      padding: 8px 12px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 5px;
+    }
+
+    /* 카테고리 헤더 */
+    .category-header {
+      text-align: center;
+      padding: 40px 0 30px;
+    }
+
+    .category-title {
+      font-size: 2.5rem;
+      color: #1e3a8a;
+      margin-bottom: 15px;
+      font-weight: 800;
+    }
+
+    .category-description {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 1rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* 서브 카테고리 */
+    .subcategory-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 0 0 30px;
+      padding-bottom: 10px;
+      overflow-x: auto;
+    }
+
+    .subcategory-tab {
+      padding: 8px 18px;
+      background-color: #f0f0f0;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .subcategory-tab:hover {
+      background-color: #e0e0e0;
+    }
+
+    .subcategory-tab.active {
+      background-color: #1e3a8a;
+      color: white;
+    }
+
+    /* 메인 기사 섹션 */
+    .main-article-section {
+      padding: 0 0 40px;
+    }
+
+    .main-article {
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .main-article-image-container {
+      height: 450px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .main-article-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .main-article-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 40px;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+      color: white;
+    }
+
+    .main-article-headline {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      line-height: 1.3;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .main-article-summary {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+      max-width: 800px;
+    }
+
+    .article-meta {
+      display: flex;
+      gap: 15px;
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* 그리드 뉴스 섹션 */
+    .grid-news {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-bottom: 50px;
+    }
+
+    .grid-item {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .grid-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .grid-item-image-container {
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .grid-item-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .grid-item:hover .grid-item-image {
+      transform: scale(1.05);
+    }
+
+    .grid-item-content {
+      padding: 20px;
+    }
+
+    .grid-item-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    .grid-item:hover .grid-item-title {
+      color: #1e3a8a;
+    }
+
+    .grid-item-meta {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    /* 기사 목록 섹션 */
+    .article-list-section {
+      padding: 30px 0;
+      position: relative;
+    }
+
+    .article-list-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100px;
+      height: 3px;
+      background-color: #1e3a8a;
+      transform: translateX(-50%);
+    }
+
+    .article-list-title {
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: #1e3a8a;
+    }
+
+    .article-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+    }
+
+    .article-item {
+      background-color: #fff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .article-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .article-item-image-container {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .article-item-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s;
+    }
+
+    .article-item:hover .article-item-image {
+      transform: scale(1.05);
+    }
+
+    .article-item-text {
+      padding: 20px;
+    }
+
+    .article-item-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.3;
+      color: #333;
+    }
+
+    .article-item:hover .article-item-title {
+      color: #1e3a8a;
+    }
+
+    .article-item-summary {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .article-item-meta {
+      font-size: 0.85rem;
+      color: #888;
+      display: flex;
+      align-items: center;
+    }
+
+    .article-item-meta i {
+      margin-right: 4px;
+    }
+
+    /* 페이지네이션 */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin: 40px 0;
+    }
+
+    .page-item {
+      margin: 0 5px;
+    }
+
+    .page-link {
+      display: block;
+      padding: 10px 15px;
+      background-color: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 4px;
+      color: #1e3a8a;
+      transition: all 0.2s;
+    }
+
+    .page-link:hover {
+      background-color: #f5f5f5;
+    }
+
+    .page-item.active .page-link {
+      background-color: #1e3a8a;
+      color: white;
+      border-color: #1e3a8a;
+    }
+
+    /* 푸터 스타일 */
+    footer {
+      background-color: #2c2c2c;
+      color: #f5f5f5;
+      padding: 50px 0 20px;
+      margin-top: 50px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+    .footer-column {
+      flex: 1;
+      padding: 0 15px;
+    }
+
+    .footer-title {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #444;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+      transition: transform 0.2s;
+    }
+
+    .footer-links li:hover {
+      transform: translateX(5px);
+    }
+
+    .copy-right {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid #444;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* 반응형 디자인 */
+    @media (max-width: 992px) {
+      .grid-news {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .article-list {
+        grid-template-columns: 1fr;
+      }
+
+      .main-article-headline {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .grid-news {
+        grid-template-columns: 1fr;
+      }
+
+      .category-title {
+        font-size: 2rem;
+      }
+
+      .main-article-headline {
+        font-size: 1.8rem;
+      }
+
+      .main-article-image-container {
+        height: 350px;
+      }
+
+      .main-article-content {
+        padding: 25px;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 30px;
+      }
+
+      .article-item-title {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="container">
+    <div class="main-header">
+      <a href="/main" class="logo">동백일보</a>
+    </div>
+  </div>
+</header>
+
+<nav class="main-nav">
+  <div class="container">
+    <ul class="nav-items">
+      <li class="nav-item" th:classappend="${selectedCategory == null ? 'active' : ''}">
+        <a th:href="@{/main}">전체</a>
+      </li>
+      <li class="nav-item" th:classappend="${category == 'world' ? 'active' : ''}">
+        <a th:href="@{/world}">국제</a>
+      </li>
+      <li class="nav-item" th:classappend="${category == 'politic' ? 'active' : ''}">
+        <a th:href="@{/politic}">정치</a>
+      </li>
+      <li class="nav-item" th:classappend="${category == 'economy' ? 'active' : ''}">
+        <a th:href="@{/economy}">경제</a>
+      </li>
+      <li class="nav-item" th:classappend="${category == 'industry' ? 'active' : ''}">
+        <a th:href="@{/industry}">산업</a>
+      </li>
+      <li class="nav-item" th:classappend="${category == 'culture' ? 'active' : ''}">
+        <a th:href="@{/culture}">예술</a>
+      </li>
+      <li class="nav-item" th:classappend="${category == 'column' ? 'active' : ''}">
+        <a th:href="@{/column}">칼럼</a>
+      </li>
+      <li class="nav-item search-nav-item">
+        <span class="search-icon-css"></span>
+        <form class="search-form">
+          <input type="text" class="search-input" placeholder="검색어를 입력하세요">
+          <button type="submit" class="search-button">검색</button>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <!-- 카테고리 헤더 -->
+  <div class="category-header">
+    <h1 class="category-title"
+        th:text="${categoryTitle != null ? categoryTitle : category}">
+      카테고리 제목
+    </h1>
+    <p class="category-description" th:if="${categoryDescription != null}" th:text="${categoryDescription}">
+      카테고리에 대한 설명이 여기에 표시됩니다. 이 섹션은 사용자에게 해당 카테고리의 콘텐츠에 대한 간략한 소개를 제공합니다.
+    </p>
+
+    <!-- 서브 카테고리 탭 -->
+    <div class="subcategory-tabs" th:if="${subcategories != null}">
+      <div class="subcategory-tab"
+           th:classappend="${subcategory == 'all' ? 'active' : ''}"
+           th:each="subcat : ${subcategories}"
+           th:text="${subcat.value}"
+           th:data-subcategory="${subcat.key}"
+           th:onclick="'window.location.href = \'' + @{/{category}(category=${category}, subcategory=${subcat.key})} + '\''">
+        전체
+      </div>
+    </div>
+  </div>
+
+  <!-- 메인 기사 섹션 -->
+  <div class="main-article-section">
+    <!-- 메인 기사 (가장 인기있는 기사) -->
+    <div class="main-article" th:if="${not #lists.isEmpty(trendingArticles)}"
+         th:with="topArticle=${trendingArticles[0]}"
+         th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${topArticle.id})} + '\''">
+      <div class="main-article-image-container">
+        <img th:if="${topArticle.imageUrl != null}" th:src="${topArticle.imageUrl}" th:alt="${topArticle.title}" class="main-article-image">
+        <img th:if="${topArticle.imageUrl == null}" src="/api/placeholder/1200/600" th:alt="${topArticle.title}" class="main-article-image">
+      </div>
+      <div class="main-article-content">
+        <h2 class="main-article-headline" th:text="${topArticle.title}">주요 기사 제목</h2>
+        <p class="main-article-summary" th:text="${#strings.abbreviate(topArticle.content, 300)}">
+          주요 기사의 내용이 여기에 표시됩니다. 이 텍스트는 기사의 주요 내용을 간략하게 요약하여 독자들이 전체 기사를 읽기 전에 내용을 파악할 수 있도록 합니다.
+        </p>
+        <div class="article-meta">
+          <span><i class="fas fa-eye"></i> <span th:text="${topArticle.viewCount}">조회수</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 그리드 뉴스 섹션 (상위 6개 인기 기사) -->
+    <div class="grid-news" th:if="${#lists.size(trendingArticles) > 1}">
+      <div class="grid-item"
+           th:each="article, stat : ${trendingArticles}"
+           th:if="${stat.index > 0 && stat.index < 7}"
+           th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
+        <div class="grid-item-image-container">
+          <img th:if="${article.imageUrl != null}" th:src="${article.imageUrl}" th:alt="${article.title}" class="grid-item-image">
+          <img th:if="${article.imageUrl == null}" src="/api/placeholder/400/225" th:alt="${article.title}" class="grid-item-image">
+        </div>
+        <div class="grid-item-content">
+          <h3 class="grid-item-title" th:text="${article.title}">그리드 기사 제목</h3>
+          <div class="grid-item-meta">
+            <span><i class="fas fa-eye"></i> <span th:text="${article.viewCount}">조회수</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 카테고리의 모든 기사 목록 섹션 -->
+  <div class="article-list-section">
+    <h2 class="article-list-title" th:text="${categoryTitle + ' 뉴스'}">카테고리 뉴스</h2>
+    <div class="article-list">
+      <div th:each="article : ${articles}"
+           class="article-item"
+           th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
+        <div class="article-item-image-container">
+          <img th:if="${article.imageUrl != null}" th:src="${article.imageUrl}" th:alt="${article.title}" class="article-item-image">
+          <img th:if="${article.imageUrl == null}" src="/api/placeholder/600/400" th:alt="${article.title}" class="article-item-image">
+        </div>
+        <div class="article-item-text">
+          <h3 class="article-item-title" th:text="${article.title}">기사 제목</h3>
+          <p class="article-item-summary" th:text="${#strings.abbreviate(article.content, 150)}">기사 내용 미리보기...</p>
+          <div class="article-item-meta">
+            <span><i class="fas fa-eye"></i> <span th:text="${article.viewCount}">조회수</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 페이지네이션 -->
+    <nav th:if="${totalPages > 1}" aria-label="Page navigation">
+      <ul class="pagination">
+        <!-- 이전 버튼 -->
+        <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+          <a class="page-link"
+             th:href="@{/{category}(category=${category}, subcategory=${subcategory}, page=${currentPage - 1})}"
+             aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <!-- 페이지 번호 -->
+        <li class="page-item"
+            th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+            th:classappend="${currentPage == i ? 'active' : ''}">
+          <a class="page-link"
+             th:href="@{/{category}(category=${category}, subcategory=${subcategory}, page=${i})}"
+             th:text="${i + 1}">1</a>
+        </li>
+
+        <!-- 다음 버튼 -->
+        <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+          <a class="page-link"
+             th:href="@{/{category}(category=${category}, subcategory=${subcategory}, page=${currentPage + 1})}"
+             aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3 class="footer-title">회사 소개</h3>
+        <ul class="footer-links">
+          <li><a th:href="@{/about}">동백일보 소개</a></li>
+          <li><a th:href="@{/history}">회사 연혁</a></li>
+          <li><a th:href="@{/team}">편집 이념</a></li>
+          <li><a th:href="@{/jobs}">인재 채용</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="footer-title">고객 센터</h3>
+        <ul class="footer-links">
+          <li><a th:href="@{/contact}">구독 문의</a></li>
+          <li><a th:href="@{/contact}">독자 의견</a></li>
+          <li><a th:href="@{/faq}">자주 묻는 질문</a></li>
+          <li><a th:href="@{/contact}">오류 신고</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-column">
+        <h3 class="footer-title">이용 안내</h3>
+        <ul class="footer-links">
+          <li><a th:href="@{/terms}">이용약관</a></li>
+          <li><a th:href="@{/privacy}">개인정보처리방침</a></li>
+          <li><a th:href="@{/donation}">후원하기</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy-right">
+      © 2025 동백일보. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 검색 아이콘 클릭 시 검색 폼 표시
+    const searchIcon = document.querySelector('.search-icon-css');
+    const searchForm = document.querySelector('.search-form');
+
+    if (searchIcon && searchForm) {
+      searchIcon.addEventListener('click', function() {
+        searchForm.style.display = searchForm.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+
+    // 카테고리 버튼 활성화
+    const categoryButtons = document.querySelectorAll('.category-button');
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const category = this.getAttribute('data-category');
+        window.location.href = `/main${category ? '?category=' + category : ''}`;
+      });
+    });
+  });
+</script>
+</body>
+</html>

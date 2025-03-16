@@ -24,7 +24,7 @@ public class UserController {
     @PostMapping("/login")
     public String login() {
 
-        return "/home";
+        return "/articles";
     }
     @GetMapping("/signup")
     public String getsignup() {

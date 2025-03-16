@@ -294,33 +294,20 @@
 </head>
 <body>
 <header class="header">
-    <div class="top-header">
-        <div class="top-header-content">
-            <div class="date-weather">
-                <span id="current-date">2025년 03월 12일 수요일</span> |
-                <span>서울 20°C 맑음</span>
-            </div>
-            <div class="header-actions">
-                <a href="/contact#donation">구독신청</a>
-                <a href="/login">로그인</a>
-                <a href="/signup">회원가입</a>
-            </div>
-        </div>
-    </div>
     <div class="main-header">
-        <a href="/" class="logo">
+        <a href="/main" class="logo">
             <img src="/images/logo.jpg" alt="동백일보 로고">
             동백일보
         </a>
         <ul class="nav-menu">
             <li><a href="/">메인</a></li>
-            <li><a href="/articles?category=국제">국제</a></li>
-            <li><a href="/articles?category=정치">정치</a></li>
-            <li><a href="/articles?category=경제">경제</a></li>
-            <li><a href="/articles?category=산업">산업</a></li>
-            <li><a href="/articles?category=예술">예술</a></li>
-            <li><a href="/articles?category=외신">외신</a></li>
-            <li><a href="/articles?category=칼럼">칼럼</a></li>
+            <li><a href="/world">국제</a></li>
+            <li><a href="/politic">정치</a></li>
+            <li><a href="/economy">경제</a></li>
+            <li><a href="/industry">산업</a></li>
+            <li><a href="/culture">예술</a></li>
+            <li><a href="/foreign">외신</a></li>
+            <li><a href="/column">칼럼</a></li>
         </ul>
     </div>
 </header>
@@ -351,13 +338,13 @@
                         <label for="category">카테고리</label>
                         <select id="category" name="category" required>
                             <option value="">카테고리 선택</option>
-                            <option value="국제" th:selected="${article.category == '국제'}">국제</option>
-                            <option value="정치" th:selected="${article.category == '정치'}">정치</option>
-                            <option value="경제" th:selected="${article.category == '경제'}">경제</option>
-                            <option value="산업" th:selected="${article.category == '산업'}">산업</option>
-                            <option value="예술" th:selected="${article.category == '예술'}">예술</option>
-                            <option value="외신" th:selected="${article.category == '외신'}">외신</option>
-                            <option value="칼럼" th:selected="${article.category == '칼럼'}">칼럼</option>
+                            <option value="국제" th:selected="${article.category == 'world'}">국제</option>
+                            <option value="정치" th:selected="${article.category == 'politic'}">정치</option>
+                            <option value="경제" th:selected="${article.category == 'economy'}">경제</option>
+                            <option value="산업" th:selected="${article.category == 'industry'}">산업</option>
+                            <option value="예술" th:selected="${article.category == 'culture'}">예술</option>
+                            <option value="외신" th:selected="${article.category == 'foreign'}">외신</option>
+                            <option value="칼럼" th:selected="${article.category == 'column'}">칼럼</option>
                         </select>
                     </div>
                 </div>
