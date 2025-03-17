@@ -587,16 +587,35 @@
     }
 
     .breaking-item {
-      padding: 12px 0;
+      padding: 10px 0;
       cursor: pointer;
-      border-bottom: none; /* 구분선 제거 */
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .breaking-item-content {
+      display: flex;
+      align-items: center;
+    }
+
+    .breaking-item-image-wrapper {
+      width: 90px;
+      height: 60px;
+      flex-shrink: 0;
+      margin-right: 12px;
+      overflow: hidden;
+    }
+
+    .breaking-item-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .breaking-title {
-      font-size: 1.05rem;
-      line-height: 1.4;
+      font-size: 0.95rem;
+      line-height: 1.3;
       color: #333;
-      transition: color 0.2s;
+      flex: 1;
       overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -605,6 +624,14 @@
 
     .breaking-item:hover .breaking-title {
       color: #1e3a8a;
+    }
+
+    /* 반응형 조정 */
+    @media (max-width: 768px) {
+      .breaking-item-image-wrapper {
+        width: 70px;
+        height: 50px;
+      }
     }
 
     /* 카테고리 필터 */
@@ -985,7 +1012,52 @@
 
 <body>
 <!-- 헤더 영역 -->
-<div th:replace="fragments/header :: header"></div>
+<header th:fragment="header">
+  <div class="container">
+    <div class="main-header">
+      <a href="/main" class="logo">동백일보</a>
+    </div>
+  </div>
+
+  <!-- 네비게이션 -->
+  <nav class="main-nav">
+    <div class="container">
+      <ul class="nav-items">
+        <li class="nav-item" th:classappend="${current == 'main'} ? 'active' : ''">
+          <a href="/main">전체</a>
+        </li>
+        <li class="nav-item" th:classappend="${current == 'world'} ? 'active' : ''">
+          <a href="/world">국제</a>
+        </li>
+        <li class="nav-item" th:classappend="${current == 'politic'} ? 'active' : ''">
+          <a href="/politic">정치</a>
+        </li>
+        <li class="nav-item" th:classappend="${current == 'economy'} ? 'active' : ''">
+          <a href="/economy">경제</a>
+        </li>
+        <li class="nav-item" th:classappend="${current == 'industry'} ? 'active' : ''">
+          <a href="/industry">산업</a>
+        </li>
+        <li class="nav-item" th:classappend="${current == 'culture'} ? 'active' : ''">
+          <a href="/culture">예술</a>
+        </li>
+        <li class="nav-item" th:classappend="${current == 'column'} ? 'active' : ''">
+          <a href="/column">칼럼</a>
+        </li>
+        <li class="nav-item" th:classappend="${current == 'video'} ? 'active' : ''">
+          <a href="/video">영상</a>
+        </li>
+        <li class="nav-item search-nav-item">
+          <span class="search-icon-css"></span>
+          <form class="search-form" th:action="@{/search}" method="get" style="display: none;">
+            <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required>
+            <button type="submit" class="search-button">검색</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
 
 <!-- 메인 컨텐츠 영역 -->
 <div class="container">
@@ -1009,7 +1081,13 @@
             th:if="${stat.index < 8}"
             class="breaking-item"
             th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${breaking.id})} + '\''">
-          <h3 class="breaking-title" th:text="${breaking.title}">속보 제목</h3>
+          <div class="breaking-item-content">
+            <div class="breaking-item-image-wrapper">
+              <img th:src="${breaking.imageUrl != null ? breaking.imageUrl : '/images/placeholder/default.svg'}"
+                   th:alt="${breaking.title}" class="breaking-item-image">
+            </div>
+            <h3 class="breaking-title" th:text="${breaking.title}">속보 제목</h3>
+          </div>
         </li>
         <!-- 속보가 없을 경우 표시할 메시지 -->
         <li th:if="${#lists.isEmpty(@articleService.findLatestArticles())}" class="breaking-item">
@@ -1359,7 +1437,41 @@
   </div>
 </div>
 <!-- 푸터 영역 -->
-<<div th:replace="fragments/footer :: footer"></div>
+<footer th:fragment="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3 class="footer-title">동백일보 소개</h3>
+        <ul class="footer-links">
+          <li><a href="/about">회사 소개</a></li>
+          <li><a href="/mission">편집 방향</a></li>
+          <li><a href="/history">윤리 강령</a></li>
+          <li><a href="/jobs">채용 정보</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3 class="footer-title">고객 센터</h3>
+        <ul class="footer-links">
+          <li><a href="/contact">구독 신청</a></li>
+          <li><a href="/contact#feedback">독자 의견</a></li>
+          <li><a href="/faq">자주 묻는 질문</a></li>
+          <li><a href="/contact">고객센터 연락처</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3 class="footer-title">광고 및 제휴</h3>
+        <ul class="footer-links">
+          <li><a href="/contact#ad">광고 안내</a></li>
+          <li><a href="/contact#partnership">콘텐츠 제휴</a></li>
+          <li><a href="/contact#business">사업 제휴 문의</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy-right">
+      &copy; 2025 동백일보. All rights reserved. | 등록번호: 서울, 아03029 | 등록일자: 2025.01.01 | 발행인: 김동백 | 편집인: 이백동
+    </div>
+  </div>
+</footer>
 
 <!-- 자바스크립트 -->
 <script>
