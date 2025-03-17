@@ -95,6 +95,16 @@
       cursor: pointer;
     }
 
+    .search-form {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      display: none;
+    }
     .search-icon-css {
       position: relative;
       display: inline-block;
@@ -207,6 +217,26 @@
 
     .article-text p {
       margin-bottom: 20px;
+    }
+
+    /* 유튜브 동영상 컨테이너 스타일 */
+    .youtube-container {
+      position: relative;
+      width: 100%;
+      margin: 25px 0;
+      padding-bottom: 56.25%; /* 16:9 비율 */
+      height: 0;
+      overflow: hidden;
+    }
+
+    .youtube-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 6px;
     }
 
     /* 기사 액션 */
@@ -472,43 +502,42 @@
       .article-image-container {
         margin: 0 -15px 15px;
       }
-      @media (max-width: 768px) {
-        /* 네비게이션 가로 스크롤 처리 */
-        .main-nav .container {
-          padding: 0;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-        }
 
-        .nav-items {
-          display: flex;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-          width: max-content;
-          min-width: 100%;
-        }
+      /* 네비게이션 가로 스크롤 처리 */
+      .main-nav .container {
+        padding: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
 
-        /* 스크롤바 숨기기 */
-        .main-nav .container::-webkit-scrollbar {
-          display: none;
-        }
+      .nav-items {
+        display: flex;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+        width: max-content;
+        min-width: 100%;
+      }
 
-        .main-nav .container {
-          scrollbar-width: none; /* Firefox */
-          -ms-overflow-style: none; /* IE and Edge */
-        }
+      /* 스크롤바 숨기기 */
+      .main-nav .container::-webkit-scrollbar {
+        display: none;
+      }
 
-        /* 네비게이션 항목 간격 조정 */
-        .nav-item {
-          padding: 10px 12px; /* 좌우 패딩 줄이기 */
-          font-size: 0.9rem; /* 글자 크기 줄이기 */
-        }
+      .main-nav .container {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
 
-        /* 검색 아이콘 위치 조정 */
-        .search-nav-item {
-          margin-left: 0;
-          padding-right: 15px;
-        }
+      /* 네비게이션 항목 간격 조정 */
+      .nav-item {
+        padding: 10px 12px; /* 좌우 패딩 줄이기 */
+        font-size: 0.9rem; /* 글자 크기 줄이기 */
+      }
+
+      /* 검색 아이콘 위치 조정 */
+      .search-nav-item {
+        margin-left: 0;
+        padding-right: 15px;
       }
     }
   </style>
@@ -523,35 +552,37 @@
   </div>
 </header>
 
+
 <nav class="main-nav">
   <div class="container">
     <ul class="nav-items">
-      <li class="nav-item">
+      <li class="nav-item" th:classappend="${selectedCategory == null ? 'active' : ''}">
         <a th:href="@{/main}">전체</a>
       </li>
-      <li class="nav-item">
-        <a th:href="@{/articles/category(category='politics')}">정치</a>
+      <li class="nav-item" th:classappend="${category == 'world' ? 'active' : ''}">
+        <a th:href="@{/world}">국제</a>
       </li>
-      <li class="nav-item">
-        <a th:href="@{/articles/category(category='economy')}">경제</a>
+      <li class="nav-item" th:classappend="${category == 'politic' ? 'active' : ''}">
+        <a th:href="@{/politic}">정치</a>
       </li>
-      <li class="nav-item">
-        <a th:href="@{/articles/category(category='society')}">사회</a>
+      <li class="nav-item" th:classappend="${category == 'economy' ? 'active' : ''}">
+        <a th:href="@{/economy}">경제</a>
       </li>
-      <li class="nav-item">
-        <a th:href="@{/articles/category(category='world')}">국제</a>
+      <li class="nav-item" th:classappend="${category == 'industry' ? 'active' : ''}">
+        <a th:href="@{/industry}">산업</a>
       </li>
-      <li class="nav-item">
-        <a th:href="@{/articles/category(category='culture')}">문화</a>
+      <li class="nav-item" th:classappend="${category == 'culture' ? 'active' : ''}">
+        <a th:href="@{/culture}">예술</a>
       </li>
-      <li class="nav-item">
-        <a th:href="@{/articles/category(category='sports')}">스포츠</a>
-      </li>
-      <li class="nav-item">
-        <a th:href="@{/articles/category(category='opinion')}">오피니언</a>
+      <li class="nav-item" th:classappend="${category == 'column' ? 'active' : ''}">
+        <a th:href="@{/column}">칼럼</a>
       </li>
       <li class="nav-item search-nav-item">
         <span class="search-icon-css"></span>
+        <form class="search-form" th:action="@{/search}" method="get" style="display: none;">
+          <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required>
+          <button type="submit" class="search-button">검색</button>
+        </form>
       </li>
     </ul>
   </div>
@@ -645,7 +676,15 @@
       </div>
 
       <div class="sidebar-section">
-        <h3 class="sidebar-title" th:text="${article.category + ' 카테고리 뉴스'}">카테고리 뉴스</h3>
+        <h3 class="sidebar-title" th:with="categoryKo=${article.category == 'world' ? '국제' :
+                                          article.category == 'politic' ? '정치' :
+                                          article.category == 'economy' ? '경제' :
+                                          article.category == 'industry' ? '산업' :
+                                          article.category == 'culture' ? '예술' :
+                                          article.category == 'column' ? '칼럼' :
+                                          article.category == 'video' ? '영상' :
+                                          article.category}"
+            th:text="${categoryKo + ' 카테고리 뉴스'}">카테고리 뉴스</h3>
         <ul class="trending-list">
           <li th:each="categoryArticle, stat : ${@articleService.findLatestArticlesByCategory(article.category)}"
               th:if="${stat.index < 5 && categoryArticle.id != article.id}"
@@ -700,6 +739,15 @@
   document.addEventListener('DOMContentLoaded', function() {
     const likeButton = document.querySelector('.like-button');
     const adminActions = document.getElementById('adminActions');
+    const searchIcon = document.querySelector('.search-icon-css');
+    const searchForm = document.querySelector('.search-form');
+    if (searchIcon && searchForm) {
+      searchIcon.addEventListener('click', function() {
+        searchForm.style.display = searchForm.style.display === 'none' || searchForm.style.display === '' ? 'block' : 'none';
+      });
+    }
+    // 유튜브 링크 처리
+    processYoutubeLinks();
 
     // 키보드 단축키 핸들러 추가 (Ctrl+Shift+?)
     document.addEventListener('keydown', function(event) {
@@ -765,6 +813,70 @@
       });
     }
   });
+
+  // 유튜브 링크를 임베드로 변환하는 함수
+  function processYoutubeLinks() {
+    const articleText = document.querySelector('.article-text');
+    const articleImageContainer = document.querySelector('.article-image-container');
+    if (!articleText) return;
+
+    // 기사 본문에 포함된 유튜브 링크 검색
+    const paragraphs = articleText.getElementsByTagName('p');
+    for (let i = 0; i < paragraphs.length; i++) {
+      const paragraph = paragraphs[i];
+      const text = paragraph.textContent || '';
+
+      if (text.includes('youtu.be/') || text.includes('youtube.com/watch')) {
+        const videoId = extractYoutubeId(text);
+        if (videoId) {
+          const embedContainer = document.createElement('div');
+          embedContainer.className = 'youtube-container';
+          embedContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>`;
+
+          // 대표 이미지가 있으면 그 위에 배치하고, 없으면 첫 번째 단락 위에 배치
+          if (articleImageContainer) {
+            // 대표 이미지가 있으면 해당 이미지 컨테이너를 숨김
+            articleImageContainer.style.display = 'none';
+            articleImageContainer.parentNode.insertBefore(embedContainer, articleImageContainer);
+          } else {
+            // 대표 이미지가 없으면 본문 맨 위에 삽입
+            articleText.insertBefore(embedContainer, articleText.firstChild);
+          }
+
+          // 링크가 포함된 단락은 숨김 (선택 사항)
+          // paragraph.style.display = 'none';
+
+          // 첫 번째 유튜브 링크만 처리하고 종료 (여러 비디오가 있는 경우 한 개만 처리)
+          break;
+        }
+      }
+    }
+  }
+
+  // 유튜브 링크에서 비디오 ID 추출
+  function extractYoutubeId(text) {
+    // youtu.be 형식
+    let match = text.match(/youtu\.be\/([a-zA-Z0-9_-]{11})/);
+    if (match && match[1]) return match[1];
+
+    // youtube.com/watch 형식
+    match = text.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/);
+    if (match && match[1]) return match[1];
+
+    // youtube.com/embed 형식
+    match = text.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/);
+    if (match && match[1]) return match[1];
+
+    return null;
+  }
+
+  // 유튜브 임베드 HTML 생성
+  function createYoutubeEmbed(videoId) {
+    return `<div class="youtube-container">
+              <iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
+            </div>`;
+  }
+
 
   function shareArticle() {
     // 현재 페이지 URL

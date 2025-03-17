@@ -111,11 +111,11 @@ public class MainController {
     // 카테고리 유효성 검사 메서드
     private boolean isValidCategory(String category) {
         return Arrays.asList("politic", "economy", "industry", "world",
-                "culture", "column").contains(category);
+                "culture", "column","video").contains(category);
     }
 
     // 카테고리 데이터 생성 메서드
-    private Map<String, Map<String, Object>> getCategoryData() {
+    Map<String, Map<String, Object>> getCategoryData() {
         Map<String, Map<String, Object>> categoryData = new HashMap<>();
 
         // 정치 카테고리 데이터
@@ -193,7 +193,7 @@ public class MainController {
         culture.put("subcategories", cultureSubcategories);
         categoryData.put("culture", culture);
 
-        // 오피니언 카테고리
+        // 칼럼 카테고리
         Map<String, Object> opinion = new HashMap<>();
         opinion.put("title", "칼럼");
         opinion.put("description", "시사 이슈에 대한 전문가 칼럼, 사설, 기고문 등을 제공합니다.");
@@ -206,6 +206,21 @@ public class MainController {
 
         opinion.put("subcategories", opinionSubcategories);
         categoryData.put("column", opinion);
+
+        // 영상 카테고리 데이터
+        Map<String, Object> video = new HashMap<>();
+        video.put("title", "영상");
+        video.put("description", "영상이 첨부된 최신 뉴스와 기사를 제공합니다.");
+
+        Map<String, String> videoSubcategories = new HashMap<>();
+        videoSubcategories.put("all", "전체");
+        videoSubcategories.put("news", "뉴스");
+        videoSubcategories.put("interview", "인터뷰");
+        videoSubcategories.put("feature", "특집");
+        videoSubcategories.put("live", "생중계");
+
+        video.put("subcategories", videoSubcategories);
+        categoryData.put("video", video);
 
         return categoryData;
     }

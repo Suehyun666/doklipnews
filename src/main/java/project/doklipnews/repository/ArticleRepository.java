@@ -3,7 +3,9 @@ package project.doklipnews.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.doklipnews.entity.Article;
 
@@ -42,7 +44,49 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     // 좋아요 기준 인기 기사
     List<Article> findTop10ByOrderByLikeCountDesc();
 
-    List<Article> findByFeaturedTrue();
+    //앞에 뜨기 리셋
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Article a SET a.featured = false WHERE a.featured = true")
+    void updateAllFeaturedToFalse();
+
+    // 검색 관련 메소드 추가
+
+    // 키워드로 제목 또는 내용 검색
+    @Query("SELECT a FROM Article a WHERE LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<Article> searchByTitleOrContent(@Param("keyword") String keyword, Pageable pageable);
+
+    // 카테고리별 키워드 검색 (제목 또는 내용)
+    @Query("SELECT a FROM Article a WHERE (LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND a.category = :category")
+    Page<Article> searchByTitleOrContentAndCategory(
+            @Param("keyword") String keyword,
+            @Param("category") String category,
+            Pageable pageable);
+
+    // 이미지가 있는 기사 검색 (최신순)
+    @Query("SELECT a FROM Article a WHERE (LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND a.imageUrl IS NOT NULL AND a.imageUrl <> '' ORDER BY a.createdAt DESC")
+    List<Article> findRecentArticlesWithImagesByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
+    // 카테고리별로 이미지가 있는 기사 검색 (최신순)
+    @Query("SELECT a FROM Article a WHERE (LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND a.category = :category AND a.imageUrl IS NOT NULL AND a.imageUrl <> '' ORDER BY a.createdAt DESC")
+    List<Article> findRecentArticlesWithImagesByKeywordAndCategory(
+            @Param("keyword") String keyword,
+            @Param("category") String category,
+            Pageable pageable);
+
+    // 특정 ID 목록을 제외한 기사 검색 (키워드 기준)
+    @Query("SELECT a FROM Article a WHERE (LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND a.id NOT IN :excludeIds ORDER BY a.createdAt DESC")
+    List<Article> findArticlesByKeywordExcludingIds(
+            @Param("keyword") String keyword,
+            @Param("excludeIds") List<Long> excludeIds,
+            Pageable pageable);
+
+    // 카테고리와 키워드로 특정 ID 목록을 제외한 기사 검색
+    @Query("SELECT a FROM Article a WHERE (LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(a.content) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND a.category = :category AND a.id NOT IN :excludeIds ORDER BY a.createdAt DESC")
+    List<Article> findArticlesByKeywordAndCategoryExcludingIds(
+            @Param("keyword") String keyword,
+            @Param("category") String category,
+            @Param("excludeIds") List<Long> excludeIds,
+            Pageable pageable);
 
 
 }

@@ -5,6 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import project.doklipnews.entity.Article;
 import project.doklipnews.repository.ArticleRepository;
@@ -163,15 +164,12 @@ public class ArticleService {
         articleRepository.deleteById(id);
     }
 
+    @Transactional
     public Article setAsFeatured(Long id) {
-        // 1. 기존 모든 특집 기사의 featured 상태를 false로 변경
-        List<Article> featuredArticles = articleRepository.findByFeaturedTrue();
-        for (Article article : featuredArticles) {
-            article.setFeatured(false);
-            articleRepository.save(article);
-        }
+        // 벌크 업데이트를 통해 모든 featured 기사를 한 번에 false로 설정
+        articleRepository.updateAllFeaturedToFalse();
 
-        // 2. 새로운 특집 기사 지정
+        // 새 featured 기사 설정
         Article newFeaturedArticle = articleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Article not found"));
         newFeaturedArticle.setFeatured(true);

@@ -40,7 +40,13 @@ public class ArticleController {
     // 새 기사 저장
     @PostMapping
     public String create(@ModelAttribute Article article, @RequestParam("imageFile") MultipartFile imageFile) {
-        articleService.createArticle(article, imageFile); // 이미지 파일 처리 후 기사 저장
+        // 먼저 기사를 저장
+        Article savedArticle = articleService.createArticle(article, imageFile);
+
+        // 특집 기사로 체크된 경우 setAsFeatured 메서드 호출
+        if (article.getFeatured() != null && article.getFeatured()) {
+            articleService.setAsFeatured(savedArticle.getId());
+        }
         return "redirect:/articles";
     }
 
@@ -177,7 +183,13 @@ public class ArticleController {
     @PutMapping("/{id}")
     public String update(@PathVariable Long id, @ModelAttribute Article article,
                          @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
-        articleService.updateArticle(id, article, imageFile);
+        // 특집 기사로 체크된 경우 setAsFeatured 메서드 호출
+        if (article.getFeatured() != null && article.getFeatured()) {
+            articleService.setAsFeatured(id);
+        } else {
+            // 체크되지 않은 경우 일반 업데이트 수행
+            articleService.updateArticle(id, article, imageFile);
+        }
         return "redirect:/articles/" + id;
     }
 
@@ -230,4 +242,5 @@ public class ArticleController {
         response.put("featured", article.getFeatured());
         return ResponseEntity.ok(response);
     }
+
 }
