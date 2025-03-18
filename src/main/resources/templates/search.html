@@ -642,14 +642,58 @@
 </head>
 
 <body>
-<!-- 헤더 포함 -->
-<div th:replace="fragments/header :: header"></div>
+<header>
+    <div class="container">
+        <div class="main-header">
+            <a href="/main" class="logo">동백일보</a>
+        </div>
+    </div>
+</header>
+
+<nav class="main-nav">
+    <div class="container">
+        <ul class="nav-items">
+            <li class="nav-item" th:classappend="${selectedCategory == null ? 'active' : ''}">
+                <a th:href="@{/main}">전체</a>
+            </li>
+            <li class="nav-item" th:classappend="${category == 'world' ? 'active' : ''}">
+                <a th:href="@{/world}">국제</a>
+            </li>
+            <li class="nav-item" th:classappend="${category == 'politic' ? 'active' : ''}">
+                <a th:href="@{/politic}">정치</a>
+            </li>
+            <li class="nav-item" th:classappend="${category == 'economy' ? 'active' : ''}">
+                <a th:href="@{/economy}">경제</a>
+            </li>
+            <li class="nav-item" th:classappend="${category == 'industry' ? 'active' : ''}">
+                <a th:href="@{/industry}">산업</a>
+            </li>
+            <li class="nav-item" th:classappend="${category == 'culture' ? 'active' : ''}">
+                <a th:href="@{/culture}">예술</a>
+            </li>
+            <li class="nav-item" th:classappend="${category == 'column' ? 'active' : ''}">
+                <a th:href="@{/column}">칼럼</a>
+            </li>
+            <li class="nav-item" th:classappend="${category == 'video' ? 'active' : ''}">
+                <a th:href="@{/video}">영상</a>
+            </li>
+            <li class="nav-item search-nav-item">
+                <span class="search-icon-css"></span>
+                <form class="search-form" th:action="@{/search}" method="get" style="display: none;">
+                    <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required>
+                    <button type="submit" class="search-button">검색</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 
 <div class="container">
     <!-- 검색 결과 헤더 -->
     <div class="search-header">
         <h1 class="search-title">"<span class="search-query" th:text="${query}">검색어</span>" 검색 결과</h1>
-        <p class="search-count">총 <strong th:text="${totalResults}"></strong>건의 검색 결과가 있습니다.</p>
+        <p class="search-count">총 <strong th:text="${totalResults}">42</strong>건의 검색 결과가 있습니다.</p>
 
         <!-- 메인 검색 폼 -->
         <form class="main-search-form" th:action="@{/search}" method="get">
@@ -677,6 +721,7 @@
         </a>
         <div class="search-main-content">
             <span class="search-main-category" th:text="${mainArticle.category}">카테고리</span>
+
             <h2 class="search-main-title">
                 <a th:href="@{'/articles/' + ${mainArticle.id}}" th:text="${mainArticle.title}">기사 제목</a>
             </h2>
@@ -777,7 +822,44 @@
 </div>
 
 <!-- 푸터 포함 -->
-<div th:replace="fragments/footer :: footer"></div>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3 class="footer-title">회사 소개</h3>
+                <ul class="footer-links">
+                    <li><a th:href="@{/about}">동백일보 소개</a></li>
+                    <li><a th:href="@{/history}">회사 연혁</a></li>
+                    <li><a th:href="@{/team}">편집 이념</a></li>
+                    <li><a th:href="@{/jobs}">인재 채용</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3 class="footer-title">고객 센터</h3>
+                <ul class="footer-links">
+                    <li><a th:href="@{/contact}">구독 문의</a></li>
+                    <li><a th:href="@{/contact}">독자 의견</a></li>
+                    <li><a th:href="@{/faq}">자주 묻는 질문</a></li>
+                    <li><a th:href="@{/contact}">오류 신고</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3 class="footer-title">이용 안내</h3>
+                <ul class="footer-links">
+                    <li><a th:href="@{/terms}">이용약관</a></li>
+                    <li><a th:href="@{/privacy}">개인정보처리방침</a></li>
+                    <li><a th:href="@{/donation}">후원하기</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copy-right">
+            © 2025 동백일보. All rights reserved.
+        </div>
+    </div>
+</footer>
 
 <script>
     // 검색 아이콘 클릭 시 검색 폼 토글
