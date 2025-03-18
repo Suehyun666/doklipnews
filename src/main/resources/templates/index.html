@@ -1085,7 +1085,7 @@
           <div class="breaking-item-content">
             <div class="breaking-item-image-wrapper">
               <img th:src="${breaking.imageUrl != null ? breaking.imageUrl : '/images/placeholder/default.svg'}"
-                   th:alt="${breaking.title}" class="breaking-item-image">
+                   th:alt="${breaking.title}" class="breaking-item-image" loading="lazy">
             </div>
             <h3 class="breaking-title" th:text="${breaking.title}">속보 제목</h3>
           </div>
@@ -1109,7 +1109,7 @@
            th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${headline.id})} + '\''">
         <div class="headline-image-container">
           <img th:src="${headline.imageUrl != null ? headline.imageUrl : '/images/placeholder/default.svg'}"
-               th:alt="${headline.title}" class="headline-image">
+               th:alt="${headline.title}" class="headline-image" loading="lazy">
         </div>
         <div class="headline-content">
           <h2 class="headline-title" th:text="${headline.title}">헤드라인 제목</h2>
@@ -1133,7 +1133,7 @@
              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
           <div class="trending-image-wrapper">
             <img th:src="${article.imageUrl != null ? article.imageUrl : '/images/placeholder/default.svg'}"
-                 th:alt="${article.title}" class="trending-image">
+                 th:alt="${article.title}" class="trending-image" loading="lazy">
           </div>
           <div class="trending-content">
             <h3 class="trending-title" th:text="${article.title}">인기 뉴스 제목</h3>
@@ -1166,7 +1166,7 @@
              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${mainArticle.id})} + '\''">
           <div class="article-image-container">
             <img th:src="${mainArticle.imageUrl != null ? mainArticle.imageUrl : '/images/placeholder/default.svg'}"
-                 th:alt="${mainArticle.title}" class="article-image">
+                 th:alt="${mainArticle.title}" class="article-image" loading="lazy">
           </div>
           <h4 class="article-title" th:text="${mainArticle.title}">정치 기사 제목</h4>
         </div>
@@ -1193,7 +1193,7 @@
              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${mainArticle.id})} + '\''">
           <div class="article-image-container">
             <img th:src="${mainArticle.imageUrl != null ? mainArticle.imageUrl : '/images/placeholder/default.svg'}"
-                 th:alt="${mainArticle.title}" class="article-image">
+                 th:alt="${mainArticle.title}" class="article-image" loading="lazy">
           </div>
           <h4 class="article-title" th:text="${mainArticle.title}">경제 기사 제목</h4>
         </div>
@@ -1220,7 +1220,7 @@
              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${mainArticle.id})} + '\''">
           <div class="article-image-container">
             <img th:src="${mainArticle.imageUrl != null ? mainArticle.imageUrl : '/images/placeholder/default.svg'}"
-                 th:alt="${mainArticle.title}" class="article-image">
+                 th:alt="${mainArticle.title}" class="article-image" loading="lazy">
           </div>
           <h4 class="article-title" th:text="${mainArticle.title}">산업 기사 제목</h4>
         </div>
@@ -1258,7 +1258,7 @@
              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${mainArticle.id})} + '\''">
           <div class="article-image-container">
             <img th:src="${mainArticle.imageUrl != null ? mainArticle.imageUrl : '/images/placeholder/default.svg'}"
-                 th:alt="${mainArticle.title}" class="article-image">
+                 th:alt="${mainArticle.title}" class="article-image" loading="lazy">
           </div>
           <h4 class="article-title" th:text="${mainArticle.title}">문화 기사 제목</h4>
           <!-- 문화 기사 내용 일부 추가 -->
@@ -1287,7 +1287,7 @@
              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${mainArticle.id})} + '\''">
           <div class="article-image-container">
             <img th:src="${mainArticle.imageUrl != null ? mainArticle.imageUrl : '/images/placeholder/default.svg'}"
-                 th:alt="${mainArticle.title}" class="article-image">
+                 th:alt="${mainArticle.title}" class="article-image" loading="lazy">
           </div>
           <h4 class="article-title" th:text="${mainArticle.title}">국제 기사 제목</h4>
           <!-- 국제 기사 내용 일부 추가 -->
@@ -1320,7 +1320,7 @@
            th:with="columnArticle=${@articleService.findLatestArticlesByCategory('column')[0]}"
            th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${columnArticle.id})} + '\''">
         <div class="columnist-info">
-          <img src="/images/columnists/default.png" alt="칼럼니스트" class="columnist-avatar">
+          <img src="/images/columnists/default.png" alt="칼럼니스트" class="columnist-avatar" loading="lazy">
           <div>
             <h4 class="columnist-name" th:text="${columnArticle.author != null ? columnArticle.author : '칼럼니스트'}">칼럼니스트 이름</h4>
             <p class="columnist-title">정치 평론가</p>
@@ -1336,7 +1336,7 @@
            th:with="columnArticle=${@articleService.findLatestArticlesByCategory('column')[1]}"
            th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${columnArticle.id})} + '\''">
         <div class="columnist-info">
-          <img src="/images/columnists/default.png" alt="칼럼니스트" class="columnist-avatar">
+          <img src="/images/columnists/default.png" alt="칼럼니스트" class="columnist-avatar" loading="lazy">
           <div>
             <h4 class="columnist-name" th:text="${columnArticle.author != null ? columnArticle.author : '칼럼니스트'}">칼럼니스트 이름</h4>
             <p class="columnist-title">경제 전문가</p>
@@ -1352,7 +1352,7 @@
            th:with="columnArticle=${@articleService.findLatestArticlesByCategory('column')[2]}"
            th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${columnArticle.id})} + '\''">
         <div class="columnist-info">
-          <img src="/images/columnists/default.png" alt="칼럼니스트" class="columnist-avatar">
+          <img src="/images/columnists/default.png" alt="칼럼니스트" class="columnist-avatar" loading="lazy">
           <div>
             <h4 class="columnist-name" th:text="${columnArticle.author != null ? columnArticle.author : '칼럼니스트'}">칼럼니스트 이름</h4>
             <p class="columnist-title">국제 문제 전문가</p>
@@ -1383,7 +1383,7 @@
            th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
         <div class="video-thumbnail-container">
           <img th:src="${article.imageUrl != null ? article.imageUrl : '/images/placeholder/default.svg'}"
-               th:alt="${article.title}" class="video-thumbnail">
+               th:alt="${article.title}" class="video-thumbnail" loading="lazy">
           <div class="play-icon">
             <i class="fas fa-play-circle"></i>
           </div>
@@ -1394,7 +1394,7 @@
       <div class="video-item" th:if="${#lists.isEmpty(@articleService.findLatestArticlesByCategory('video'))}"
            onclick="window.location.href = '/articles'">
         <div class="video-thumbnail-container">
-          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail">
+          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail" loading="lazy">
           <div class="play-icon">
             <i class="fas fa-play-circle"></i>
           </div>
@@ -1404,7 +1404,7 @@
       <div class="video-item" th:if="${#lists.isEmpty(@articleService.findLatestArticlesByCategory('video'))}"
            onclick="window.location.href = '/articles'">
         <div class="video-thumbnail-container">
-          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail">
+          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail" loading="lazy">
           <div class="play-icon">
             <i class="fas fa-play-circle"></i>
           </div>
@@ -1414,7 +1414,7 @@
       <div class="video-item" th:if="${#lists.isEmpty(@articleService.findLatestArticlesByCategory('video'))}"
            onclick="window.location.href = '/articles'">
         <div class="video-thumbnail-container">
-          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail">
+          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail" loading="lazy">
           <div class="play-icon">
             <i class="fas fa-play-circle"></i>
           </div>
@@ -1424,7 +1424,7 @@
       <div class="video-item" th:if="${#lists.isEmpty(@articleService.findLatestArticlesByCategory('video'))}"
            onclick="window.location.href = '/articles'">
         <div class="video-thumbnail-container">
-          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail">
+          <img src="/images/placeholder/video.png" alt="동영상 썸네일" class="video-thumbnail" loading="lazy">
           <div class="play-icon">
             <i class="fas fa-play-circle"></i>
           </div>

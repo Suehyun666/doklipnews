@@ -665,8 +665,8 @@
          th:with="topArticle=${trendingArticles[0]}"
          th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${topArticle.id})} + '\''">
       <div class="main-article-image-container">
-        <img th:if="${topArticle.imageUrl != null}" th:src="${topArticle.imageUrl}" th:alt="${topArticle.title}" class="main-article-image">
-        <img th:if="${topArticle.imageUrl == null}" src="/api/placeholder/1200/600" th:alt="${topArticle.title}" class="main-article-image">
+        <img th:if="${topArticle.imageUrl != null}" th:src="${topArticle.imageUrl}" th:alt="${topArticle.title}" class="main-article-image" loading="lazy">
+        <img th:if="${topArticle.imageUrl == null}" src="/api/placeholder/1200/600" th:alt="${topArticle.title}" class="main-article-image" loading="lazy">
       </div>
       <div class="main-article-content">
         <h2 class="main-article-headline" th:text="${topArticle.title}">주요 기사 제목</h2>
@@ -683,8 +683,8 @@
            th:if="${stat.index > 0 && stat.index < 7}"
            th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
         <div class="grid-item-image-container">
-          <img th:if="${article.imageUrl != null}" th:src="${article.imageUrl}" th:alt="${article.title}" class="grid-item-image">
-          <img th:if="${article.imageUrl == null}" src="/api/placeholder/400/225" th:alt="${article.title}" class="grid-item-image">
+          <img th:if="${article.imageUrl != null}" th:src="${article.imageUrl}" th:alt="${article.title}" class="grid-item-image" loading="lazy">
+          <img th:if="${article.imageUrl == null}" src="/api/placeholder/400/225" th:alt="${article.title}" class="grid-item-image" loading="lazy">
         </div>
         <div class="grid-item-content">
           <h3 class="grid-item-title" th:text="${article.title}">그리드 기사 제목</h3>
@@ -703,8 +703,8 @@
            class="article-item"
            th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
         <div class="article-item-image-container">
-          <img th:if="${article.imageUrl != null}" th:src="${article.imageUrl}" th:alt="${article.title}" class="article-item-image">
-          <img th:if="${article.imageUrl == null}" src="/api/placeholder/600/400" th:alt="${article.title}" class="article-item-image">
+          <img th:if="${article.imageUrl != null}" th:src="${article.imageUrl}" th:alt="${article.title}" class="article-item-image" loading="lazy">
+          <img th:if="${article.imageUrl == null}" src="/api/placeholder/600/400" th:alt="${article.title}" class="article-item-image" loading="lazy">
         </div>
         <div class="article-item-text">
           <h3 class="article-item-title" th:text="${article.title}">기사 제목</h3>

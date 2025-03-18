@@ -607,7 +607,7 @@
 
         <!-- 기사 이미지 -->
         <div class="article-image-container" th:if="${article.imageUrl != null}">
-          <img th:src="${article.imageUrl}" th:alt="${article.title}" class="article-image">
+          <img th:src="${article.imageUrl}" th:alt="${article.title}" class="article-image" loading="lazy">
         </div>
 
         <!-- 기사 본문 -->
