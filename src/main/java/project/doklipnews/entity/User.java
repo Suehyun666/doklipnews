@@ -7,8 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import project.doklipnews.controller.dto.CreateUserRequest;
-import project.doklipnews.controller.dto.UpdateUserRequest;
+import project.doklipnews.controller.dto.request.CreateUserRequest;
+import project.doklipnews.controller.dto.request.UpdateUserRequest;
 @Getter
 @Entity
 public class User {

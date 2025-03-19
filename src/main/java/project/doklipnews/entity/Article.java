@@ -19,6 +19,9 @@ public class Article {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Column
+    private String summary;
+
     @Column(nullable = false)
     private String author;
 
@@ -64,5 +67,10 @@ public class Article {
         if (this.likeCount > 0) {
             this.likeCount--;
         }
+    }
+
+    public void CreateSummary(String content) {
+        //ai를 통하여 3줄 요약하는 메서드
+
     }
 }

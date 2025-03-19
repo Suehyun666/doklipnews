@@ -41,7 +41,10 @@ dependencies {
     //bucket4j 처리율
     implementation 'com.bucket4j:bucket4j-core:8.9.0'
     implementation 'com.bucket4j:bucket4j-redis:8.9.0'
+    //webp
+    implementation 'org.sejda.imageio:webp-imageio:0.1.6'
 
+    //
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'

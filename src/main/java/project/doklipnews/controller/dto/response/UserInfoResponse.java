@@ -1,4 +1,4 @@
-package project.doklipnews.controller.dto;
+package project.doklipnews.controller.dto.response;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

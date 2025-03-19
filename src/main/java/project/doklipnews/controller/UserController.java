@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import project.doklipnews.controller.dto.CreateUserRequest;
+import project.doklipnews.controller.dto.request.CreateUserRequest;
 import project.doklipnews.service.UserService;
 
 @Controller

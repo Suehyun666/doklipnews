@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import project.doklipnews.controller.dto.ArticleListDTO;
 import project.doklipnews.entity.Article;
 import project.doklipnews.service.ArticleService;
 
@@ -33,25 +34,25 @@ public class MainController {
             Model model) {
 
         // 헤드라인 기사 (추천 기사 중 최신)
-        List<Article> headlineArticles = articleService.findFeaturedArticles(PageRequest.of(0, 1)).getContent();
+        List<ArticleListDTO> headlineArticles = articleService.findFeaturedArticlesDTO(PageRequest.of(0, 1)).getContent();
 
         // 조회수 기준 인기 기사
-        List<Article> trendingArticles;
+        List<ArticleListDTO> trendingArticles;
         if (category != null && !category.isEmpty()) {
-            trendingArticles = articleService.findTrendingArticlesByCategory(category);
+            trendingArticles = articleService.findTrendingArticlesByCategoryDTO(category);
         } else {
-            trendingArticles = articleService.findTrendingArticles();
+            trendingArticles = articleService.findTrendingArticlesDTO();
         }
 
         // 좋아요 기준 인기 기사
-        List<Article> mostLikedArticles = articleService.findMostLikedArticles();
+        List<ArticleListDTO> mostLikedArticles = articleService.findMostLikedArticlesDTO();
 
         // 최신 기사
-        List<Article> latestArticles;
+        List<ArticleListDTO> latestArticles;
         if (category != null && !category.isEmpty()) {
-            latestArticles = articleService.findLatestArticlesByCategory(category);
+            latestArticles = articleService.findLatestArticlesByCategoryDTO(category);
         } else {
-            latestArticles = articleService.findLatestArticles();
+            latestArticles = articleService.findLatestArticlesDTO();
         }
 
         // 오피니언 기사
@@ -94,16 +95,16 @@ public class MainController {
 
         // 카테고리별 기사 로드
         PageRequest pageable = PageRequest.of(page, size);
-        model.addAttribute("articles", articleService.findByCategory(category, pageable).getContent());
+        model.addAttribute("articles", articleService.findByCategoryDTO(category, pageable).getContent());
         model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", articleService.findByCategory(category, pageable).getTotalPages());
+        model.addAttribute("totalPages", articleService.findByCategoryDTO(category, pageable).getTotalPages());
         model.addAttribute("category", category);
         model.addAttribute("subcategory", subcategory);
 
         // 관련 기사 로드
-        model.addAttribute("trendingArticles", articleService.findTrendingArticlesByCategory(category));
-        model.addAttribute("latestArticles", articleService.findLatestArticlesByCategory(category));
-        model.addAttribute("opinionArticles", articleService.findByCategory("column", PageRequest.of(0, 4)).getContent());
+        model.addAttribute("trendingArticles", articleService.findTrendingArticlesByCategoryDTO(category));
+        model.addAttribute("latestArticles", articleService.findLatestArticlesByCategoryDTO(category));
+        model.addAttribute("opinionArticles", articleService.findByCategoryDTO("column", PageRequest.of(0, 4)).getContent());
 
         return "articles/category";
     }

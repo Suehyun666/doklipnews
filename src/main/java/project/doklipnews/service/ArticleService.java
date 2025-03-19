@@ -3,11 +3,13 @@ package project.doklipnews.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import project.doklipnews.controller.dto.ArticleDetailDTO;
+import project.doklipnews.controller.dto.ArticleListDTO;
 import project.doklipnews.entity.Article;
+import project.doklipnews.mapper.ArticleMapper;
 import project.doklipnews.repository.ArticleRepository;
 
 import java.util.List;
@@ -18,35 +20,94 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
     private final FileService fileService;
+    private final SummaryService summaryService;
 
-    public ArticleService(ArticleRepository articleRepository, FileService fileService) {
+    public ArticleService(ArticleRepository articleRepository, FileService fileService, SummaryService summaryService) {
         this.articleRepository = articleRepository;
         this.fileService = fileService;
+        this.summaryService = summaryService;
     }
 
-    // 새 기사 저장
+    // 새 기사 저장 (기존 그대로 유지)
     public Article createArticle(Article article, MultipartFile imageFile) {
         try {
-            // 이미지 파일이 있으면 업로드하고 경로 저장
             if (imageFile != null && !imageFile.isEmpty()) {
                 String imageUrl = fileService.uploadFile(imageFile);
-                article.setImageUrl(imageUrl); // 이미지 URL 설정
+                article.setImageUrl(imageUrl);
+            }
+            if (article.getContent() != null && !article.getContent().isEmpty()) {
+                String summary = summaryService.generateSummary(article.getContent());
+                article.setSummary(summary);
             }
         } catch (Exception e) {
-            e.printStackTrace(); // 예외 처리
+            e.printStackTrace();
         }
-
         return articleRepository.save(article);
     }
 
-    // 전체 기사 목록 조회
-    public List<Article> getArticlesByCategory(String category) {
-        if (category != null) {
-            return articleRepository.findByCategoryOrderByCreatedAtDesc(category);
+    // ============ DTO 반환 메서드들 (성능 개선) ============
+
+    // 페이징 처리된 모든 기사 조회 (DTO 반환)
+    public Page<ArticleListDTO> findAllDTO(Pageable pageable) {
+        return articleRepository.findAllArticleList(pageable);
+    }
+
+    // 페이징 처리된 카테고리별 기사 조회 (DTO 반환)
+    public Page<ArticleListDTO> findByCategoryDTO(String category, Pageable pageable) {
+        return articleRepository.findArticleListByCategory(category, pageable);
+    }
+
+    // 인기 기사 조회 (조회수 기준, DTO 반환)
+    public List<ArticleListDTO> findTrendingArticlesDTO() {
+        Pageable pageable = PageRequest.of(0, 10);
+        return articleRepository.findTop10DTOByOrderByViewCountDesc(pageable);
+    }
+
+    // 카테고리별 인기 기사 조회 (조회수 기준, DTO 반환)
+    public List<ArticleListDTO> findTrendingArticlesByCategoryDTO(String category) {
+        Pageable pageable = PageRequest.of(0, 10);
+        return articleRepository.findTop10DTOByCategoryOrderByViewCountDesc(category, pageable);
+    }
+
+    // 추천 기사 조회 (DTO 반환)
+    public Page<ArticleListDTO> findFeaturedArticlesDTO(Pageable pageable) {
+        return articleRepository.findDTOByFeaturedTrue(pageable);
+    }
+
+    // 최신 기사 조회 (DTO 반환)
+    public List<ArticleListDTO> findLatestArticlesDTO() {
+        Pageable pageable = PageRequest.of(0, 10);
+        return articleRepository.findTop10DTOByOrderByCreatedAtDesc(pageable);
+    }
+
+    // 카테고리별 최신 기사 조회 (DTO 반환)
+    public List<ArticleListDTO> findLatestArticlesByCategoryDTO(String category) {
+        Pageable pageable = PageRequest.of(0, 10);
+        return articleRepository.findTop10DTOByCategoryOrderByCreatedAtDesc(category, pageable);
+    }
+
+    // 좋아요 기준 인기 기사 조회 (DTO 반환)
+    public List<ArticleListDTO> findMostLikedArticlesDTO() {
+        Pageable pageable = PageRequest.of(0, 10);
+        return articleRepository.findTop10DTOByOrderByLikeCountDesc(pageable);
+    }
+
+    // 특정 기사 상세 조회 (DTO 반환, 조회수 증가 포함)
+    public ArticleDetailDTO findByIdDTO(Long id) {
+        Optional<Article> articleOpt = articleRepository.findById(id);
+        if (articleOpt.isPresent()) {
+            Article article = articleOpt.get();
+            // 조회수 증가
+            article.incrementViewCount();
+            articleRepository.save(article);
+            // DTO로 변환
+            return ArticleMapper.toDetailDTO(article);
         } else {
-            return articleRepository.findAllByOrderByCreatedAtDesc();
+            throw new RuntimeException("Article not found");
         }
     }
+
+    // ============ 기존 엔티티 반환 메서드들 (하위 호환성 유지) ============
 
     // 페이징 처리된 모든 기사 조회
     public Page<Article> findAll(Pageable pageable) {
@@ -71,11 +132,6 @@ public class ArticleService {
     // 추천 기사 조회
     public Page<Article> findFeaturedArticles(Pageable pageable) {
         return articleRepository.findByFeaturedTrue(pageable);
-    }
-
-    // 카테고리별 추천 기사 조회
-    public Page<Article> findFeaturedArticlesByCategory(String category, Pageable pageable) {
-        return articleRepository.findByCategoryAndFeaturedTrue(category, pageable);
     }
 
     // 최신 기사 조회
@@ -123,7 +179,7 @@ public class ArticleService {
         existingArticle.setContent(article.getContent());
         existingArticle.setAuthor(article.getAuthor());
         existingArticle.setCategory(article.getCategory());
-
+    
         // Update featured status if provided
         if (article.getFeatured() != null) {
             existingArticle.setFeatured(article.getFeatured());
@@ -138,7 +194,12 @@ public class ArticleService {
                 e.printStackTrace();
             }
         }
-
+        // 내용이 변경되었을 경우에만 요약 다시 생성
+        if (article.getContent() != null && !article.getContent().isEmpty() &&
+                (existingArticle.getSummary() == null || !article.getContent().equals(existingArticle.getContent()))) {
+            String summary = summaryService.generateSummary(article.getContent());
+            existingArticle.setSummary(summary);
+        }
         // Save the updated article
         return articleRepository.save(existingArticle);
     }

@@ -670,7 +670,7 @@
       </div>
       <div class="main-article-content">
         <h2 class="main-article-headline" th:text="${topArticle.title}">주요 기사 제목</h2>
-        <p class="main-article-summary" th:text="${#strings.abbreviate(topArticle.content, 300)}">
+        <p class="main-article-summary" th:text="${#strings.abbreviate(topArticle.summary, 300)}">
           주요 기사의 내용이 여기에 표시됩니다. 이 텍스트는 기사의 주요 내용을 간략하게 요약하여 독자들이 전체 기사를 읽기 전에 내용을 파악할 수 있도록 합니다.
         </p>
       </div>
@@ -689,7 +689,7 @@
         <div class="grid-item-content">
           <h3 class="grid-item-title" th:text="${article.title}">그리드 기사 제목</h3>
           <!-- 기사 내용 요약 추가 -->
-          <p class="article-excerpt" th:text="${#strings.abbreviate(article.content, 100)}">내각제 개선을 위한 정부의 새로운 방안이 제시되었으며, 여야는 이에 대한 합의점을 모색 중이다...</p>
+          <p class="article-excerpt" th:text="${#strings.abbreviate(article.summary, 100)}">내각제 개선을 위한 정부의 새로운 방안이 제시되었으며, 여야는 이에 대한 합의점을 모색 중이다...</p>
         </div>
       </div>
     </div>
@@ -708,7 +708,7 @@
         </div>
         <div class="article-item-text">
           <h3 class="article-item-title" th:text="${article.title}">기사 제목</h3>
-          <p class="article-item-summary" th:text="${#strings.abbreviate(article.content, 150)}">기사 내용 미리보기...</p>
+          <p class="article-item-summary" th:text="${#strings.abbreviate(article.summary, 150)}">기사 내용 미리보기...</p>
         </div>
       </div>
     </div>

@@ -13,10 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+import project.doklipnews.controller.dto.ArticleDetailDTO;
+import project.doklipnews.controller.dto.ArticleListDTO;
 import project.doklipnews.entity.Article;
 import project.doklipnews.service.ArticleService;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,19 +51,19 @@ public class ArticleController {
         return "redirect:/articles";
     }
 
-    // 특정 기사 조회
+    // 특정 기사 조회 - DTO 사용으로 성능 개선
     @GetMapping("/{id}")
     public String viewArticle(@PathVariable Long id, Model model) {
-        Article article = articleService.findById(id); // 조회수 증가
+        ArticleDetailDTO article = articleService.findByIdDTO(id); // DTO 사용
         model.addAttribute("article", article);
 
-        List<Article> relatedArticles = articleService.findLatestArticlesByCategory(article.getCategory());
+        List<ArticleListDTO> relatedArticles = articleService.findLatestArticlesByCategoryDTO(article.getCategory());
         model.addAttribute("relatedArticles", relatedArticles);
 
         return "articles/detail";
     }
 
-    // 기사 좋아요 API
+    // 기사 좋아요 API - 필요한 정보만 반환
     @PostMapping("/{id}/like")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> likeArticle(@PathVariable Long id) {
@@ -72,7 +73,7 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
-    // 기사 좋아요 취소 API
+    // 기사 좋아요 취소 API - 필요한 정보만 반환
     @PostMapping("/{id}/unlike")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> unlikeArticle(@PathVariable Long id) {
@@ -82,34 +83,34 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
-    // 인기 기사 API (모든 카테고리)
+    // 인기 기사 API (모든 카테고리) - DTO 사용으로 성능 개선
     @GetMapping("/trending")
     @ResponseBody
-    public List<Article> getTrendingArticles() {
-        return articleService.findTrendingArticles();
+    public List<ArticleListDTO> getTrendingArticles() {
+        return articleService.findTrendingArticlesDTO();
     }
 
-    // 카테고리별 인기 기사 API
+    // 카테고리별 인기 기사 API - DTO 사용으로 성능 개선
     @GetMapping("/trending/{category}")
     @ResponseBody
-    public List<Article> getTrendingArticlesByCategory(@PathVariable String category) {
-        return articleService.findTrendingArticlesByCategory(category);
+    public List<ArticleListDTO> getTrendingArticlesByCategory(@PathVariable String category) {
+        return articleService.findTrendingArticlesByCategoryDTO(category);
     }
 
-    // 좋아요 기준 인기 기사 API
+    // 좋아요 기준 인기 기사 API - DTO 사용으로 성능 개선
     @GetMapping("/most-liked")
     @ResponseBody
-    public List<Article> getMostLikedArticles() {
-        return articleService.findMostLikedArticles();
+    public List<ArticleListDTO> getMostLikedArticles() {
+        return articleService.findMostLikedArticlesDTO();
     }
 
-    // 메인 페이지 (추천 기사, 그리드, 인기, 오피니언)
+    // 메인 페이지 (추천 기사, 그리드, 인기, 오피니언) - DTO 사용으로 성능 개선
     @GetMapping("/featured")
     public String featuredArticles(Model model) {
-        List<Article> headlineArticles = articleService.findFeaturedArticles(PageRequest.of(0, 1)).getContent();
-        List<Article> gridArticles = articleService.findAll(PageRequest.of(0, 4)).getContent();
-        List<Article> trendingArticles = articleService.findTrendingArticles();
-        List<Article> opinionArticles = articleService.findByCategory("opinion", PageRequest.of(0, 4)).getContent();
+        List<ArticleListDTO> headlineArticles = articleService.findFeaturedArticlesDTO(PageRequest.of(0, 1)).getContent();
+        List<ArticleListDTO> gridArticles = articleService.findAllDTO(PageRequest.of(0, 4)).getContent();
+        List<ArticleListDTO> trendingArticles = articleService.findTrendingArticlesDTO();
+        List<ArticleListDTO> opinionArticles = articleService.findByCategoryDTO("opinion", PageRequest.of(0, 4)).getContent();
 
         model.addAttribute("headline", headlineArticles.isEmpty() ? null : headlineArticles.get(0));
         model.addAttribute("gridArticles", gridArticles);
@@ -117,52 +118,6 @@ public class ArticleController {
         model.addAttribute("opinionArticles", opinionArticles);
 
         return "index"; // 메인 페이지 템플릿 반환
-    }
-
-    // 카테고리 페이지
-    @GetMapping("/category")
-    public String categoryPage(
-            @RequestParam(required = false, defaultValue = "politics") String category,
-            @RequestParam(required = false, defaultValue = "all") String subcategory,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            Model model) {
-
-        // 카테고리 정보 미리 처리
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> categoryInfo = getCategoryData().get(category);
-        if (categoryInfo != null) {
-            model.addAttribute("categoryTitle", categoryInfo.get("title"));
-            model.addAttribute("categoryDescription", categoryInfo.get("description"));
-            model.addAttribute("subcategories", categoryInfo.get("subcategories"));
-        }
-
-        // 나머지 코드는 그대로 유지
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<Article> articles;
-
-        if (category != null && !category.isEmpty()) {
-            articles = articleService.findByCategory(category, pageable);
-        } else {
-            articles = articleService.findAll(pageable);
-        }
-
-        // 모델에 데이터 추가
-        model.addAttribute("articles", articles.getContent());
-        model.addAttribute("currentPage", page);
-        model.addAttribute("totalPages", articles.getTotalPages());
-        model.addAttribute("category", category);
-        model.addAttribute("subcategory", subcategory);
-
-        // 관련 기사들 추가
-        model.addAttribute("trendingArticles", articleService.findTrendingArticlesByCategory(category));
-        model.addAttribute("latestArticles", articleService.findLatestArticlesByCategory(category));
-        model.addAttribute("opinionArticles", articleService.findByCategory("opinion", PageRequest.of(0, 4)).getContent());
-
-        // 원래 JSON 데이터도 전달 (기존 템플릿 유지)
-        model.addAttribute("categoryDataJson", getCategoryData());
-
-        return "articles/category"; // category.html 템플릿 반환
     }
 
     // 기사 수정 페이지
@@ -200,39 +155,6 @@ public class ArticleController {
         return "error/404";
     }
 
-
-    public String getCurrentUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (principal instanceof User) {
-            return ((User) principal).getUsername();  // 현재 사용자의 이름 반환
-        }
-        return null;
-    }
-
-    // JavaScript 코드에서 사용할 카테고리 데이터 생성
-    private Map<String, Map<String, Object>> getCategoryData() {
-        Map<String, Map<String, Object>> categoryData = new HashMap<>();
-
-        // 정치 카테고리 데이터
-        Map<String, Object> politics = new HashMap<>();
-        politics.put("title", "정치");
-        politics.put("description", "국내 정치, 국회, 청와대, 정당, 북한 관련 최신 뉴스와 기사를 제공합니다.");
-
-        Map<String, String> politicsSubcategories = new HashMap<>();
-        politicsSubcategories.put("all", "전체");
-        politicsSubcategories.put("bluehouse", "청와대");
-        politicsSubcategories.put("assembly", "국회");
-        politicsSubcategories.put("parties", "정당");
-        politicsSubcategories.put("northkorea", "북한");
-
-        politics.put("subcategories", politicsSubcategories);
-        categoryData.put("politics", politics);
-
-        // 경제 카테고리 데이터 (다른 카테고리도 마찬가지로 추가)
-
-        return categoryData;
-    }
-
     @PostMapping("/{id}/set-featured")
     @ResponseBody
     public ResponseEntity<Map<String, Object>> setFeatured(@PathVariable Long id) {
@@ -242,5 +164,4 @@ public class ArticleController {
         response.put("featured", article.getFeatured());
         return ResponseEntity.ok(response);
     }
-
 }

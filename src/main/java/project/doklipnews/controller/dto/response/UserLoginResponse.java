@@ -1,4 +1,4 @@
-package project.doklipnews.controller.dto;
+package project.doklipnews.controller.dto.response;
 
 import lombok.Getter;
 

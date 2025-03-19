@@ -1113,7 +1113,7 @@
         </div>
         <div class="headline-content">
           <h2 class="headline-title" th:text="${headline.title}">헤드라인 제목</h2>
-          <p class="headline-summary" th:text="${#strings.abbreviate(headline.content, 300)}">
+          <p class="headline-summary" th:text="${#strings.abbreviate(headline.summary, 300)}">
             헤드라인 내용 요약
           </p>
         </div>
@@ -1138,7 +1138,7 @@
           <div class="trending-content">
             <h3 class="trending-title" th:text="${article.title}">인기 뉴스 제목</h3>
             <!-- 기사 내용 일부 추가 -->
-            <p class="article-excerpt" th:text="${#strings.abbreviate(article.content, 100)}">내용요약</p>
+            <p class="article-excerpt" th:text="${#strings.abbreviate(article.summary, 100)}">내용요약</p>
           </div>
         </div>
       </div>
@@ -1262,7 +1262,7 @@
           </div>
           <h4 class="article-title" th:text="${mainArticle.title}">문화 기사 제목</h4>
           <!-- 문화 기사 내용 일부 추가 -->
-          <p class="article-excerpt" th:text="${#strings.abbreviate(mainArticle.content, 100)}">문화 기사 내용 미리보기...</p>
+          <p class="article-excerpt" th:text="${#strings.abbreviate(mainArticle.summary, 100)}">문화 기사 내용 미리보기...</p>
         </div>
 
         <ul class="category-article-list">
@@ -1291,7 +1291,7 @@
           </div>
           <h4 class="article-title" th:text="${mainArticle.title}">국제 기사 제목</h4>
           <!-- 국제 기사 내용 일부 추가 -->
-          <p class="article-excerpt" th:text="${#strings.abbreviate(mainArticle.content, 100)}">국제 기사 내용 미리보기...</p>
+          <p class="article-excerpt" th:text="${#strings.abbreviate(mainArticle.summary, 100)}">국제 기사 내용 미리보기...</p>
         </div>
 
         <ul class="category-article-list">
@@ -1327,7 +1327,7 @@
           </div>
         </div>
         <h3 class="column-title" th:text="${columnArticle.title}">칼럼 제목이 표시됩니다</h3>
-        <p class="column-excerpt" th:text="${#strings.abbreviate(columnArticle.content, 150)}">칼럼 내용의 일부가 여기에 표시됩니다. 전체 내용을 보려면 클릭하세요.</p>
+        <p class="column-excerpt" th:text="${#strings.abbreviate(columnArticle.summary, 150)}">칼럼 내용의 일부가 여기에 표시됩니다. 전체 내용을 보려면 클릭하세요.</p>
         <p class="column-date" th:text="${#temporals.format(columnArticle.createdAt, 'yyyy-MM-dd')}">2025-03-15</p>
       </div>
 
@@ -1343,7 +1343,7 @@
           </div>
         </div>
         <h3 class="column-title" th:text="${columnArticle.title}">칼럼 제목이 표시됩니다</h3>
-        <p class="column-excerpt" th:text="${#strings.abbreviate(columnArticle.content, 150)}">칼럼 내용의 일부가 여기에 표시됩니다. 전체 내용을 보려면 클릭하세요.</p>
+        <p class="column-excerpt" th:text="${#strings.abbreviate(columnArticle.summary, 150)}">칼럼 내용의 일부가 여기에 표시됩니다. 전체 내용을 보려면 클릭하세요.</p>
         <p class="column-date" th:text="${#temporals.format(columnArticle.createdAt, 'yyyy-MM-dd')}">2025-03-14</p>
       </div>
 
@@ -1359,7 +1359,7 @@
           </div>
         </div>
         <h3 class="column-title" th:text="${columnArticle.title}">칼럼 제목이 표시됩니다</h3>
-        <p class="column-excerpt" th:text="${#strings.abbreviate(columnArticle.content, 150)}">칼럼 내용의 일부가 여기에 표시됩니다. 전체 내용을 보려면 클릭하세요.</p>
+        <p class="column-excerpt" th:text="${#strings.abbreviate(columnArticle.summary, 150)}">칼럼 내용의 일부가 여기에 표시됩니다. 전체 내용을 보려면 클릭하세요.</p>
         <p class="column-date" th:text="${#temporals.format(columnArticle.createdAt, 'yyyy-MM-dd')}">2025-03-13</p>
       </div>
     </div>
