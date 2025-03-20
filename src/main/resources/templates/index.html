@@ -93,6 +93,8 @@
 
     .nav-items {
       display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .nav-item {
@@ -109,12 +111,13 @@
       color: white;
       text-decoration: none;
     }
-
+       /* 검색 아이콘 컨테이너 스타일 */
     .search-nav-item {
-      margin-left: auto;
       cursor: pointer;
+      position: relative;
     }
 
+    /* 검색 아이콘 스타일 */
     .search-icon-css {
       position: relative;
       display: inline-block;
@@ -122,6 +125,7 @@
       height: 14px;
       border: 2px solid white;
       border-radius: 50%;
+      cursor: pointer;
     }
 
     .search-icon-css:after {
@@ -136,32 +140,95 @@
       transform-origin: 0 0;
     }
 
+    /* 검색 폼 기본 스타일 */
     .search-form {
-      position: absolute;
-      right: 0;
-      top: 100%;
+      position: fixed; /* 화면에 고정 */
+      top: 50px; /* 네비게이션 바 바로 아래 */
+      left: 50%; /* 가운데 정렬을 위한 설정 */
+      transform: translateX(-50%); /* 가운데 정렬 */
+      width: 90%; /* 화면의 90% 너비 */
+      max-width: 500px; /* 최대 너비 제한 */
       background: #fff;
-      padding: 10px;
+      padding: 15px;
       border-radius: 4px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       display: none;
+      z-index: 1001; /* 다른 요소들보다 위에 표시 */
+      animation: slideDown 0.3s ease-out; /* 애니메이션 추가 */
     }
-
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
     .search-input {
-      padding: 8px 12px;
-      border: 1px solid #ccc;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
       border-radius: 4px;
-      width: 200px;
+      font-size: 16px; /* iOS에서 자동 확대 방지 */
+      margin-bottom: 10px;
     }
 
+    /* 검색 버튼 스타일 */
     .search-button {
-      padding: 8px 12px;
+      width: 100%;
+      padding: 12px;
       background-color: #1e3a8a;
       color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin-left: 5px;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+
+    .search-button:hover {
+      background-color: #2c4ba3;
+    }
+
+    /* 검색 폼 닫기 버튼 추가 */
+    .search-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .search-close:before,
+    .search-close:after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 2px;
+      background-color: #666;
+    }
+
+    .search-close:before {
+      transform: rotate(45deg);
+    }
+
+    .search-close:after {
+      transform: rotate(-45deg);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
     }
 
     /* 메인 컨텐츠 레이아웃 - 가로 스크롤 추가 */
@@ -171,8 +238,9 @@
       margin-bottom: 50px;
       padding-bottom: 30px;
       border-bottom: 3px solid #f0f0f0;
-      overflow-x: auto; /* 가로 스크롤 추가 */
-      padding: 10px 0 30px; /* 패딩 조정 */
+      overflow-x: auto;
+      padding: 10px 0 30px;
+      position: relative; /* 상대 위치 설정 */
     }
 
     /* 가로 스크롤바 스타일 */
@@ -189,10 +257,17 @@
       background-color: #f9f9f9;
     }
 
+    .breaking-news-section,
+    .featured-content,
+    .trending-section {
+      display: flex;
+      flex-direction: column;
+      position: relative; /* 상대 위치 설정 */
+    }
+
     .breaking-news-section {
       flex: 1; /* 1/6 비율 */
       min-width: 220px;
-      overflow-y: visible; /* 세로 스크롤 제거 */
     }
 
     .featured-content {
@@ -203,7 +278,6 @@
     .trending-section {
       flex: 1.5; /* 1.5/6 비율로 확장 (1.5배 늘림) */
       min-width: 220px;
-      overflow-y: visible; /* 세로 스크롤 제거 */
     }
 
     /* 영역 간격 조정 - 여백 줄이기 */
@@ -633,6 +707,36 @@
         width: 100px;
         height: 70px;
       }
+      .nav-items {
+        justify-content: flex-start; /* 모바일에서는 좌측 정렬 */
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+      }
+
+      .nav-item {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+      }
+
+      /* 검색 아이콘 터치 영역 확장 */
+      .search-nav-item {
+        padding: 10px 15px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+
+      /* 스크롤바 숨기기 */
+      .main-nav .container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .main-nav .container {
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+
     }
 
     /* 카테고리 필터 */
@@ -1051,6 +1155,7 @@
         <li class="nav-item search-nav-item">
           <span class="search-icon-css"></span>
           <form class="search-form" th:action="@{/search}" method="get" style="display: none;">
+            <span class="search-close" id="searchClose"></span>
             <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required>
             <button type="submit" class="search-button">검색</button>
           </form>
@@ -1477,34 +1582,88 @@
 <!-- 자바스크립트 -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // 검색 아이콘 클릭 시 검색 폼 표시
+    // 검색 요소 참조
     const searchIcon = document.querySelector('.search-icon-css');
     const searchForm = document.querySelector('.search-form');
+    const searchInput = document.querySelector('.search-input');
+    const searchClose = document.getElementById('searchClose');
+
+    // 오버레이 요소 확인
+    let searchOverlay = document.getElementById('searchOverlay');
+
+    // 오버레이 요소가 없으면 생성
+    if (!searchOverlay) {
+      searchOverlay = document.createElement('div');
+      searchOverlay.className = 'search-overlay';
+      searchOverlay.id = 'searchOverlay';
+      searchOverlay.style.display = 'none';
+      document.body.appendChild(searchOverlay);
+    }
 
     if (searchIcon && searchForm) {
-      searchIcon.addEventListener('click', function() {
-        searchForm.style.display = searchForm.style.display === 'none' || searchForm.style.display === '' ? 'block' : 'none';
-      });
-    }
+      // 명시적으로 검색 폼 숨기기
+      searchForm.style.display = 'none';
+      searchOverlay.style.display = 'none';
 
-    // 뉴스레터 구독 폼 제출 시 이벤트 (AJAX로 대체 가능)
-    const newsletterForm = document.querySelector('.newsletter-form');
-    if (newsletterForm) {
-      newsletterForm.addEventListener('submit', function(e) {
+      // 검색 아이콘 클릭 이벤트
+      searchIcon.addEventListener('click', function(e) {
         e.preventDefault();
-        const email = document.querySelector('.newsletter-input').value;
+        e.stopPropagation();
+        openSearchForm();
+      });
 
-        if (email.trim()) {
-          // API 연동이 구현되면 AJAX 호출로 대체
-          alert(`${email} 주소로 뉴스레터 구독 신청이 완료되었습니다.`);
-          this.reset();
+      // 터치 이벤트 처리 (모바일용)
+      searchIcon.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        openSearchForm();
+      });
+
+      // 닫기 버튼 이벤트
+      if (searchClose) {
+        searchClose.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeSearchForm();
+        });
+      }
+
+      // 오버레이 클릭 시 닫기
+      searchOverlay.addEventListener('click', function() {
+        closeSearchForm();
+      });
+
+      // 검색 폼 열기 함수
+      function openSearchForm() {
+        searchForm.style.display = 'flex';
+        searchForm.style.flexDirection = 'column';
+        searchOverlay.style.display = 'block';
+
+        // 입력 필드에 포커스
+        if (searchInput) {
+          setTimeout(function() {
+            searchInput.focus();
+          }, 100);
+        }
+
+        // 스크롤 방지
+        document.body.style.overflow = 'hidden';
+      }
+
+      // 검색 폼 닫기 함수
+      function closeSearchForm() {
+        searchForm.style.display = 'none';
+        searchOverlay.style.display = 'none';
+
+        // 스크롤 복원
+        document.body.style.overflow = '';
+      }
+
+      // ESC 키를 눌러 검색 폼 닫기
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && searchForm.style.display !== 'none') {
+          closeSearchForm();
         }
       });
-    }
-  });
-  document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.shiftKey && event.key === '?') {
-      window.location.href = '/articles/admin-secret-xzy123/write';
     }
   });
 </script>

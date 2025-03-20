@@ -578,6 +578,9 @@
       <li class="nav-item" th:classappend="${category == 'column' ? 'active' : ''}">
         <a th:href="@{/column}">칼럼</a>
       </li>
+      <li class="nav-item" th:classappend="${category == 'video' ? 'active' : ''}">
+        <a th:href="@{/video}">영상</a>
+      </li>
       <li class="nav-item search-nav-item">
         <span class="search-icon-css"></span>
         <form class="search-form" th:action="@{/search}" method="get" style="display: none;">
