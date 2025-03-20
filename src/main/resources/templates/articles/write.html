@@ -389,17 +389,52 @@
 
                 <div class="form-group">
                     <label for="content">내용</label>
-                    <!-- 기본 textarea 사용 - 에디터가 로드되지 않는 경우를 대비 -->
+                    <!-- 원래 textarea는 유지하되 hidden으로 전환됩니다 -->
                     <textarea id="content" name="content" required placeholder="기사 내용을 입력하세요..."></textarea>
 
-                    <!-- 간단한 텍스트 서식 도구 모음 -->
-                    <div class="simple-editor-toolbar">
-                        <button type="button" onclick="formatText('bold')"><strong>B</strong></button>
-                        <button type="button" onclick="formatText('italic')"><em>I</em></button>
-                        <button type="button" onclick="formatText('underline')"><u>U</u></button>
-                        <button type="button" onclick="formatText('h2')">H2</button>
-                        <button type="button" onclick="formatText('h3')">H3</button>
-                        <button type="button" onclick="insertImage()">이미지 삽입</button>
+                    <!-- 실제 에디터는 스크립트에서 생성됩니다 -->
+
+                    <!-- 간단한 텍스트 서식 도구 모음 - ID 추가 -->
+                    <div class="simple-editor-toolbar" id="editor-toolbar">
+                        <button type="button" data-command="bold"><strong>B</strong></button>
+                        <button type="button" data-command="italic"><em>I</em></button>
+                        <button type="button" data-command="underline"><u>U</u></button>
+                        <button type="button" data-command="h2">H2</button>
+                        <button type="button" data-command="h3">H3</button>
+                        <button type="button" data-command="insertImage">이미지 삽입</button>
+                        <button type="button" data-command="justifyLeft">
+                            <i class="fas fa-align-left"></i>
+                        </button>
+                        <button type="button" data-command="justifyCenter">
+                            <i class="fas fa-align-center"></i>
+                        </button>
+                        <button type="button" data-command="justifyRight">
+                            <i class="fas fa-align-right"></i>
+                        </button>
+                        <select data-command="fontName">
+                            <option value="">글꼴</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Courier New">Courier New</option>
+                            <option value="Georgia">Georgia</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Times New Roman">Times New Roman</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Noto Sans KR">Noto Sans KR</option>
+                            <option value="Nanum Gothic">나눔고딕</option>
+                            <option value="Malgun Gothic">맑은고딕</option>
+                        </select>
+                        <select data-command="fontSize">
+                            <option value="">크기</option>
+                            <option value="1">아주 작게</option>
+                            <option value="2">작게</option>
+                            <option value="3">보통</option>
+                            <option value="4">크게</option>
+                            <option value="5">더 크게</option>
+                            <option value="6">매우 크게</option>
+                            <option value="7">아주 크게</option>
+                        </select>
+                        <input type="color" data-command="foreColor" title="텍스트 색상">
+                        <input type="color" data-command="backColor" title="배경 색상">
                     </div>
                 </div>
 
