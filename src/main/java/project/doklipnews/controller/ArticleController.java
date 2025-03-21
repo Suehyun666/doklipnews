@@ -16,7 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 import project.doklipnews.controller.dto.ArticleDetailDTO;
 import project.doklipnews.controller.dto.ArticleListDTO;
 import project.doklipnews.entity.Article;
+import project.doklipnews.entity.Comment;
 import project.doklipnews.service.ArticleService;
+import project.doklipnews.service.CommentService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +29,11 @@ import java.util.Map;
 public class ArticleController {
 
     private final ArticleService articleService;
+    private final CommentService commentService;
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
+        this.commentService = commentService;
     }
 
     // 새 기사 작성 페이지
@@ -59,6 +63,9 @@ public class ArticleController {
 
         List<ArticleListDTO> relatedArticles = articleService.findLatestArticlesByCategoryDTO(article.getCategory());
         model.addAttribute("relatedArticles", relatedArticles);
+
+        List<Comment> comments = commentService.getCommentsByArticleId(id);
+        model.addAttribute("comments", comments);
 
         return "articles/detail";
     }
@@ -138,12 +145,10 @@ public class ArticleController {
     @PutMapping("/{id}")
     public String update(@PathVariable Long id, @ModelAttribute Article article,
                          @RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
+        Article updatedArticle = articleService.updateArticle(id, article, imageFile);
         // 특집 기사로 체크된 경우 setAsFeatured 메서드 호출
         if (article.getFeatured() != null && article.getFeatured()) {
             articleService.setAsFeatured(id);
-        } else {
-            // 체크되지 않은 경우 일반 업데이트 수행
-            articleService.updateArticle(id, article, imageFile);
         }
         return "redirect:/articles/" + id;
     }

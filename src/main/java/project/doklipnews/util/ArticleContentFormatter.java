@@ -1,7 +1,12 @@
 package project.doklipnews.util;
 
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.stereotype.Component;
-import java.util.regex.Matcher;
+
+import javax.lang.model.element.Element;
+import javax.swing.text.Document;
+import java.util.regex.Matcher;/**/
 import java.util.regex.Pattern;
 
 /**
@@ -21,26 +26,12 @@ public class ArticleContentFormatter {
      * @return HTML 형식으로 포맷팅된 내용
      */
     public String format(String content) {
-        if (content == null) {
+        if (content == null || content.isEmpty()) {
             return "";
         }
 
-        // Step 1: HTML 특수문자 이스케이프 (보안상 필요)
-        String escaped = escapeHtml(content);
-
-        // Step 2: 줄바꿈 처리
-        String withLineBreaks = escaped.replace("\n", "<br/>");
-
-        // Step 3: 이미지 태그 복원 (이미지 태그는 이스케이프 하지 않음)
-        String withImages = restoreImageTags(content, withLineBreaks);
-
-        // Step 4: 다른 HTML 태그 복원 (예: <strong>, <em>, <h2> 등)
-        String formattedContent = restoreHtmlTags(withImages);
-
-        // 단락 표시 - 연속된 <br/> 태그를 </p><p>로 변환 (빈 줄은 새 단락)
-        formattedContent = handleParagraphs(formattedContent);
-
-        return "<p>" + formattedContent + "</p>";
+        // TinyMCE에서 이미 HTML로 저장되므로, 그대로 반환
+        return content;
     }
 
     /**

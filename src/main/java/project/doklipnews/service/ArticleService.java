@@ -195,11 +195,10 @@ public class ArticleService {
             }
         }
         // 내용이 변경되었을 경우에만 요약 다시 생성
-        if (article.getContent() != null && !article.getContent().isEmpty() &&
-                (existingArticle.getSummary() == null || !article.getContent().equals(existingArticle.getContent()))) {
-            String summary = summaryService.generateSummary(article.getContent());
-            existingArticle.setSummary(summary);
-        }
+
+        String summary = summaryService.generateSummary(article.getContent());
+        existingArticle.setSummary(summary);
+
         // Save the updated article
         return articleRepository.save(existingArticle);
     }

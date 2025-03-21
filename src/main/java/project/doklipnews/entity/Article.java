@@ -69,8 +69,4 @@ public class Article {
         }
     }
 
-    public void CreateSummary(String content) {
-        //ai를 통하여 3줄 요약하는 메서드
-
-    }
 }

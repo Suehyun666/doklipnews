@@ -83,7 +83,7 @@ public class SummaryService {
 //            logger.error("Error generating summary with OpenAI API", e);
 //            return generateFallbackSummary(content);
 //        }
-
+        System.out.println("summary 동작중");
         return generateFallbackSummary(content);
     }
 
@@ -93,8 +93,11 @@ public class SummaryService {
      * @return 간단히 처리된 요약 텍스트
      */
     private String generateFallbackSummary(String content) {
+        // HTML 태그 제거
+        String cleanContent = removeHtmlTags(content);
+
         // 단순히 처음 3문장 또는 200자 이내 추출
-        String[] sentences = content.split("[.!?]");
+        String[] sentences = cleanContent.split("[.!?]");
         StringBuilder summary = new StringBuilder();
 
         int count = 0;
@@ -109,5 +112,32 @@ public class SummaryService {
             return summary.substring(0, 197) + "...";
         }
         return summary.toString();
+    }
+
+    /**
+     * HTML 태그를 제거하는 메소드
+     * @param html HTML 태그가 포함된 문자열
+     * @return HTML 태그가 제거된 문자열
+     */
+    private String removeHtmlTags(String html) {
+        if (html == null || html.isEmpty()) {
+            return "";
+        }
+
+        // HTML 태그 제거
+        String noHtml = html.replaceAll("\\<.*?\\>", "");
+
+        // HTML 엔티티 변환 (예: &nbsp; -> 공백)
+        noHtml = noHtml.replaceAll("&nbsp;", " ")
+                .replaceAll("&lt;", "<")
+                .replaceAll("&gt;", ">")
+                .replaceAll("&amp;", "&")
+                .replaceAll("&quot;", "\"")
+                .replaceAll("&apos;", "'");
+
+        // 연속된 공백 제거
+        noHtml = noHtml.replaceAll("\\s+", " ").trim();
+
+        return noHtml;
     }
 }
