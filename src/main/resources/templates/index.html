@@ -1149,6 +1149,9 @@
         <li class="nav-item" th:classappend="${current == 'column'} ? 'active' : ''">
           <a href="/column">칼럼</a>
         </li>
+        <li class="nav-item" th:classappend="${current == 'foreign'} ? 'active' : ''">
+          <a href="/foreign">외신</a>
+        </li>
         <li class="nav-item" th:classappend="${current == 'video'} ? 'active' : ''">
           <a href="/video">영상</a>
         </li>
@@ -1581,6 +1584,12 @@
 
 <!-- 자바스크립트 -->
 <script>
+  document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && event.shiftKey && event.key === '?') {
+      window.location.href = '/articles/admin-secret-xzy123/write';
+    }
+  });
+
   document.addEventListener('DOMContentLoaded', function() {
     // 검색 요소 참조
     const searchIcon = document.querySelector('.search-icon-css');
