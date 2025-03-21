@@ -1,343 +1,658 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head(title)">
+<html lang="ko">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title th:text="${title + ' - 獨立新聞'}">獨立新聞</title>
+  <title>우리 팀 소개</title>
   <style>
-    :root {
-      --primary-color: #333;
-      --secondary-color: #666;
-      --background-color: #f4f4f4;
-      --text-color: #1a1a1a;
-      --border-color: #ddd;
-    }
-
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Noto Sans KR', sans-serif;
     }
 
     body {
-      font-family: 'Nanum Myeongjo', serif;
-      background-color: var(--background-color);
-      color: var(--text-color);
+      background-color: #f5f5f5;
+      color: #333;
       line-height: 1.6;
     }
 
-    .header {
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: fixed;
-      width: 100%;
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px 0;
+      position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 100;
     }
 
     .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .logo {
-      font-size: 2rem;
-      font-weight: bold;
-      color: var(--primary-color);
-      text-decoration: none;
+      font-size: 24px;
+      font-weight: 700;
+      color: #2c3e50;
     }
 
-
-    .nav-menu {
+    nav ul {
       display: flex;
-      gap: 2rem;
-      position: relative;
+      list-style: none;
     }
 
-    .nav-link {
-      color: var(--secondary-color);
+    nav ul li {
+      margin-left: 30px;
+    }
+
+    nav ul li a {
       text-decoration: none;
-      font-size: 1.5rem;    /* 폰트 크기 */
-      font-weight: 600;     /* 폰트 굵기 */
-      font-family: 'Nanum Gothic', sans-serif; /* 폰트 종류 */
+      color: #2c3e50;
+      font-weight: 500;
       transition: color 0.3s;
     }
 
-    .nav-link:hover {
-      color: var(--primary-color);
+    nav ul li a:hover {
+      color: #3498db;
     }
 
-    /* 문의 서브 메뉴 스타일 */
-    .submenu {
-      display: none;
-      position: absolute;
-      top: 40px;
-      left: 0;
-      background-color: white;
-      font-size: 1.5rem;    /* 폰트 크기 */
-      font-weight: 600;     /* 폰트 굵기 */
-      font-family: 'Nanum Gothic', sans-serif; /* 폰트 종류 */
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      border-radius: 4px;
-      min-width: 200px;
+    .hero {
+      background-color: #2c3e50;
+      color: #fff;
+      padding: 80px 0;
+      text-align: center;
     }
 
-    .submenu a {
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .team-section {
+      padding: 80px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title h2 {
+      font-size: 36px;
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+
+    .section-title p {
+      color: #7f8c8d;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 40px;
+    }
+
+    .team-member {
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .team-member:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .member-img {
+      width: 100%;
+      height: 280px;
+      background-color: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .member-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .member-info {
+      padding: 25px;
+    }
+
+    .member-info h3 {
+      font-size: 22px;
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+
+    .member-position {
+      color: #3498db;
+      font-weight: 500;
+      margin-bottom: 15px;
       display: block;
-      padding: 1rem;
-      color: var(--primary-color);
+    }
+
+    .member-bio {
+      color: #7f8c8d;
+      margin-bottom: 20px;
+    }
+
+    .member-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .skill-tag {
+      background-color: #f1f8fe;
+      color: #3498db;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #f1f8fe;
+      color: #3498db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .social-links a:hover {
+      background-color: #3498db;
+      color: #fff;
+    }
+
+    .company-history {
+      padding: 80px 0;
+      background-color: #fff;
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      background-color: #3498db;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -2px;
+    }
+
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #fff;
+      border: 4px solid #3498db;
+      border-radius: 50%;
+      top: 15px;
+      z-index: 1;
+    }
+
+    .left {
+      left: 0;
+    }
+
+    .right {
+      left: 50%;
+    }
+
+    .left::after {
+      right: -10px;
+    }
+
+    .right::after {
+      left: -10px;
+    }
+
+    .timeline-content {
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .timeline-year {
+      color: #3498db;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .contact-section {
+      padding: 80px 0;
+      background-color: #2c3e50;
+      color: #fff;
+    }
+
+    .contact-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .contact-info {
+      margin-bottom: 30px;
+    }
+
+    .contact-info h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .contact-details {
+      list-style: none;
+    }
+
+    .contact-details li {
+      margin-bottom: 15px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .contact-details li i {
+      margin-right: 15px;
+      color: #3498db;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
       transition: background-color 0.3s;
     }
 
-    .submenu a:hover {
-      background-color: var(--background-color);
+    .btn:hover {
+      background-color: #2980b9;
     }
 
-    .main-content {
-      margin-top: 80px;
-      min-height: calc(100vh - 80px);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .footer {
-      background-color: var(--primary-color);
-      color: white;
-      font-size: 1.0rem;    /* 폰트 크기 */
-      font-weight: 100;     /* 폰트 굵기 */
-      font-family: 'Nanum Gothic', sans-serif; /* 폰트 종류 */
-      padding: 2rem 0;
-      margin-top: 4rem;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
+    footer {
+      background-color: #1a252f;
+      color: #fff;
+      padding: 30px 0;
       text-align: center;
     }
-    .footer-sns {
-      width: 24px;
-      height: auto; /* 비율 유지 */
-      transition: transform 0.3s;
+
+    .footer-content p {
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+      }
+
+      nav ul {
+        margin-top: 20px;
+      }
+
+      nav ul li {
+        margin-left: 15px;
+        margin-right: 15px;
+      }
+
+      .hero {
+        padding: 60px 0;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .timeline::after {
+        left: 31px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+
+      .timeline-item::after {
+        left: 21px;
+      }
+
+      .right {
+        left: 0;
+      }
     }
   </style>
-  <script>
-    // 문의 메뉴 클릭 시 서브 메뉴 토글
-    document.addEventListener("DOMContentLoaded", function() {
-      const contactLink = document.querySelector('.contact-link');
-      const submenu = document.querySelector('.submenu');
-
-      contactLink.addEventListener('click', function(e) {
-        e.preventDefault(); // 기본 링크 동작을 막습니다.
-        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
-      });
-    });
-  </script>
 </head>
-
-<header th:fragment="header">
-  <div class="header">
+<body>
+<header>
+  <div class="container">
     <div class="header-content">
-      <a href="/" class="logo">獨立新聞</a>
-      <nav class="nav-menu">
-        <a href="/articles" class="nav-link">기사</a>
-        <a href="/" class="nav-link">소개</a>
-        <a href="#" class="nav-link contact-link">문의</a>
-        <a href=""  class="nav-menu profile">"profile_menu"</a>
-
-        <!-- 문의 서브 메뉴 -->
-        <div class="submenu">
-          <a href="https://www.instagram.com/novu_naga" target="_blank">SNS</a>
-          <a href="/contact">연락처</a>
-          <a href="/contact">후원계좌</a>
-        </div>
+      <div class="logo">팀 프로젝트</div>
+      <nav>
+        <ul>
+          <li><a href="#home">홈</a></li>
+          <li><a href="#team">팀원 소개</a></li>
+          <li><a href="#history">연혁</a></li>
+          <li><a href="#contact">연락처</a></li>
+        </ul>
       </nav>
     </div>
   </div>
 </header>
 
-
-<div class="main-content">
+<section id="home" class="hero">
   <div class="container">
-    <div class="team-page">
-      <div class="team-header">
-        <h1>독립뉴스 팀 소개</h1>
-        <p class="team-description">저희 독립뉴스는 공정하고 독립적인 시각으로 세상을 바라보는 언론사입니다. 다양한 분야의 전문가들이 모여 정확하고 깊이 있는 뉴스를 전달하기 위해 노력하고 있습니다.</p>
-      </div>
+    <h1>풍부한 경험과 전문성을 갖춘 우리 팀을 소개합니다</h1>
+    <p>각 분야의 베테랑들이 모여 최고의 솔루션을 제공합니다. 수십 년의 경험을 바탕으로 혁신적인 결과물을 만들어냅니다.</p>
+  </div>
+</section>
 
-      <div class="team-mission">
-        <h2>우리의 미션</h2>
-        <div class="mission-content">
-          <div class="mission-image">
-            <img src="/images/mission.jpg" alt="독립뉴스 미션">
-          </div>
-          <div class="mission-text">
-            <p>독립뉴스는 다음과 같은 미션을 바탕으로 저널리즘을 실천합니다:</p>
-            <ul>
-              <li><strong>진실 추구</strong> - 정확한 사실 확인과 깊이 있는 분석을 통해 진실을 전달합니다.</li>
-              <li><strong>독립성 유지</strong> - 외부 압력이나 이해관계로부터 자유로운 독립적인 보도를 지향합니다.</li>
-              <li><strong>다양성 존중</strong> - 다양한 관점과 의견을 균형 있게 다루며 사회적 다양성을 존중합니다.</li>
-              <li><strong>혁신적 접근</strong> - 디지털 시대에 맞는 혁신적인 방식으로 뉴스를 전달합니다.</li>
-            </ul>
-          </div>
+<section id="team" class="team-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>팀원 소개</h2>
+      <p>풍부한 경험과 깊은 전문성을 갖춘 우리 팀원들을 소개합니다. 각자의 분야에서 수십 년간 쌓아온 노하우로 최고의 결과물을 만듭니다.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-member">
+        <div class="member-img">
+          <img src="/api/placeholder/300/300" alt="김영호 사진">
         </div>
-      </div>
-
-      <div class="team-members">
-        <h2>핵심 구성원</h2>
-        <div class="members-grid">
-          <!-- 편집장 -->
-          <div class="member-card">
-            <div class="member-image">
-              <img src="/images/editor-chief.jpg" alt="김도현 편집장">
-            </div>
-            <div class="member-info">
-              <h3>김지환</h3>
-              <p class="member-title">편집장</p>
-              <p class="member-description">20년 이상의 언론 경력을 바탕으로 독립뉴스의 전체적인 방향성과 편집 방침을 이끌고 있습니다. 국내외 주요 이슈에 대한 깊은 이해와 분석력을 바탕으로 양질의 콘텐츠 제작을 총괄합니다.</p>
-              <div class="member-contact">
-                <a href="mailto:editor@doklipnews.com" class="contact-link">editor@doklipnews.com</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 정치 부장 -->
-          <div class="member-card">
-            <div class="member-image">
-              <img src="/images/politics-editor.jpg" alt="이정민 정치부장">
-            </div>
-            <div class="member-info">
-              <h3>박수현</h3>
-              <p class="member-title">엔지니어</p>
-              <p class="member-description">소프트웨어 분야 전문 분야에서 15년간 활동해왔으며, 모든 기술적 부분을 담당합니다. </p>
-              <div class="member-contact">
-                <a href="tee4w@mju.ac.kr" class="contact-link">tee4w@mju.ac.kr</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 경제 부장 -->
-          <div class="member-card">
-            <div class="member-image">
-              <img src="/images/economy-editor.jpg" alt="박서연 경제부장">
-            </div>
-            <div class="member-info">
-              <h3>박서연</h3>
-              <p class="member-title">경제부장</p>
-              <p class="member-description">금융권 출신으로 경제 분야에 대한 전문성을 바탕으로 경제 이슈를 쉽고 명확하게 전달합니다. 글로벌 경제 동향과 국내 경제 정책에 대한 분석을 주도합니다.</p>
-              <div class="member-contact">
-                <a href="mailto:economy@doklipnews.com" class="contact-link">economy@doklipnews.com</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 국제 부장 -->
-          <div class="member-card">
-            <div class="member-image">
-              <img src="/images/international-editor.jpg" alt="최준호 국제부장">
-            </div>
-            <div class="member-info">
-              <h3>최준호</h3>
-              <p class="member-title">국제부장</p>
-              <p class="member-description">다양한 국가에서의 특파원 경험을 바탕으로 글로벌 이슈에 대한 깊이 있는 시각을 제공합니다. 국제 관계와 글로벌 트렌드에 대한 전문가입니다.</p>
-              <div class="member-contact">
-                <a href="mailto:international@doklipnews.com" class="contact-link">international@doklipnews.com</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 문화 부장 -->
-          <div class="member-card">
-            <div class="member-image">
-              <img src="/images/culture-editor.jpg" alt="윤미래 문화부장">
-            </div>
-            <div class="member-info">
-              <h3>윤미래</h3>
-              <p class="member-title">문화부장</p>
-              <p class="member-description">예술과 문화에 대한 폭넓은 이해를 바탕으로 문화계 소식과 트렌드를 선도적으로 보도합니다. 영화, 음악, 미술 등 다양한 문화 분야의 전문성을 갖추고 있습니다.</p>
-              <div class="member-contact">
-                <a href="mailto:culture@doklipnews.com" class="contact-link">culture@doklipnews.com</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- 디지털 콘텐츠 팀장 -->
-          <div class="member-card">
-            <div class="member-image">
-              <img src="/images/digital-editor.jpg" alt="강민수 디지털콘텐츠팀장">
-            </div>
-            <div class="member-info">
-              <h3>강민수</h3>
-              <p class="member-title">디지털콘텐츠팀장</p>
-              <p class="member-description">디지털 미디어 전략과 콘텐츠 혁신을 담당합니다. 최신 기술 트렌드와 사용자 경험을 고려한 디지털 콘텐츠 제작을 이끌고 있습니다.</p>
-              <div class="member-contact">
-                <a href="mailto:digital@doklipnews.com" class="contact-link">digital@doklipnews.com</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="join-us">
-        <h2>함께 일해요</h2>
-        <p>독립뉴스는 항상 열정적이고 전문성을 갖춘 인재를 찾고 있습니다. 공정하고 깊이 있는 저널리즘에 관심이 있으시다면 저희와 함께 해주세요.</p>
-        <a href="/careers" class="join-button">채용 정보 보기</a>
-      </div>
-
-      <div class="contact-section">
-        <h2>연락처</h2>
-        <div class="contact-info">
-          <div class="contact-details">
-            <p><strong>주소:</strong> 서울특별시 종로구 독립로 123 독립뉴스 빌딩</p>
-            <p><strong>대표전화:</strong> 02-123-4567</p>
-            <p><strong>이메일:</strong> info@doklipnews.com</p>
+        <div class="member-info">
+          <h3>김영호</h3>
+          <span class="member-position">프로젝트 총괄 매니저</span>
+          <p class="member-bio">30년 경력의 IT 프로젝트 관리 전문가. 국내외 대형 프로젝트 다수 경험. 체계적인 프로세스와 냉철한 판단력으로 프로젝트를 성공으로 이끕니다.</p>
+          <div class="member-skills">
+            <span class="skill-tag">프로젝트 관리</span>
+            <span class="skill-tag">리스크 관리</span>
+            <span class="skill-tag">팀 리더십</span>
           </div>
           <div class="social-links">
-            <a href="#" class="social-link">Facebook</a>
-            <a href="#" class="social-link">Twitter</a>
-            <a href="#" class="social-link">Instagram</a>
-            <a href="#" class="social-link">YouTube</a>
+            <a href="#"><i>in</i></a>
+            <a href="#"><i>@</i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-member">
+        <div class="member-img">
+          <img src="/api/placeholder/300/300" alt="박미영 사진">
+        </div>
+        <div class="member-info">
+          <h3>박미영</h3>
+          <span class="member-position">시스템 아키텍트</span>
+          <p class="member-bio">25년 경력의 시스템 설계 전문가. 대규모 엔터프라이즈 시스템부터 클라우드 기반 아키텍처까지 다양한 환경에서의 시스템 설계 경험 보유.</p>
+          <div class="member-skills">
+            <span class="skill-tag">시스템 설계</span>
+            <span class="skill-tag">클라우드 아키텍처</span>
+            <span class="skill-tag">성능 최적화</span>
+          </div>
+          <div class="social-links">
+            <a href="#"><i>in</i></a>
+            <a href="#"><i>@</i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-member">
+        <div class="member-img">
+          <img src="/api/placeholder/300/300" alt="이정훈 사진">
+        </div>
+        <div class="member-info">
+          <h3>이정훈</h3>
+          <span class="member-position">백엔드 개발 리더</span>
+          <p class="member-bio">20년 경력의 백엔드 개발자. 다양한 산업 도메인에서의 개발 경험을 바탕으로 안정적이고 확장 가능한 시스템을 구축합니다.</p>
+          <div class="member-skills">
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">Spring</span>
+            <span class="skill-tag">MSA</span>
+            <span class="skill-tag">DB 설계</span>
+          </div>
+          <div class="social-links">
+            <a href="#"><i>in</i></a>
+            <a href="#"><i>G</i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-member">
+        <div class="member-img">
+          <img src="/api/placeholder/300/300" alt="장수진 사진">
+        </div>
+        <div class="member-info">
+          <h3>장수진</h3>
+          <span class="member-position">UX/UI 디자인 책임자</span>
+          <p class="member-bio">22년 경력의 UX/UI 전문가. 사용자 중심 디자인 철학으로 직관적이고 세련된 인터페이스를 설계합니다. 다수의 수상 경력 보유.</p>
+          <div class="member-skills">
+            <span class="skill-tag">UX 설계</span>
+            <span class="skill-tag">UI 디자인</span>
+            <span class="skill-tag">사용성 테스트</span>
+          </div>
+          <div class="social-links">
+            <a href="#"><i>in</i></a>
+            <a href="#"><i>Be</i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-member">
+        <div class="member-img">
+          <img src="/api/placeholder/300/300" alt="최동철 사진">
+        </div>
+        <div class="member-info">
+          <h3>최동철</h3>
+          <span class="member-position">프론트엔드 개발 리더</span>
+          <p class="member-bio">18년 경력의 프론트엔드 개발자. 최신 웹 기술 트렌드를 선도하며 사용자 경험을 극대화하는 인터페이스를 구현합니다.</p>
+          <div class="member-skills">
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Vue</span>
+            <span class="skill-tag">웹 성능</span>
+          </div>
+          <div class="social-links">
+            <a href="#"><i>in</i></a>
+            <a href="#"><i>G</i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-member">
+        <div class="member-img">
+          <img src="/api/placeholder/300/300" alt="한미라 사진">
+        </div>
+        <div class="member-info">
+          <h3>한미라</h3>
+          <span class="member-position">QA 및 테스트 책임자</span>
+          <p class="member-bio">24년 경력의 QA 전문가. 철저한 테스트 프로세스와 높은 품질 기준으로 완성도 높은 제품을 보장합니다.</p>
+          <div class="member-skills">
+            <span class="skill-tag">테스트 전략</span>
+            <span class="skill-tag">자동화 테스트</span>
+            <span class="skill-tag">품질 관리</span>
+          </div>
+          <div class="social-links">
+            <a href="#"><i>in</i></a>
+            <a href="#"><i>@</i></a>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<footer th:fragment="footer">
-  <div class="footer">
-    <div class="footer-content">
-      <!--            <img src="/images/logo.svg" alt="독립신문 로고" class="footer-logo"> &lt;!&ndash; 로고 추가 &ndash;&gt;-->
-      <p>연합뉴스 : 서울시 종로구 율곡로 2길 666 (02-666-418) │ 대표이사 : 김지환 │ 편집인 : 박수현<br>
-        등록번호 : 문화, 나00009 │ 등록일자 : 2025.3.29 │ 발행일자 : 2025.3.29 │ 사업자번호 : 102-1-23273<br>
-        통신판매업신고번호 : 2025-서울종로-0666 │ <a href="/terms" class="footer-link">이용약관</a> │
-        <a href="/privacy" class="footer-link">개인정보처리방침</a> │
-        <a href="/youth-policy" class="footer-link">청소년보호정책</a>(책임자 : 이충원)
-      </p>
-      <p>&copy; 2025 DoklipNews Agency. All rights reserved.</p>
+</section>
+
+<section id="history" class="company-history">
+  <div class="container">
+    <div class="section-title">
+      <h2>팀 연혁</h2>
+      <p>오랜 시간 함께 걸어온 우리 팀의 역사입니다.</p>
     </div>
+    <div class="timeline">
+      <div class="timeline-item left">
+        <div class="timeline-content">
+          <div class="timeline-year">2002</div>
+          <h3>팀 창설</h3>
+          <p>다양한 분야의 전문가들이 모여 팀을 결성했습니다.</p>
+        </div>
+      </div>
+      <div class="timeline-item right">
+        <div class="timeline-content">
+          <div class="timeline-year">2007</div>
+          <h3>첫 대형 프로젝트 성공</h3>
+          <p>국내 대기업의 핵심 시스템 구축에 성공하며 업계에서 인정받기 시작했습니다.</p>
+        </div>
+      </div>
+      <div class="timeline-item left">
+        <div class="timeline-content">
+          <div class="timeline-year">2012</div>
+          <h3>해외 시장 진출</h3>
+          <p>아시아 시장을 시작으로 글로벌 프로젝트에 참여하기 시작했습니다.</p>
+        </div>
+      </div>
+      <div class="timeline-item right">
+        <div class="timeline-content">
+          <div class="timeline-year">2018</div>
+          <h3>기술 혁신상 수상</h3>
+          <p>혁신적인 솔루션 개발로 국내 IT 기술 혁신상을 수상했습니다.</p>
+        </div>
+      </div>
+      <div class="timeline-item left">
+        <div class="timeline-content">
+          <div class="timeline-year">2022</div>
+          <h3>새로운 도약</h3>
+          <p>클라우드 네이티브 기술과 AI 분야로 역량을 확장하며 새로운 도약을 시작했습니다.</p>
+        </div>
+      </div>
+      <div class="timeline-item right">
+        <div class="timeline-content">
+          <div class="timeline-year">2025</div>
+          <h3>현재</h3>
+          <p>다양한 산업 분야에서 신뢰받는 파트너로 자리매김하고 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- SNS 버튼 -->
-    <!--        <div class="footer-sns">-->
-    <!--            <a href="https://www.facebook.com" target="_blank"><img src="/images/facebook.svg" alt="Facebook"></a>-->
-    <!--            <a href="https://www.instagram.com/novu_naga" target="_blank"><img src="/images/instagram.svg" alt="Instagram"></a>-->
-    <!--            <a href="https://www.youtube.com" target="_blank"><img src="/images/youtube.svg" alt="YouTube"></a>-->
-    <!--            <a href="https://twitter.com" target="_blank"><img src="/images/x.jpg"></a>-->
-    <!--        </div>-->
+<section id="contact" class="contact-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>연락처</h2>
+      <p>프로젝트 의뢰나 궁금한 점이 있으시면 언제든지 연락주세요.</p>
+    </div>
+    <div class="contact-content">
+      <div>
+        <div class="contact-info">
+          <h3>연락처 정보</h3>
+          <ul class="contact-details">
+            <li>
+              <i>📍</i>
+              <div>
+                <h4>주소</h4>
+                <p>서울특별시 강남구 테헤란로 123 비즈니스타워 8층</p>
+              </div>
+            </li>
+            <li>
+              <i>📞</i>
+              <div>
+                <h4>전화</h4>
+                <p>02-1234-5678</p>
+              </div>
+            </li>
+            <li>
+              <i>✉️</i>
+              <div>
+                <h4>이메일</h4>
+                <p>contact@teamproject.co.kr</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form">
+          <input type="text" placeholder="이름">
+          <input type="email" placeholder="이메일">
+          <input type="text" placeholder="제목">
+          <textarea rows="5" placeholder="메시지"></textarea>
+          <button type="submit" class="btn">메시지 보내기</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- 맨 위로 버튼 -->
-    <button id="top-button" onclick="scrollToTop()">▲</button>
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <p>© 2025 팀 프로젝트. All Rights Reserved.</p>
+    </div>
   </div>
 </footer>
-
 </body>
 </html>
