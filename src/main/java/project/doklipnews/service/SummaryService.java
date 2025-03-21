@@ -83,7 +83,6 @@ public class SummaryService {
 //            logger.error("Error generating summary with OpenAI API", e);
 //            return generateFallbackSummary(content);
 //        }
-        System.out.println("summary 동작중");
         return generateFallbackSummary(content);
     }
 
