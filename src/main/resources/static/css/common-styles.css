@@ -1,0 +1,317 @@
+/* common-styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    width: 100%;
+}
+
+/* 에르메스 주황에서 파스텔+어두운 느낌 */
+:root {
+    --primary-color: #e85c2c;
+    --primary-light: #f7c4b0;
+    --primary-dark: #c64720;
+    --accent-color: #2c3e50;
+    --light-gray: #f2f2f2;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #666;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+/* 헤더 영역 */
+header {
+    background-color: white;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.top-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 15px;
+}
+
+.logo {
+    text-align: center;
+    margin: 10px 0 20px;
+}
+
+.logo a {
+    color: var(--primary-dark);
+    font-size: 48px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    font-family: 'Noto Serif SC', 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
+    text-decoration: none;
+}
+
+.utility-menu {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+}
+
+.utility-menu a {
+    color: var(--dark-gray);
+    text-decoration: none;
+}
+
+.utility-menu a:hover {
+    color: var(--primary-color);
+}
+
+.main-nav {
+    background-color: white;
+    padding: 0 20px;
+    border-top: 3px solid var(--primary-color);
+    border-bottom: 1px solid var(--medium-gray);
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+}
+
+.main-nav li {
+    position: relative;
+}
+
+.main-nav li a {
+    display: block;
+    color: var(--accent-color);
+    text-decoration: none;
+    padding: 15px 25px;
+    font-weight: bold;
+    font-size: 16px;
+    transition: color 0.3s;
+}
+
+.main-nav li a:hover {
+    color: var(--primary-color);
+}
+
+.main-nav .active a {
+    color: var(--primary-color);
+}
+
+/* 검색 폼 */
+.search-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: none;
+    z-index: 1001;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.search-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.search-button {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s;
+}
+
+.search-button:hover {
+    background-color: var(--primary-dark);
+}
+
+.search-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-close:before,
+.search-close:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 2px;
+    background-color: #666;
+}
+
+.search-close:before {
+    transform: rotate(45deg);
+}
+
+.search-close:after {
+    transform: rotate(-45deg);
+}
+
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 1000;
+    display: none;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* 푸터 영역 */
+footer {
+    background-color: #333;
+    color: #ddd;
+    padding: 30px 20px;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.footer-left {
+    flex: 1;
+}
+
+.footer-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+    font-family: 'Noto Serif SC', 'ZCOOL XiaoWei', 'Ma Shan Zheng', cursive;
+}
+
+.footer-info {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.footer-links {
+    display: flex;
+    gap: 30px;
+}
+
+.footer-links-section h4 {
+    color: #ffffff;
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: normal;
+    letter-spacing: 0.5px;
+}
+
+.footer-links-section ul {
+    list-style: none;
+}
+
+.footer-links-section li {
+    margin-bottom: 5px;
+}
+
+.footer-links-section a {
+    color: #ddd;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.footer-links-section a:hover {
+    color: var(--primary-light);
+}
+
+.copyright {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #999;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+    .container {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+    }
+
+    .footer-links {
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .footer-links-section {
+        flex-basis: 50%;
+        margin-bottom: 20px;
+    }
+
+    .main-nav ul {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .main-nav li a {
+        padding: 15px 15px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 576px) {
+    .top-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+    }
+
+    .footer-links-section {
+        margin-bottom: 15px;
+    }
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- 헤더 조각 -->
+<header th:fragment="header">
+  <div class="top-header">
+    <div class="date-weather">
+      <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 E요일')}">2025년 3월 23일 일요일</span> | 서울 <span id="current-temp">12°C</span>
+    </div>
+    <div class="utility-menu">
+      <a href="/login">로그인</a>
+      <a href="/signup">회원가입</a>
+      <a href="/contact#donation">후원</a>
+    </div>
+  </div>
+
+  <div class="logo">
+    <a href="/main">冬柏日報</a>
+  </div>
+
+  <!-- 네비게이션 -->
+  <nav class="main-nav">
+    <ul>
+      <li th:class="${current == 'main'} ? 'active' : ''">
+        <a href="/main">전체</a>
+      </li>
+      <li th:class="${current == 'politic'} ? 'active' : ''">
+        <a href="/politic">정치</a>
+      </li>
+      <li th:class="${current == 'economy'} ? 'active' : ''">
+        <a href="/economy">경제</a>
+      </li>
+      <li th:class="${current == 'industry'} ? 'active' : ''">
+        <a href="/industry">산업</a>
+      </li>
+      <li th:class="${current == 'world'} ? 'active' : ''">
+        <a href="/world">국제</a>
+      </li>
+      <li th:class="${current == 'culture'} ? 'active' : ''">
+        <a href="/culture">예술</a>
+      </li>
+      <li th:class="${current == 'column'} ? 'active' : ''">
+        <a href="/column">칼럼</a>
+      </li>
+      <li th:class="${current == 'foreign'} ? 'active' : ''">
+        <a href="/foreign">외신</a>
+      </li>
+      <li th:class="${current == 'video'} ? 'active' : ''">
+        <a href="/video">영상</a>
+      </li>
+      <li>
+        <a href="#" id="search-icon"><i class="fas fa-search"></i></a>
+        <form class="search-form" th:action="@{/search}" method="get" style="display: none;">
+          <span class="search-close" id="searchClose"></span>
+          <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required>
+          <button type="submit" class="search-button">검색</button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+</header>
+</html>

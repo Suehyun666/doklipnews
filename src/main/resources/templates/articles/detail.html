@@ -1,227 +1,28 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title th:text="${article.title + ' - 동백일보'}">기사 제목 - 동백일보</title>
   <link rel="icon" href="/images/icon.jpg" type="image/jpeg">
-  <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/common-styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Noto+Serif+SC&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
-    }
-
-    body {
-      background-color: #f5f5f5;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 15px;
-    }
-
-    /* 헤더 스타일 */
-    header {
-      background-color: #fff;
-      border-bottom: 1px solid #e5e5e5;
-      position: relative;
-      top: 0;
-      z-index: 99;
-    }
-
-    .main-header {
-      padding: 20px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .logo {
-      font-size: 2.8rem;
-      font-weight: bold;
-      color: #1e3a8a;
-      text-align: center;
-      font-family: 'Times New Roman', serif;
-      letter-spacing: -0.5px;
-    }
-
-    /* 네비게이션 스타일 */
-    .main-nav {
-      background-color: #1e3a8a;
-      color: white;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-items {
-      display: flex;
-      justify-content: center;
-    }
-
-    .nav-item {
-      padding: 15px;
-      cursor: pointer;
-      position: relative;
-    }
-
-    .nav-item:hover, .nav-item.active {
-      background-color: #2c4ba3;
-    }
-
-    .nav-item a {
-      color: white;
-      text-decoration: none;
-    }
-
-    .search-nav-item {
-      padding: 10px 15px;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-    .search-icon-css {
-      position: relative;
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      border: 2px solid white;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-
-    .search-icon-css:after {
-      content: '';
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      width: 6px;
-      height: 2px;
-      background: white;
-      transform: rotate(45deg);
-      transform-origin: 0 0;
-    }
-
-    .search-form {
-      position: fixed; /* 화면에 고정 */
-      top: 50px; /* 네비게이션 바 바로 아래 */
-      left: 50%; /* 가운데 정렬을 위한 설정 */
-      transform: translateX(-50%); /* 가운데 정렬 */
-      width: 90%; /* 화면의 90% 너비 */
-      max-width: 500px; /* 최대 너비 제한 */
-      background: #fff;
-      padding: 15px;
-      border-radius: 4px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      display: none;
-      z-index: 1001; /* 다른 요소들보다 위에 표시 */
-      animation: slideDown 0.3s ease-out; /* 애니메이션 추가 */
-    }
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translate(-50%, -20px);
-      }
-      to {
-        opacity: 1;
-        transform: translate(-50%, 0);
-      }
-    }
-    .search-input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 16px; /* iOS에서 자동 확대 방지 */
-      margin-bottom: 10px;
-    }
-
-    /* 검색 버튼 스타일 */
-    .search-button {
-      width: 100%;
-      padding: 12px;
-      background-color: #1e3a8a;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.2s;
-    }
-
-    .search-button:hover {
-      background-color: #2c4ba3;
-    }
-
-    /* 검색 폼 닫기 버튼 추가 */
-    .search-close {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .search-close:before,
-    .search-close:after {
-      content: '';
-      position: absolute;
-      width: 16px;
-      height: 2px;
-      background-color: #666;
-    }
-
-    .search-close:before {
-      transform: rotate(45deg);
-    }
-
-    .search-close:after {
-      transform: rotate(-45deg);
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
     /* 기사 레이아웃 */
     .article-container {
       display: flex;
       gap: 30px;
       margin: 30px auto;
+      padding: 0 20px;
     }
 
     .article-main {
       flex: 2;
       background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f0f0f0;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       overflow: hidden;
     }
 
@@ -238,7 +39,7 @@
 
     .article-category {
       display: inline-block;
-      background-color: #1e3a8a;
+      background-color: var(--primary-dark);
       color: white;
       padding: 4px 10px;
       border-radius: 4px;
@@ -247,8 +48,8 @@
     }
 
     .article-title {
-      font-size: 2.5rem;
-      font-weight: 800;
+      font-size: 2.2rem;
+      font-weight: 700;
       line-height: 1.3;
       color: #222;
       margin-bottom: 15px;
@@ -259,7 +60,7 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      color: #666;
+      color: var(--dark-gray);
       font-size: 0.9rem;
     }
 
@@ -271,6 +72,7 @@
 
     .article-metadata i {
       margin-right: 6px;
+      color: var(--primary-color);
     }
 
     /* 기사 본문 */
@@ -329,7 +131,7 @@
       gap: 15px;
       margin: 30px 0;
       padding: 15px 0;
-      border-top: 1px solid #e5e5e5;
+      border-top: 1px solid var(--medium-gray);
     }
 
     .like-button, .share-button {
@@ -344,22 +146,23 @@
     }
 
     .like-button {
-      background-color: #f8f8f8;
+      background-color: var(--light-gray);
       color: #333;
     }
 
     .like-button i {
       margin-right: 8px;
       font-size: 1.1rem;
+      color: var(--primary-color);
     }
 
     .like-button.liked {
       background-color: #ffeded;
-      color: #e53e3e;
+      color: var(--primary-color);
     }
 
     .share-button {
-      background-color: #1e3a8a;
+      background-color: var(--primary-color);
       color: white;
     }
 
@@ -391,21 +194,21 @@
     }
 
     .back-button {
-      background-color: #f0f0f0;
-      color: #555;
+      background-color: var(--light-gray);
+      color: var(--dark-gray);
     }
 
     .back-button:hover {
-      background-color: #e0e0e0;
+      background-color: var(--medium-gray);
     }
 
     .edit-button {
-      background-color: #4a7bde;
+      background-color: var(--primary-color);
       color: white;
     }
 
     .edit-button:hover {
-      background-color: #3e69c2;
+      background-color: var(--primary-dark);
     }
 
     .delete-button {
@@ -428,9 +231,9 @@
       font-size: 1.4rem;
       font-weight: 700;
       margin-bottom: 20px;
-      color: #1e3a8a;
+      color: var(--primary-dark);
       padding-bottom: 10px;
-      border-bottom: 2px solid #1e3a8a;
+      border-bottom: 2px solid var(--primary-dark);
     }
 
     .related-articles-list {
@@ -441,8 +244,9 @@
 
     .related-article-card {
       background-color: #fff;
-      border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f0f0f0;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       padding: 15px;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
@@ -462,19 +266,20 @@
     }
 
     .related-article-card:hover .related-article-title {
-      color: #1e3a8a;
+      color: var(--primary-color);
     }
 
     .related-article-date {
       font-size: 0.85rem;
-      color: #777;
+      color: var(--dark-gray);
     }
 
     /* 사이드바 */
     .sidebar-section {
       background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border: 1px solid #f0f0f0;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       margin-bottom: 20px;
       padding: 20px;
     }
@@ -484,8 +289,8 @@
       font-weight: 700;
       margin-bottom: 15px;
       padding-bottom: 10px;
-      border-bottom: 2px solid #1e3a8a;
-      color: #1e3a8a;
+      border-bottom: 2px solid var(--primary-color);
+      color: var(--primary-dark);
     }
 
     .trending-list li {
@@ -502,7 +307,7 @@
       display: inline-block;
       width: 24px;
       height: 24px;
-      background-color: #1e3a8a;
+      background-color: var(--primary-color);
       color: white;
       text-align: center;
       line-height: 24px;
@@ -520,7 +325,7 @@
     }
 
     .trending-list li:hover .trending-title {
-      color: #1e3a8a;
+      color: var(--primary-color);
     }
 
     /* 속보 섹션 스타일 (사이드바용) */
@@ -554,8 +359,8 @@
     }
 
     .breaking-news-title {
-      font-size: 1.2rem;
-      font-weight: 520;
+      font-size: 0.95rem;
+      font-weight: 500;
       color: #333;
       margin-bottom: 4px;
       display: -webkit-box;
@@ -565,7 +370,7 @@
     }
 
     .breaking-news-item:hover .breaking-news-title {
-      color: #1e3a8a;
+      color: var(--primary-color);
     }
 
     /* 댓글 섹션 스타일 */
@@ -582,20 +387,20 @@
     .comment-title {
       font-size: 1.4rem;
       font-weight: 700;
-      color: #333;
+      color: var(--primary-dark);
       margin-bottom: 5px;
     }
 
     .comment-subtitle {
       font-size: 0.9rem;
-      color: #777;
+      color: var(--dark-gray);
     }
 
-    /* 디시 스타일 댓글 작성 폼 */
+    /* 댓글 작성 폼 */
     .dc-comment-form {
-      background-color: #f3f3f3;
-      border: 1px solid #e3e3e3;
-      border-radius: 0;
+      background-color: var(--light-gray);
+      border: 1px solid var(--medium-gray);
+      border-radius: 4px;
       padding: 15px;
       margin-bottom: 30px;
     }
@@ -604,8 +409,8 @@
       width: 100%;
       padding: 10px;
       border: 1px solid #ccc;
-      border-radius: 0;
-      font-size: 13px;
+      border-radius: 4px;
+      font-size: 14px;
       min-height: 80px;
       resize: vertical;
     }
@@ -613,7 +418,7 @@
     .dc-form-footer {
       display: flex;
       margin-top: 10px;
-      border-top: 1px solid #e3e3e3;
+      border-top: 1px solid var(--medium-gray);
       padding-top: 10px;
     }
 
@@ -624,10 +429,10 @@
     }
 
     .dc-form-input {
-      padding: 6px 10px;
+      padding: 8px 10px;
       border: 1px solid #ccc;
-      border-radius: 0;
-      font-size: 12px;
+      border-radius: 4px;
+      font-size: 14px;
       width: auto;
     }
 
@@ -636,36 +441,36 @@
     }
 
     .dc-form-button {
-      background-color: #4e4e4e;
+      background-color: var(--primary-color);
       color: white;
       border: none;
       padding: 8px 15px;
-      font-size: 12px;
+      font-size: 14px;
       cursor: pointer;
-      border-radius: 0;
+      border-radius: 4px;
     }
 
     .dc-form-button:hover {
-      background-color: #333;
+      background-color: var(--primary-dark);
     }
 
-    /* 디시 스타일 댓글 목록 */
+    /* 댓글 목록 */
     .dc-comments-list {
-      border-top: 1px solid #e3e3e3;
+      border-top: 1px solid var(--medium-gray);
     }
 
     .dc-comment-item {
       display: flex;
       padding: 12px 0;
-      border-bottom: 1px solid #e3e3e3;
+      border-bottom: 1px solid var(--medium-gray);
       position: relative;
     }
 
     .dc-comment-user {
       width: 140px;
-      font-size: 12px;
+      font-size: 14px;
       padding: 0 15px;
-      border-right: 1px solid #e3e3e3;
+      border-right: 1px solid var(--medium-gray);
     }
 
     .dc-comment-author {
@@ -676,15 +481,15 @@
     }
 
     .dc-comment-ip {
-      color: #999;
-      font-size: 11px;
+      color: var(--dark-gray);
+      font-size: 12px;
       display: block;
       margin-bottom: 3px;
     }
 
     .dc-comment-date {
-      color: #666;
-      font-size: 11px;
+      color: var(--dark-gray);
+      font-size: 12px;
     }
 
     .dc-comment-body {
@@ -694,7 +499,7 @@
 
     .dc-comment-content {
       color: #333;
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.5;
       word-break: break-all;
     }
@@ -703,11 +508,11 @@
       position: absolute;
       top: 12px;
       right: 10px;
-      font-size: 11px;
+      font-size: 12px;
     }
 
     .dc-comment-action-btn {
-      color: #999;
+      color: var(--dark-gray);
       background: none;
       border: none;
       cursor: pointer;
@@ -716,13 +521,13 @@
     }
 
     .dc-comment-action-btn:hover {
-      color: #0cb0f0;
+      color: var(--primary-color);
       text-decoration: underline;
     }
 
     /* 대댓글 스타일 */
     .dc-reply-comment {
-      background-color: #f9f9f9;
+      background-color: var(--light-gray);
       padding-left: 15px;
     }
 
@@ -734,16 +539,17 @@
     .dc-empty-comments {
       text-align: center;
       padding: 30px 0;
-      color: #999;
+      color: var(--dark-gray);
       font-style: italic;
-      font-size: 13px;
-      border-bottom: 1px solid #e3e3e3;
+      font-size: 14px;
+      border-bottom: 1px solid var(--medium-gray);
     }
 
     /* 삭제 폼 */
     .dc-delete-form {
-      background: #f3f3f3;
-      border: 1px solid #e3e3e3;
+      background: var(--light-gray);
+      border: 1px solid var(--medium-gray);
+      border-radius: 4px;
       padding: 15px;
       margin-top: 10px;
       display: none;
@@ -756,15 +562,15 @@
     }
 
     .dc-delete-label {
-      font-size: 12px;
-      color: #666;
+      font-size: 14px;
+      color: var(--dark-gray);
     }
 
     .dc-delete-input {
-      padding: 6px 10px;
+      padding: 8px 10px;
       border: 1px solid #ccc;
-      border-radius: 0;
-      font-size: 12px;
+      border-radius: 4px;
+      font-size: 14px;
       width: 120px;
     }
 
@@ -772,31 +578,64 @@
       background-color: #e74c3c;
       color: white;
       border: none;
-      padding: 6px 10px;
-      font-size: 12px;
+      padding: 8px 10px;
+      font-size: 14px;
       cursor: pointer;
+      border-radius: 4px;
     }
 
     .dc-cancel-button {
       background-color: #ccc;
       color: #333;
       border: none;
-      padding: 6px 10px;
-      font-size: 12px;
+      padding: 8px 10px;
+      font-size: 14px;
       cursor: pointer;
+      border-radius: 4px;
     }
 
     .dc-delete-button:hover {
       background-color: #c0392b;
     }
 
-    /* IP 표시 (아이피 중간 가리기) */
-    .masked-ip {
-      font-size: 11px;
-      color: #999;
+    /* 반응형 */
+    @media (max-width: 1200px) {
+      .container {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .article-container {
+        flex-direction: column;
+      }
+
+      .article-title {
+        font-size: 1.8rem;
+      }
+
+      .related-articles-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (max-width: 768px) {
+      .related-articles-list {
+        grid-template-columns: 1fr;
+      }
+
+      .article-title {
+        font-size: 1.6rem;
+      }
+
+      .article-body {
+        padding: 15px;
+      }
+
+      .article-image-container {
+        margin: 0 -15px 15px;
+      }
+
       .dc-form-footer {
         flex-direction: column;
         gap: 10px;
@@ -816,6 +655,7 @@
         width: 100%;
         padding: 10px;
       }
+
       .dc-comment-item {
         flex-direction: column;
       }
@@ -823,7 +663,7 @@
       .dc-comment-user {
         width: 100%;
         border-right: none;
-        border-bottom: 1px solid #e3e3e3;
+        border-bottom: 1px solid var(--medium-gray);
         padding: 0 10px 6px 10px;
         margin-bottom: 10px;
         display: flex;
@@ -845,168 +685,13 @@
         margin-top: 10px;
       }
     }
-
-    /* 푸터 */
-    footer {
-      background-color: #2c2c2c;
-      color: #f5f5f5;
-      padding: 40px 0;
-      margin-top: 50px;
-    }
-
-    .footer-content {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .footer-column {
-      flex: 1;
-      padding: 0 15px;
-    }
-
-    .footer-title {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #444;
-    }
-
-    .footer-links li {
-      margin-bottom: 10px;
-    }
-
-    .copy-right {
-      text-align: center;
-      padding-top: 20px;
-      margin-top: 20px;
-      border-top: 1px solid #444;
-    }
-
-    /* 반응형 */
-    @media (max-width: 992px) {
-      .article-container {
-        flex-direction: column;
-      }
-
-      .article-title {
-        font-size: 2rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .related-articles-list {
-        grid-template-columns: 1fr;
-      }
-
-      .article-title {
-        font-size: 1.8rem;
-      }
-
-      .article-body {
-        padding: 15px;
-      }
-
-      .article-image-container {
-        margin: 0 -15px 15px;
-      }
-
-      .form-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      /* 네비게이션 가로 스크롤 처리 */
-      .main-nav .container {
-        padding: 0;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .nav-items {
-        display: flex;
-        flex-wrap: nowrap;
-        white-space: nowrap;
-        width: max-content;
-        min-width: 100%;
-      }
-
-      /* 스크롤바 숨기기 */
-      .main-nav .container::-webkit-scrollbar {
-        display: none;
-      }
-
-      .main-nav .container {
-        scrollbar-width: none; /* Firefox */
-        -ms-overflow-style: none; /* IE and Edge */
-      }
-
-      /* 네비게이션 항목 간격 조정 */
-      .nav-item {
-        padding: 10px 12px; /* 좌우 패딩 줄이기 */
-        font-size: 0.9rem; /* 글자 크기 줄이기 */
-      }
-
-      /* 검색 아이콘 위치 조정 */
-      .search-nav-item {
-        margin-left: 0;
-        padding-right: 15px;
-      }
-    }
   </style>
 </head>
 
 <body>
-<header>
-  <div class="container">
-    <div class="main-header">
-      <a href="/main" class="logo">동백일보</a>
-    </div>
-  </div>
-</header>
-
-<nav class="main-nav">
-  <div class="container">
-    <ul class="nav-items">
-      <li class="nav-item" th:classappend="${selectedCategory == null ? 'active' : ''}">
-        <a th:href="@{/main}">전체</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'world' ? 'active' : ''}">
-        <a th:href="@{/world}">국제</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'politic' ? 'active' : ''}">
-        <a th:href="@{/politic}">정치</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'economy' ? 'active' : ''}">
-        <a th:href="@{/economy}">경제</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'industry' ? 'active' : ''}">
-        <a th:href="@{/industry}">산업</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'culture' ? 'active' : ''}">
-        <a th:href="@{/culture}">예술</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'foreign' ? 'active' : ''}">
-        <a th:href="@{/foreign}">외신</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'column' ? 'active' : ''}">
-        <a th:href="@{/column}">칼럼</a>
-      </li>
-      <li class="nav-item" th:classappend="${category == 'video' ? 'active' : ''}">
-        <a th:href="@{/video}">영상</a>
-      </li>
-      <li class="nav-item search-nav-item">
-        <span class="search-icon-css"></span>
-        <form class="search-form" th:action="@{/search}" method="get" style="display: none;">
-          <span class="search-close" id="searchClose"></span>
-          <input type="text" name="query" class="search-input" placeholder="검색어를 입력하세요" required>
-          <button type="submit" class="search-button">검색</button>
-        </form>
-      </li>
-    </ul>
-  </div>
-</nav>
-
 <div class="container">
+  <!-- 헤더 영역 -->
+  <div th:replace="fragment/common-header.html :: header"></div>
   <div class="article-container">
     <main class="article-main">
       <!-- 기사 헤더 -->
@@ -1053,68 +738,60 @@
           </div>
 
           <!-- 댓글 작성 폼 -->
-          <div class="comment-section">
-            <div class="comment-header">
-              <h2 class="comment-title">댓글 <span th:text="${comments != null ? comments.size() : 0}">0</span>개</h2>
-              <p class="comment-subtitle">이 기사에 대한 의견을 남겨주세요</p>
-            </div>
+          <div class="dc-comment-form">
+            <form th:action="@{/articles/{id}/comments(id=${article.id})}" method="post">
+              <textarea name="content" class="dc-form-textarea" required placeholder="댓글 내용을 입력해주세요."></textarea>
 
-            <!-- 디시 스타일 댓글 작성 폼 -->
-            <div class="dc-comment-form">
-              <form th:action="@{/articles/{id}/comments(id=${article.id})}" method="post">
-                <textarea name="content" class="dc-form-textarea" required placeholder="댓글 내용을 입력해주세요."></textarea>
-
-                <div class="dc-form-footer">
-                  <div class="dc-form-user-info">
-                    <input type="text" name="nickname" class="dc-form-input" required placeholder="닉네임">
-                    <input type="password" name="password" class="dc-form-input" required placeholder="비밀번호">
-                  </div>
-                  <button type="submit" class="dc-form-button">등록</button>
+              <div class="dc-form-footer">
+                <div class="dc-form-user-info">
+                  <input type="text" name="nickname" class="dc-form-input" required placeholder="닉네임">
+                  <input type="password" name="password" class="dc-form-input" required placeholder="비밀번호">
                 </div>
-              </form>
-            </div>
+                <button type="submit" class="dc-form-button">등록</button>
+              </div>
+            </form>
+          </div>
 
           <!-- 댓글 목록 -->
-            <div class="dc-comments-list">
-              <!-- 댓글이 없는 경우 -->
-              <div th:if="${comments == null || comments.isEmpty()}" class="dc-empty-comments">
-                <p>등록된 댓글이 없습니다.</p>
+          <div class="dc-comments-list">
+            <!-- 댓글이 없는 경우 -->
+            <div th:if="${comments == null || comments.isEmpty()}" class="dc-empty-comments">
+              <p>등록된 댓글이 없습니다.</p>
+            </div>
+
+            <!-- 댓글 항목 -->
+            <div th:each="comment : ${comments}" th:if="${comments != null && !comments.isEmpty()}" class="dc-comment-item">
+              <div class="dc-comment-user">
+                <div class="dc-comment-author-wrapper">
+                  <span class="dc-comment-author" th:text="${comment.nickname}">ㅇㅇ</span>
+                  <span class="dc-comment-ip">(123.456.*.*)</span>
+                </div>
+                <span class="dc-comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy.MM.dd HH:mm:ss')}">2025.03.21 14:30:25</span>
               </div>
 
-              <!-- 댓글 항목 -->
-              <div th:each="comment : ${comments}" th:if="${comments != null && !comments.isEmpty()}" class="dc-comment-item">
-                <div class="dc-comment-user">
-                  <div class="dc-comment-author-wrapper">
-                    <span class="dc-comment-author" th:text="${comment.nickname}">ㅇㅇ</span>
-                    <span class="dc-comment-ip">(123.456.*.*)</span>
-                  </div>
-                  <span class="dc-comment-date" th:text="${#temporals.format(comment.createdAt, 'yyyy.MM.dd HH:mm:ss')}">2025.03.21 14:30:25</span>
+              <div class="dc-comment-body">
+                <p class="dc-comment-content" th:text="${comment.content}">댓글 내용이 이곳에 표시됩니다.</p>
+
+                <div class="dc-comment-actions">
+                  <button type="button" class="dc-comment-action-btn" th:onclick="'showReplyForm(' + ${comment.id} + ')'">답글</button>
+                  <button type="button" class="dc-comment-action-btn" th:onclick="'showDeleteForm(' + ${comment.id} + ')'">삭제</button>
                 </div>
 
-                <div class="dc-comment-body">
-                  <p class="dc-comment-content" th:text="${comment.content}">댓글 내용이 이곳에 표시됩니다.</p>
-
-                  <div class="dc-comment-actions">
-                    <button type="button" class="dc-comment-action-btn" th:onclick="'showDcReplyForm(' + ${comment.id} + ')'">답글</button>
-                    <button type="button" class="dc-comment-action-btn" th:onclick="'showDcDeleteForm(' + ${comment.id} + ')'">삭제</button>
-                  </div>
-
-                  <!-- 삭제 폼 (기본적으로 숨겨져 있음) -->
-                  <div th:id="'delete-form-' + ${comment.id}" class="dc-delete-form">
-                    <form th:action="@{/articles/{articleId}/comments/{commentId}/delete(articleId=${article.id},commentId=${comment.id})}" method="post">
-                      <div class="dc-delete-form-content">
-                        <span class="dc-delete-label">비밀번호 확인</span>
-                        <input type="password" name="password" class="dc-delete-input" required>
-                        <button type="submit" class="dc-delete-button">삭제</button>
-                        <button type="button" class="dc-cancel-button" th:onclick="'hideDcDeleteForm(' + ${comment.id} + ')'">취소</button>
-                      </div>
-                    </form>
-                  </div>
+                <!-- 삭제 폼 (기본적으로 숨겨져 있음) -->
+                <div th:id="'delete-form-' + ${comment.id}" class="dc-delete-form">
+                  <form th:action="@{/articles/{articleId}/comments/{commentId}/delete(articleId=${article.id},commentId=${comment.id})}" method="post">
+                    <div class="dc-delete-form-content">
+                      <span class="dc-delete-label">비밀번호 확인</span>
+                      <input type="password" name="password" class="dc-delete-input" required>
+                      <button type="submit" class="dc-delete-button">삭제</button>
+                      <button type="button" class="dc-cancel-button" th:onclick="'hideDeleteForm(' + ${comment.id} + ')'">취소</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-
+        </div>
 
         <!-- 관련 기사 -->
         <div class="related-articles" th:if="${relatedArticles != null && !relatedArticles.empty}">
@@ -1203,215 +880,86 @@
       </div>
     </aside>
   </div>
+
+  <!-- 푸터 영역 -->
+  <div th:replace="fragment/common-footer :: footer"></div>
 </div>
 
-<footer>
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-column">
-        <h3 class="footer-title">회사 소개</h3>
-        <ul class="footer-links">
-          <li><a th:href="@{/about}">동백일보 소개</a></li>
-          <li><a th:href="@{/history}">회사 연혁</a></li>
-          <li><a th:href="@{/team}">편집 이념</a></li>
-          <li><a th:href="@{/jobs}">인재 채용</a></li>
-        </ul>
-      </div>
+<!-- 검색 오버레이 -->
+<div id="searchOverlay" class="search-overlay"></div>
 
-      <div class="footer-column">
-        <h3 class="footer-title">고객 센터</h3>
-        <ul class="footer-links">
-          <li><a th:href="@{/contact}">구독 문의</a></li>
-          <li><a th:href="@{/contact}">독자 의견</a></li>
-          <li><a th:href="@{/faq}">자주 묻는 질문</a></li>
-          <li><a th:href="@{/contact}">오류 신고</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-column">
-        <h3 class="footer-title">이용 안내</h3>
-        <ul class="footer-links">
-          <li><a th:href="@{/terms}">이용약관</a></li>
-          <li><a th:href="@{/privacy}">개인정보처리방침</a></li>
-          <li><a th:href="@{/donation}">후원하기</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="copy-right">
-      © 2025 동백일보. All rights reserved.
-    </div>
-  </div>
-</footer>
-
-</body>
-
+<!-- 자바스크립트 -->
+<!-- 자바스크립트 -->
+<script src="js/common-script.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // 검색 요소 참조
-    const searchIcon = document.querySelector('.search-icon-css');
-    const searchForm = document.querySelector('.search-form');
-    const searchInput = document.querySelector('.search-input');
-    const searchClose = document.getElementById('searchClose');
+  // 좋아요 버튼
+  const likeButton = document.querySelector('.like-button');
+  const adminActions = document.getElementById('adminActions');
 
-    // 오버레이 요소 확인
-    let searchOverlay = document.getElementById('searchOverlay');
+  if (likeButton) {
+    const articleId = likeButton.getAttribute('data-article-id');
+    const likeCountElement = document.querySelector('.like-count');
 
-    // 오버레이 요소가 없으면 생성
-    if (!searchOverlay) {
-      searchOverlay = document.createElement('div');
-      searchOverlay.className = 'search-overlay';
-      searchOverlay.id = 'searchOverlay';
-      searchOverlay.style.display = 'none';
-      document.body.appendChild(searchOverlay);
+    // 로컬 스토리지에서 좋아요 상태 가져오기
+    const isLiked = localStorage.getItem(`liked_${articleId}`) === 'true';
+
+    // 초기 상태 설정
+    if (isLiked) {
+      likeButton.classList.add('liked');
+      likeButton.innerHTML = '<i class="fas fa-heart"></i> 좋아요 취소';
     }
 
-    if (searchIcon && searchForm) {
-      // 명시적으로 검색 폼 숨기기
-      searchForm.style.display = 'none';
-      searchOverlay.style.display = 'none';
+    likeButton.addEventListener('click', function() {
+      const isCurrentlyLiked = likeButton.classList.contains('liked');
+      const url = isCurrentlyLiked
+              ? `/articles/${articleId}/unlike`
+              : `/articles/${articleId}/like`;
 
-      // 검색 아이콘 클릭 이벤트
-      searchIcon.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        openSearchForm();
-      });
-
-      // 터치 이벤트 처리 (모바일용)
-      searchIcon.addEventListener('touchend', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        openSearchForm();
-      });
-
-      // 닫기 버튼 이벤트
-      if (searchClose) {
-        searchClose.addEventListener('click', function(e) {
-          e.preventDefault();
-          closeSearchForm();
-        });
-      }
-
-      // 오버레이 클릭 시 닫기
-      searchOverlay.addEventListener('click', function() {
-        closeSearchForm();
-      });
-
-      // 검색 폼 열기 함수
-      function openSearchForm() {
-        searchForm.style.display = 'flex';
-        searchForm.style.flexDirection = 'column';
-        searchOverlay.style.display = 'block';
-
-        // 입력 필드에 포커스
-        if (searchInput) {
-          setTimeout(function() {
-            searchInput.focus();
-          }, 100);
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         }
+      })
+              .then(response => response.json())
+              .then(data => {
+                // 좋아요 수 업데이트
+                if (likeCountElement) {
+                  likeCountElement.textContent = data.likeCount;
+                }
 
-        // 스크롤 방지
-        document.body.style.overflow = 'hidden';
-      }
-
-      // 검색 폼 닫기 함수
-      function closeSearchForm() {
-        searchForm.style.display = 'none';
-        searchOverlay.style.display = 'none';
-
-        // 스크롤 복원
-        document.body.style.overflow = '';
-      }
-
-      // ESC 키를 눌러 검색 폼 닫기
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && searchForm.style.display !== 'none') {
-          closeSearchForm();
-        }
-      });
-    }
-  });
-
-
-  // detail.html에 추가할 자바스크립트
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const likeButton = document.querySelector('.like-button');
-    const adminActions = document.getElementById('adminActions');
-    const searchIcon = document.querySelector('.search-icon-css');
-    const searchForm = document.querySelector('.search-form');
-
-    if (searchIcon && searchForm) {
-      searchIcon.addEventListener('click', function() {
-        searchForm.style.display = searchForm.style.display === 'none' || searchForm.style.display === '' ? 'block' : 'none';
-      });
-    }
-
-    // 유튜브 링크 처리
-    processYoutubeLinks();
-
-    // 키보드 단축키 핸들러 추가 (Ctrl+Shift+?)
-    document.addEventListener('keydown', function(event) {
-      // Ctrl+Shift+? (물음표 키코드는 191)
-      if (event.ctrlKey && event.shiftKey && event.keyCode === 191) {
-        event.preventDefault(); // 기본 브라우저 동작 방지
-
-        // admin-actions 요소의 display 상태를 토글
-        if (adminActions.style.display === 'flex') {
-          adminActions.style.display = 'none';
-        } else {
-          adminActions.style.display = 'flex';
-        }
-      }
+                // 버튼 상태 업데이트
+                if (isCurrentlyLiked) {
+                  likeButton.classList.remove('liked');
+                  likeButton.innerHTML = '<i class="far fa-heart"></i> 좋아요';
+                  localStorage.removeItem(`liked_${articleId}`);
+                } else {
+                  likeButton.classList.add('liked');
+                  likeButton.innerHTML = '<i class="fas fa-heart"></i> 좋아요 취소';
+                  localStorage.setItem(`liked_${articleId}`, 'true');
+                }
+              })
+              .catch(error => {
+                console.error('좋아요 처리 중 오류가 발생했습니다:', error);
+              });
     });
+  }
 
-    if (likeButton) {
-      const articleId = likeButton.getAttribute('data-article-id');
-      const likeCountElement = document.querySelector('.like-count');
+  // 유튜브 링크 처리
+  processYoutubeLinks();
 
-      // 로컬 스토리지에서 좋아요 상태 가져오기
-      const isLiked = localStorage.getItem(`liked_${articleId}`) === 'true';
+  // 키보드 단축키 핸들러 추가 (Ctrl+Shift+?)
+  document.addEventListener('keydown', function(event) {
+    // Ctrl+Shift+? (물음표 키코드는 191)
+    if (event.ctrlKey && event.shiftKey && event.keyCode === 191) {
+      event.preventDefault(); // 기본 브라우저 동작 방지
 
-      // 초기 상태 설정
-      if (isLiked) {
-        likeButton.classList.add('liked');
-        likeButton.innerHTML = '<i class="fas fa-heart"></i> 좋아요 취소';
+      // admin-actions 요소의 display 상태를 토글
+      if (adminActions.style.display === 'flex') {
+        adminActions.style.display = 'none';
+      } else {
+        adminActions.style.display = 'flex';
       }
-
-      likeButton.addEventListener('click', function() {
-        const isCurrentlyLiked = likeButton.classList.contains('liked');
-        const url = isCurrentlyLiked
-                ? `/articles/${articleId}/unlike`
-                : `/articles/${articleId}/like`;
-
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-                .then(response => response.json())
-                .then(data => {
-                  // 좋아요 수 업데이트
-                  if (likeCountElement) {
-                    likeCountElement.textContent = data.likeCount;
-                  }
-
-                  // 버튼 상태 업데이트
-                  if (isCurrentlyLiked) {
-                    likeButton.classList.remove('liked');
-                    likeButton.innerHTML = '<i class="far fa-heart"></i> 좋아요';
-                    localStorage.removeItem(`liked_${articleId}`);
-                  } else {
-                    likeButton.classList.add('liked');
-                    likeButton.innerHTML = '<i class="fas fa-heart"></i> 좋아요 취소';
-                    localStorage.setItem(`liked_${articleId}`, 'true');
-                  }
-                })
-                .catch(error => {
-                  console.error('좋아요 처리 중 오류가 발생했습니다:', error);
-                });
-      });
     }
   });
 
@@ -1513,8 +1061,8 @@
   }
 
   function showReplyForm(commentId) {
-    // 현재는 대댓글 기능이 구현되지 않았으므로 알림만 표시
     alert('대댓글 기능은 현재 개발 중입니다.');
   }
 </script>
+</body>
 </html>

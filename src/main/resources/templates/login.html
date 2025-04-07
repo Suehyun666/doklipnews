@@ -135,9 +135,14 @@
       return "article";
       // 로그인 성공 후 처리 로직 (예: 다른 페이지로 리디렉션)
     } else {
-      //errorMessage.style.display = 'block';
-      window.location.href = '/articles';
+      errorMessage.style.display = 'block';
+      window.location.href = '/main';
     }
+  });
+  const forgotPasswordLink = document.querySelector('.forgot-password');
+  forgotPasswordLink.addEventListener('click', function(e) {
+    e.preventDefault(); 
+    alert('어쩌라구요 기억해내세요.');
   });
 </script>
 
