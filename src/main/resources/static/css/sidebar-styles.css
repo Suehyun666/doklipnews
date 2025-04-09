@@ -1,0 +1,229 @@
+/*
+ * sidebar-styles.css
+ * 동백일보 웹사이트의 사이드바 관련 스타일
+ */
+
+/* 사이드바 컨테이너 */
+.article-sidebar {
+    flex: 1;
+}
+
+/* 사이드바 섹션 공통 스타일 */
+.sidebar-section {
+    background-color: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.sidebar-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 12px 15px;
+    border-bottom: 2px solid var(--primary-color);
+    color: var(--primary-dark);
+    background-color: #f9f9f9;
+}
+
+.sidebar-content {
+    padding: 10px 15px;
+}
+
+/* 인기뉴스/많이본기사 스타일 */
+.popular-news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popular-news-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.popular-news-item:last-child {
+    border-bottom: none;
+}
+
+.popular-news-item:hover {
+    background-color: #f9f9f9;
+}
+
+.popular-number {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    line-height: 24px;
+    border-radius: 4px;
+    margin-right: 10px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.popular-title {
+    flex: 1;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    line-height: 1.4;
+    transition: color 0.2s;
+}
+
+.popular-news-item:hover .popular-title {
+    color: var(--primary-color);
+}
+
+/* 속보 섹션 스타일 */
+.breaking-news-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.breaking-news-item {
+    display: flex;
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.breaking-news-item:last-child {
+    border-bottom: none;
+}
+
+.breaking-news-image {
+    width: 70px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.breaking-news-content {
+    flex: 1;
+}
+
+.breaking-news-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+    margin: 0 0 4px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+}
+
+.breaking-news-item:hover .breaking-news-title {
+    color: var(--primary-color);
+}
+
+/* 카테고리별 뉴스 스타일 */
+.category-news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.category-news-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+}
+
+.category-news-item:last-child {
+    border-bottom: none;
+}
+
+.category-news-title {
+    color: #333;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+    transition: color 0.2s;
+}
+
+.category-news-item:hover .category-news-title {
+    color: var(--primary-color);
+}
+
+/* 인기 영상 섹션 스타일 */
+.video-sidebar-item {
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.video-sidebar-thumb {
+    position: relative;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.video-sidebar-thumb img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.video-sidebar-item:hover .video-sidebar-thumb img {
+    transform: scale(1.05);
+}
+
+.video-play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.video-sidebar-title {
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 1.4;
+    color: #333;
+    transition: color 0.2s;
+}
+
+.video-sidebar-item:hover .video-sidebar-title {
+    color: var(--primary-color);
+}
+
+/* 반응형 스타일 */
+@media (max-width: 992px) {
+    .article-sidebar {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .popular-number {
+        width: 22px;
+        height: 22px;
+        font-size: 0.8rem;
+    }
+
+    .breaking-news-image {
+        width: 60px;
+        height: 45px;
+    }
+}

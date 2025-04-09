@@ -7,6 +7,7 @@
   <link rel="icon" href="/images/icon.jpg" type="image/jpeg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="/css/common-styles.css">
+  <link rel="stylesheet" href="/css/sidebar-styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Noto+Serif+SC&display=swap" rel="stylesheet">
   <style>
     /* 기사 레이아웃 */
@@ -24,10 +25,6 @@
       border-radius: 4px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       overflow: hidden;
-    }
-
-    .article-sidebar {
-      flex: 1;
     }
 
     /* 기사 타이틀 섹션 */
@@ -272,105 +269,6 @@
     .related-article-date {
       font-size: 0.85rem;
       color: var(--dark-gray);
-    }
-
-    /* 사이드바 */
-    .sidebar-section {
-      background-color: #fff;
-      border: 1px solid #f0f0f0;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-      margin-bottom: 20px;
-      padding: 20px;
-    }
-
-    .sidebar-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--primary-color);
-      color: var(--primary-dark);
-    }
-
-    .trending-list li {
-      padding: 12px 0;
-      border-bottom: 1px solid #f0f0f0;
-      cursor: pointer;
-    }
-
-    .trending-list li:last-child {
-      border-bottom: none;
-    }
-
-    .trending-list .number {
-      display: inline-block;
-      width: 24px;
-      height: 24px;
-      background-color: var(--primary-color);
-      color: white;
-      text-align: center;
-      line-height: 24px;
-      border-radius: 4px;
-      margin-right: 10px;
-      font-size: 0.85rem;
-      font-weight: bold;
-    }
-
-    .trending-title {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: #333;
-      transition: color 0.2s;
-    }
-
-    .trending-list li:hover .trending-title {
-      color: var(--primary-color);
-    }
-
-    /* 속보 섹션 스타일 (사이드바용) */
-    .breaking-news-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-
-    .breaking-news-item {
-      display: flex;
-      padding: 10px 0;
-      border-bottom: 1px solid #f0f0f0;
-      cursor: pointer;
-    }
-
-    .breaking-news-item:last-child {
-      border-bottom: none;
-    }
-
-    .breaking-news-image {
-      width: 70px;
-      height: 50px;
-      object-fit: cover;
-      margin-right: 10px;
-      border-radius: 4px;
-    }
-
-    .breaking-news-content {
-      flex: 1;
-    }
-
-    .breaking-news-title {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 4px;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .breaking-news-item:hover .breaking-news-title {
-      color: var(--primary-color);
     }
 
     /* 댓글 섹션 스타일 */
@@ -691,7 +589,7 @@
 <body>
 <div class="container">
   <!-- 헤더 영역 -->
-  <div th:replace="fragment/common-header.html :: header"></div>
+  <div th:replace="~{fragment/common-header.html :: header}"></div>
   <div class="article-container">
     <main class="article-main">
       <!-- 기사 헤더 -->
@@ -832,65 +730,72 @@
       <!-- 많이 본 뉴스 -->
       <div class="sidebar-section">
         <h3 class="sidebar-title">많이 본 뉴스</h3>
-        <ul class="trending-list">
-          <li th:each="trendingArticle, stat : ${@articleService.findTrendingArticles()}"
-              th:if="${stat.index < 5}"
-              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${trendingArticle.id})} + '\''">
-            <span class="number" th:text="${stat.count}">1</span>
-            <span class="trending-title" th:text="${trendingArticle.title}">인기 뉴스 제목</span>
-          </li>
-        </ul>
+        <div class="sidebar-content">
+          <ul class="popular-news-list">
+            <li th:each="trendingArticle, stat : ${@articleService.findTrendingArticles()}"
+                th:if="${stat.index < 5}"
+                class="popular-news-item"
+                th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${trendingArticle.id})} + '\''">
+              <span class="popular-number" th:text="${stat.count}">1</span>
+              <span class="popular-title" th:text="${trendingArticle.title}">인기 뉴스 제목</span>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- 속보 섹션 -->
       <div class="sidebar-section">
         <h3 class="sidebar-title">속보</h3>
-        <ul class="breaking-news-list">
-          <li th:each="breaking, stat : ${@articleService.findLatestArticles()}"
-              th:if="${stat.index < 5}"
-              class="breaking-news-item"
-              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${breaking.id})} + '\''">
-            <img th:src="${breaking.imageUrl != null ? breaking.imageUrl : '/images/placeholder/default.svg'}"
-                 th:alt="${breaking.title}" class="breaking-news-image" loading="lazy">
-            <div class="breaking-news-content">
-              <h4 class="breaking-news-title" th:text="${breaking.title}">속보 기사 제목</h4>
-            </div>
-          </li>
-        </ul>
+        <div class="sidebar-content">
+          <ul class="breaking-news-list">
+            <li th:each="breaking, stat : ${@articleService.findLatestArticles()}"
+                th:if="${stat.index < 5}"
+                class="breaking-news-item"
+                th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${breaking.id})} + '\''">
+              <img th:src="${breaking.imageUrl != null ? breaking.imageUrl : '/images/placeholder/default.svg'}"
+                   th:alt="${breaking.title}" class="breaking-news-image" loading="lazy">
+              <div class="breaking-news-content">
+                <h4 class="breaking-news-title" th:text="${breaking.title}">속보 기사 제목</h4>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
 
       <!-- 카테고리별 뉴스 -->
       <div class="sidebar-section">
         <h3 class="sidebar-title" th:with="categoryKo=${article.category == 'world' ? '국제' :
-                                          article.category == 'politic' ? '정치' :
-                                          article.category == 'economy' ? '경제' :
-                                          article.category == 'industry' ? '산업' :
-                                          article.category == 'culture' ? '예술' :
-                                          article.category == 'column' ? '칼럼' :
-                                          article.category == 'video' ? '영상' :
-                                          article.category}"
+                                  article.category == 'politic' ? '정치' :
+                                  article.category == 'economy' ? '경제' :
+                                  article.category == 'industry' ? '산업' :
+                                  article.category == 'culture' ? '예술' :
+                                  article.category == 'column' ? '칼럼' :
+                                  article.category == 'video' ? '영상' :
+                                  article.category}"
             th:text="${categoryKo + ' 카테고리 뉴스'}">카테고리 뉴스</h3>
-        <ul class="trending-list">
-          <li th:each="categoryArticle, stat : ${@articleService.findLatestArticlesByCategory(article.category)}"
-              th:if="${stat.index < 5 && categoryArticle.id != article.id}"
-              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${categoryArticle.id})} + '\''">
-            <span class="trending-title" th:text="${categoryArticle.title}">카테고리 뉴스 제목</span>
-          </li>
-        </ul>
+        <div class="sidebar-content">
+          <ul class="category-news-list">
+            <li th:each="categoryArticle, stat : ${@articleService.findLatestArticlesByCategory(article.category)}"
+                th:if="${stat.index < 5 && categoryArticle.id != article.id}"
+                class="category-news-item"
+                th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${categoryArticle.id})} + '\''">
+              <h4 class="category-news-title" th:text="${categoryArticle.title}">카테고리 뉴스 제목</h4>
+            </li>
+          </ul>
+        </div>
       </div>
     </aside>
-  </div>
+  </div> <!-- 여기 닫는 태그가 누락되었었습니다 -->
 
   <!-- 푸터 영역 -->
-  <div th:replace="fragment/common-footer :: footer"></div>
+  <div th:replace="~{fragment/common-footer :: footer}"></div>
 </div>
 
 <!-- 검색 오버레이 -->
 <div id="searchOverlay" class="search-overlay"></div>
 
 <!-- 자바스크립트 -->
-<!-- 자바스크립트 -->
-<script src="js/common-script.js"></script>
+<script src="/js/common-script.js"></script>
 <script>
   // 좋아요 버튼
   const likeButton = document.querySelector('.like-button');

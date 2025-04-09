@@ -455,7 +455,7 @@
 <body>
 <div class="container">
     <!-- 헤더 영역 -->
-    <div th:replace="fragment/common-header.html :: header"></div>
+    <div th:replace="~{fragment/common-header.html :: header}"></div>
     <!-- 검색 결과 헤더 -->
     <div class="search-header">
         <h1 class="search-title">"<span class="search-query" th:text="${query}">검색어</span>" 검색 결과</h1>
@@ -587,7 +587,7 @@
     </nav>
 
     <!-- 푸터 영역 -->
-    <div th:replace="fragment/common-footer :: footer"></div>
+    <div th:replace="~{fragment/common-footer :: footer}"></div>
 </div>
 
 <!-- 검색 오버레이 -->
