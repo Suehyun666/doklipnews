@@ -1,13 +1,7 @@
 package project.doklipnews.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +28,10 @@ public class ArticleController {
     public ArticleController(ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
         this.commentService = commentService;
+    }
+    @GetMapping
+    public String mainpage() {
+        return "/main";
     }
 
     // 새 기사 작성 페이지
