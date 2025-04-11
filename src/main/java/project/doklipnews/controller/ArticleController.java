@@ -31,7 +31,7 @@ public class ArticleController {
     }
     @GetMapping
     public String mainpage() {
-        return "/main";
+        return "redirect:/main";
     }
 
     // 새 기사 작성 페이지
@@ -50,7 +50,7 @@ public class ArticleController {
         if (article.getFeatured() != null && article.getFeatured()) {
             articleService.setAsFeatured(savedArticle.getId());
         }
-        return "redirect:/articles";
+        return "redirect:/main";
     }
 
     // 특정 기사 조회 - DTO 사용으로 성능 개선
