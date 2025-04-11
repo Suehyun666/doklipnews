@@ -31,12 +31,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(auth -> 
+            .authorizeHttpRequests(auth ->
                 auth.anyRequest().permitAll()
             )
             .oauth2Login(oauth2 -> oauth2
                 .loginPage("/login")
-                .userInfoEndpoint(userInfo -> 
+                .userInfoEndpoint(userInfo ->
                     userInfo.userService(oAuth2UserService)
                 )
                 .successHandler(successHandler())
