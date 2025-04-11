@@ -112,7 +112,7 @@ public class MainController {
     // 카테고리 유효성 검사 메서드
     private boolean isValidCategory(String category) {
         return Arrays.asList("politic", "economy", "industry", "world",
-                "culture", "column","video").contains(category);
+                "culture", "column","video","foreign").contains(category);
     }
 
     // 카테고리 데이터 생성 메서드
@@ -162,6 +162,11 @@ public class MainController {
         video.put("title", "영상");
         video.put("description", "영상이 첨부된 최신 뉴스와 기사를 제공합니다.");
         categoryData.put("video", video);
+
+        Map<String, Object> foreign = new HashMap<>();
+        video.put("title", "외신");
+        video.put("description", "중요하고 긴급한 외신 기사들을 신속하게 제공합니다.");
+        categoryData.put("foreign", foreign);
 
         return categoryData;
     }
