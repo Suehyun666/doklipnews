@@ -164,8 +164,8 @@ public class MainController {
         categoryData.put("video", video);
 
         Map<String, Object> foreign = new HashMap<>();
-        video.put("title", "외신");
-        video.put("description", "중요하고 긴급한 외신 기사들을 신속하게 제공합니다.");
+        foreign.put("title", "외신");
+        foreign.put("description", "중요하고 긴급한 외신 기사들을 신속하게 제공합니다.");
         categoryData.put("foreign", foreign);
 
         return categoryData;
@@ -193,7 +193,4 @@ public class MainController {
     public String privacy() {return "customer/privacy";}
     @GetMapping("/terms")
     public String terms() {return "customer/terms";}
-
-
-
 } 
