@@ -80,9 +80,12 @@
     }
 
     .main-article-summary {
-      font-size: 16px;
-      line-height: 1.5;
-      max-width: 800px;
+      font-size: 14px; /* 폰트 크기 축소 */
+      -webkit-line-clamp: 2; /* 최대 2줄까지만 표시 */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      max-height: 42px;
     }
 
     /* 그리드 뉴스 섹션 */
