@@ -126,7 +126,7 @@
             </div>
             <div class="newsletter-item"
                  th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('world')) }"
-                 th:with="article=${@articleService.findLatestArticlesByCategory('world')[0]}"
+                 th:with="article=${@articleService.findLatestArticlesByCategory('world')[2]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">푸틴, 무슬림 반발에 "이슬람과 싸우는 것 아냐" 진화</h3>
             </div>

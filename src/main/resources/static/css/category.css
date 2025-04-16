@@ -64,6 +64,8 @@ main {
 .main-article-headline {
     font-size: 28px;
     -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     font-weight: bold;
     margin-bottom: 10px;
     line-height: 1.3;
