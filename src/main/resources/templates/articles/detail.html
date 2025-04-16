@@ -20,7 +20,17 @@
       <!-- 기사 헤더 -->
       <div class="article-body">
         <div class="article-header">
-          <div class="article-category" th:text="${article.category}">카테고리</div>
+          <div class="article-category"
+               th:with="categoryKo=${article.category == 'world' ? '국제' :
+                          article.category == 'politic' ? '정치' :
+                          article.category == 'economy' ? '경제' :
+                          article.category == 'industry' ? '산업' :
+                          article.category == 'culture' ? '문화' :
+                          article.category == 'column' ? '칼럼' :
+                          article.category == 'video' ? '영상' :
+                          article.category == 'foreign' ? '외신' :
+                          article.category}"
+               th:text="${categoryKo}">카테고리</div>
           <h1 class="article-title" th:text="${article.title}">기사 제목 - 더 크고 굵게 표시됩니다</h1>
           <div class="article-metadata">
             <span><i class="fas fa-user"></i> <span th:text="${article.author}">저자</span></span>
