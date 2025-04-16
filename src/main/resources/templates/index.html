@@ -91,8 +91,8 @@
           <!-- 두 번째 열 -->
           <div class="newsletter-column">
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('culture')) && @articleService.findLatestArticlesByCategory('culture').size() > 2}"
-                 th:with="article=${@articleService.findLatestArticlesByCategory('culture')[0]}"
+                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('foreign')) && @articleService.findLatestArticlesByCategory('foreign').size() > 2}"
+                 th:with="article=${@articleService.findLatestArticlesByCategory('foreign')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">연예인 사칭 보이스피싱… 평균 피해액 1인당 254만원</h3>
             </div>
@@ -119,8 +119,8 @@
               <h3 class="newsletter-title" th:text="${article.title}">칼럼 | 디지털 플랫폼 기업의 사회적 책임</h3>
             </div>
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('culture')) && @articleService.findLatestArticlesByCategory('culture').size() > 3}"
-                 th:with="article=${@articleService.findLatestArticlesByCategory('culture')[0]}"
+                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('video')) && @articleService.findLatestArticlesByCategory('video').size() > 3}"
+                 th:with="article=${@articleService.findLatestArticlesByCategory('video')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">코로나19 재유행 신호?… "재택치료 문의 급증"</h3>
             </div>
