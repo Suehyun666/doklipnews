@@ -63,12 +63,16 @@ main {
 
 .main-article-headline {
     font-size: 28px;
-    -webkit-line-clamp: 2;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
     font-weight: bold;
     margin-bottom: 10px;
     line-height: 1.3;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: calc(28px * 1.3 * 2);
 }
 
 .main-article-summary {
