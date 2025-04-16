@@ -8,11 +8,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import project.doklipnews.entity.Article;
 import project.doklipnews.service.SearchService;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -128,5 +130,18 @@ public class SearchController {
             // 예외 발생 시 빈 맵 반환
             return Map.of();
         }
+    }
+    @ModelAttribute("categoryUtil")
+    public Map<String, String> categoryUtil() {
+        Map<String, String> categoryMap = new HashMap<>();
+        categoryMap.put("politic", "정치");
+        categoryMap.put("economy", "경제");
+        categoryMap.put("industry", "산업");
+        categoryMap.put("world", "국제");
+        categoryMap.put("culture", "문화");
+        categoryMap.put("column", "칼럼");
+        categoryMap.put("video", "영상");
+        categoryMap.put("foreign", "외신");
+        return categoryMap;
     }
 }

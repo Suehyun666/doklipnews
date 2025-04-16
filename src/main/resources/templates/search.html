@@ -29,9 +29,9 @@
         <div class="search-filters">
             <a class="filter-button" th:classappend="${selectedCategory == null ? 'active' : ''}"
                th:href="@{/search(query=${query})}">전체</a>
-            <a class="filter-button" th:each="category : ${categories.entrySet()}"
+            <a class="filter-button" th:if="${categories != null}" th:each="category : ${categories.entrySet()}"
                th:classappend="${selectedCategory != null && selectedCategory.equals(category.key) ? 'active' : ''}"
-               th:text="${category.value.title}"
+               th:text="${category.value != null && category.value.title != null ? category.value.title : ''}"
                th:href="@{/search(query=${query}, category=${category.key})}">
                 카테고리
             </a>
@@ -83,7 +83,7 @@
                         <p class="grid-excerpt" th:text="${#strings.abbreviate(article.summary, 100)}">기사 발췌</p>
                         <div class="grid-meta">
                             <span th:text="${#temporals.format(article.createdAt, 'yyyy년 MM월 dd일')}">게시일</span> |
-                            <span th:text="${article.category}">카테고리</span>
+                            <span th:text="${article != null ? (article.category != null ? (categoryUtil[article.category] != null ? categoryUtil[article.category] : article.category) : '카테고리') : '카테고리'}">카테고리</span>
                         </div>
                     </div>
                 </a>
@@ -98,7 +98,7 @@
             <!-- 리스트 아이템 동적 생성 -->
             <div class="list-item" th:each="article : ${listArticles}">
                 <a th:href="@{'/articles/' + ${article.id}}">
-                    <div class="list-category" th:text="${article.category}">카테고리</div>
+                    <div class="list-category" th:text="${categoryUtil[article.category]}">카테고리</div>
                     <h3 class="list-title" th:text="${article.title}">기사 제목</h3>
                     <p class="list-summary" th:text="${#strings.abbreviate(article.summary, 150)}">기사 요약</p>
                     <div class="list-meta" th:text="${#temporals.format(article.createdAt, 'yyyy년 MM월 dd일')}">발행일</div>
