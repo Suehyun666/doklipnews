@@ -44,7 +44,17 @@
             <div class="search-main-image" th:style="'background-image: url(' + ${mainArticle.imageUrl != null ? mainArticle.imageUrl : '/images/default-article.jpg'} + ')'"></div>
         </a>
         <div class="search-main-content">
-            <span class="search-main-category" th:text="${mainArticle.category}">카테고리</span>
+            <span class="search-main-category"
+                  th:with="categoryKo=${mainArticle.category == 'world' ? '국제' :
+                           mainArticle.category == 'politic' ? '정치' :
+                           mainArticle.category == 'economy' ? '경제' :
+                           mainArticle.category == 'industry' ? '산업' :
+                           mainArticle.category == 'culture' ? '문화' :
+                           mainArticle.category == 'column' ? '칼럼' :
+                           mainArticle.category == 'video' ? '영상' :
+                           mainArticle.category == 'foreign' ? '외신' :
+                           mainArticle.category}"
+                  th:text="${categoryKo}">카테고리</span>
 
             <h2 class="search-main-title">
                 <a th:href="@{'/articles/' + ${mainArticle.id}}" th:text="${mainArticle.title}">기사 제목</a>
