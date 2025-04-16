@@ -4,391 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>우리 팀 소개</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Noto Sans KR', sans-serif;
-    }
-
-    body {
-      background-color: #f5f5f5;
-      color: #333;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    header {
-      background-color: #fff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      padding: 20px 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: 700;
-      color: #2c3e50;
-    }
-
-    nav ul {
-      display: flex;
-      list-style: none;
-    }
-
-    nav ul li {
-      margin-left: 30px;
-    }
-
-    nav ul li a {
-      text-decoration: none;
-      color: #2c3e50;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    nav ul li a:hover {
-      color: #3498db;
-    }
-
-    .hero {
-      background-color: #2c3e50;
-      color: #fff;
-      padding: 80px 0;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .team-section {
-      padding: 80px 0;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-title h2 {
-      font-size: 36px;
-      color: #2c3e50;
-      margin-bottom: 15px;
-    }
-
-    .section-title p {
-      color: #7f8c8d;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 40px;
-    }
-
-    .team-member {
-      background-color: #fff;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .team-member:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    }
-
-    .member-img {
-      width: 100%;
-      height: 280px;
-      background-color: #eee;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .member-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .member-info {
-      padding: 25px;
-    }
-
-    .member-info h3 {
-      font-size: 22px;
-      margin-bottom: 5px;
-      color: #2c3e50;
-    }
-
-    .member-position {
-      color: #3498db;
-      font-weight: 500;
-      margin-bottom: 15px;
-      display: block;
-    }
-
-    .member-bio {
-      color: #7f8c8d;
-      margin-bottom: 20px;
-    }
-
-    .member-skills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-
-    .skill-tag {
-      background-color: #f1f8fe;
-      color: #3498db;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 15px;
-    }
-
-    .social-links a {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background-color: #f1f8fe;
-      color: #3498db;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    .social-links a:hover {
-      background-color: #3498db;
-      color: #fff;
-    }
-
-    .company-history {
-      padding: 80px 0;
-      background-color: #fff;
-    }
-
-    .timeline {
-      position: relative;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .timeline::after {
-      content: '';
-      position: absolute;
-      width: 4px;
-      background-color: #3498db;
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      margin-left: -2px;
-    }
-
-    .timeline-item {
-      padding: 10px 40px;
-      position: relative;
-      width: 50%;
-      box-sizing: border-box;
-    }
-
-    .timeline-item::after {
-      content: '';
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: #fff;
-      border: 4px solid #3498db;
-      border-radius: 50%;
-      top: 15px;
-      z-index: 1;
-    }
-
-    .left {
-      left: 0;
-    }
-
-    .right {
-      left: 50%;
-    }
-
-    .left::after {
-      right: -10px;
-    }
-
-    .right::after {
-      left: -10px;
-    }
-
-    .timeline-content {
-      padding: 20px;
-      background-color: #f8f9fa;
-      border-radius: 10px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .timeline-year {
-      color: #3498db;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .contact-section {
-      padding: 80px 0;
-      background-color: #2c3e50;
-      color: #fff;
-    }
-
-    .contact-content {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 40px;
-    }
-
-    .contact-info {
-      margin-bottom: 30px;
-    }
-
-    .contact-info h3 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
-
-    .contact-details {
-      list-style: none;
-    }
-
-    .contact-details li {
-      margin-bottom: 15px;
-      display: flex;
-      align-items: flex-start;
-    }
-
-    .contact-details li i {
-      margin-right: 15px;
-      color: #3498db;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      padding: 12px 15px;
-      margin-bottom: 15px;
-      border: none;
-      border-radius: 5px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #fff;
-    }
-
-    .contact-form input::placeholder,
-    .contact-form textarea::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 30px;
-      background-color: #3498db;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #2980b9;
-    }
-
-    footer {
-      background-color: #1a252f;
-      color: #fff;
-      padding: 30px 0;
-      text-align: center;
-    }
-
-    .footer-content p {
-      margin-bottom: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-      }
-
-      nav ul {
-        margin-top: 20px;
-      }
-
-      nav ul li {
-        margin-left: 15px;
-        margin-right: 15px;
-      }
-
-      .hero {
-        padding: 60px 0;
-      }
-
-      .hero h1 {
-        font-size: 32px;
-      }
-
-      .timeline::after {
-        left: 31px;
-      }
-
-      .timeline-item {
-        width: 100%;
-        padding-left: 70px;
-        padding-right: 25px;
-      }
-
-      .timeline-item::after {
-        left: 21px;
-      }
-
-      .right {
-        left: 0;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/css/team.css">
 </head>
 <body>
 <header>
@@ -423,10 +39,10 @@
     <div class="team-grid">
       <div class="team-member">
         <div class="member-img">
-          <img src="/api/placeholder/300/300" alt="김영호 사진">
+          <img src="/api/placeholder/300/300" alt="김지환 사진">
         </div>
         <div class="member-info">
-          <h3>김영호</h3>
+          <h3>김지환</h3>
           <span class="member-position">프로젝트 총괄 매니저</span>
           <p class="member-bio">30년 경력의 IT 프로젝트 관리 전문가. 국내외 대형 프로젝트 다수 경험. 체계적인 프로세스와 냉철한 판단력으로 프로젝트를 성공으로 이끕니다.</p>
           <div class="member-skills">
@@ -435,28 +51,28 @@
             <span class="skill-tag">팀 리더십</span>
           </div>
           <div class="social-links">
-            <a href="#"><i>in</i></a>
-            <a href="#"><i>@</i></a>
+            <a href="https://www.linkedin.com/in/"><i>in</i></a>
+            <a href="https://www.instagram.com/35kimjihwan/"><i>@</i></a>
           </div>
         </div>
       </div>
 
       <div class="team-member">
         <div class="member-img">
-          <img src="/api/placeholder/300/300" alt="박미영 사진">
+          <img src="/images/team/park" alt="박수현 사진">
         </div>
         <div class="member-info">
-          <h3>박미영</h3>
+          <h3>박수현</h3>
           <span class="member-position">시스템 아키텍트</span>
-          <p class="member-bio">25년 경력의 시스템 설계 전문가. 대규모 엔터프라이즈 시스템부터 클라우드 기반 아키텍처까지 다양한 환경에서의 시스템 설계 경험 보유.</p>
+          <p class="member-bio">24년 경력의 시스템 설계 전문가. 대규모 엔터프라이즈 시스템부터 클라우드 기반 아키텍처까지 다양한 환경에서의 시스템 설계 경험 보유.</p>
           <div class="member-skills">
             <span class="skill-tag">시스템 설계</span>
             <span class="skill-tag">클라우드 아키텍처</span>
             <span class="skill-tag">성능 최적화</span>
           </div>
           <div class="social-links">
-            <a href="#"><i>in</i></a>
-            <a href="#"><i>@</i></a>
+            <a href="https://www.linkedin.com/in/%EC%88%98%ED%98%84-%EB%B0%95-719098303/">"><i>in</i></a>
+            <a href="https://www.instagram.com/suehyeon2028/"><i>@</i></a>
           </div>
         </div>
       </div>

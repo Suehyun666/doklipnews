@@ -40,11 +40,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
-    // 관리자 페이지 단축키
-    document.addEventListener('keydown', function(event) {
-        if (event.ctrlKey && event.shiftKey && event.key === '?') {
-            window.location.href = '/articles/admin-secret-xzy123/write';
-        }
-    });
 });

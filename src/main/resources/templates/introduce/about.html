@@ -1,348 +1,159 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>소개 - 獨立新聞</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* 기본 스타일 유지 */
-        :root {
-            --primary-color: #1a1a1a;
-            --secondary-color: #d32f2f;
-            --background-color: #ffffff;
-            --text-color: #333333;
-            --border-color: #e0e0e0;
-            --light-gray: #f5f5f5;
-            --menu-bg: rgba(255, 255, 255, 0.98);
-        }
-
-        /* 기존 CSS 스타일 전체 복사 */
-        /* (이전 문서의 전체 스타일 시트 그대로 유지) */
-
-        /* 추가 페이지별 커스텀 스타일 */
-        .about-hero {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .about-hero h1 {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            align-items: center;
-            margin-bottom: 3rem;
-        }
-
-        .about-section {
-            margin-bottom: 4rem;
-        }
-
-        .section-description {
-            line-height: 1.8;
-            color: var(--text-color);
-        }
-
-        .mission-values {
-            background-color: var(--light-gray);
-            padding: 3rem 0;
-        }
-
-        .values-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-        }
-
-        .value-card {
-            background-color: white;
-            padding: 2rem;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-        }
-
-        .value-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .value-title {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .team-section {
-            background-color: white;
-            padding: 4rem 0;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-        }
-
-        .team-member {
-            text-align: center;
-        }
-
-        .team-photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 1rem;
-        }
-
-        .team-name {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .team-position {
-            color: var(--secondary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .cta-section {
-            background-color: var(--secondary-color);
-            color: white;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .cta-section h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            margin-bottom: 2rem;
-        }
-
-        .cta-button {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background-color: white;
-            color: var(--secondary-color);
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .cta-button:hover {
-            background-color: var(--light-gray);
-            transform: translateY(-5px);
-        }
-    </style>
+    <title>동백일보 - 소개</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/about.css">
 </head>
 <body>
-<!-- 헤더 -->
 <header class="header">
-    <div class="header-content">
+    <div class="top-header">
+        <div class="top-header-content">
+            <div class="date-weather">
+                <span id="current-date">2025년 03월 12일 수요일</span> |
+                <span>서울 20°C 맑음</span>
+            </div>
+            <div class="header-actions">
+                <a href="#">구독신청</a>
+                <a href="#">로그인</a>
+                <a href="#">회원가입</a>
+            </div>
+        </div>
+    </div>
+    <div class="main-header">
         <a href="/static" class="logo">
-            <img src="images/logo.svg" alt="독립신문 로고">
-            獨立新聞
+            <img src="/images/logo.jpg" alt="동백일보 로고">
+            동백일보
         </a>
-        <button class="mobile-menu-btn" id="mobile-menu-btn">☰</button>
-        <nav class="nav-menu" id="nav-menu">
-            <a href="/static" class="nav-link">홈</a>
-            <a href="/articles" class="nav-link">뉴스</a>
-            <div class="has-submenu">
-                <a href="#" class="nav-link contact-link">문의</a>
-                <div class="submenu">
-                    <a href="https://www.instagram.com/novu_naga" target="_blank">인스타그램</a>
-                    <a href="/contact">연락처</a>
-                    <a href="/contact#donation">후원계좌</a>
-                </div>
-            </div>
-            <a href="/about" class="nav-link">소개</a>
-            <div class="auth-buttons">
-                <a href="/login" class="login-btn">로그인</a>
-                <a href="/signup" class="signup-btn">회원가입</a>
-            </div>
-        </nav>
+        <ul class="nav-menu">
+            <li><a href="/static">메인</a></li>
+            <li><a href="/articles?category=국제">국제</a></li>
+            <li><a href="/articles?category=정치">정치</a></li>
+            <li><a href="/articles?category=경제">경제</a></li>
+            <li><a href="/articles?category=산업">산업</a></li>
+            <li><a href="/articles?category=예술">예술</a></li>
+            <li><a href="/articles?category=외신">외신</a></li>
+            <li><a href="/articles?category=칼럼">칼럼</a></li>
+            <li><a href="/about" class="active">소개</a></li>
+            <li><a href="/contact">문의</a></li>
+        </ul>
     </div>
 </header>
 
-<!-- 메인 콘텐츠 -->
-<main class="main-content">
-    <!-- 히어로 섹션 -->
-    <section class="about-hero">
-        <div class="container">
-            <h1>진실을 향한 언론의 사명</h1>
-            <p>대한민국의 가치와 미래를 향한 독립신문의 여정</p>
+<div class="main-content">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">동백일보 소개</h1>
+            <p class="page-subtitle">신뢰할 수 있는 보도로 독자와 함께하는 대한민국 대표 언론사</p>
         </div>
-    </section>
 
-    <!-- 미션 섹션 -->
-    <section class="container about-section">
-        <h2 class="section-title">우리의 미션</h2>
-        <div class="about-content">
-            <div class="section-description">
-                <p>獨立新聞은 1896년 서재필 박사의 창간 정신을 이어받아 대한민국의 자유민주주의와 헌법적 가치를 수호하는 언론으로 새롭게 출발했습니다.</p>
-                <p>우리는 진실과 정의를 추구하며, 편향되지 않은 균형 잡힌 시각으로 뉴스를 전달합니다. 국가의 근본 가치를 지키고, 국민의 알 권리를 충족시키는 것이 우리의 최우선 목표입니다.</p>
+        <div class="about-section">
+            <h2 class="section-title">우리의 역사</h2>
+            <p class="about-content">동백일보는 1956년 6월 12일 창간된 이래, 대한민국의 민주주의와 함께 성장해 온 대표적인 일간지입니다. 창간 당시 4면 신문으로 시작하여 현재는 종합 미디어 그룹으로 성장하였습니다. 동백일보는 국내 언론사 중 가장 많은 독자층을 확보하고 있으며, 온라인과 모바일 플랫폼을 통해 전 세계 어디서나 접근 가능한 뉴스 서비스를 제공하고 있습니다.</p>
+
+            <div class="about-image">
+                <img src="/api/placeholder/800/400" alt="동백일보 역사 이미지">
+                <p class="caption">1956년 창간 당시 동백일보 편집실</p>
             </div>
-            <div>
-                <img src="/images/mission-image.jpg" alt="독립신문 미션" style="width:100%; border-radius:8px;">
-            </div>
+
+            <p class="about-content">동백일보는 창간 이래 한국사회의 중요한 전환점마다 객관적이고 공정한 보도로 국민의 알 권리를 지켜왔습니다. 1960년대 민주화 운동, 1980년대 민주주의 확산, 1990년대 세계화 물결과 IMF 경제위기, 2000년대 디지털 혁명, 그리고 현재의 4차 산업혁명에 이르기까지 시대의 변화를 함께하며 한국 언론의 역사를 써왔습니다.</p>
         </div>
-    </section>
 
-    <!-- 핵심 가치 섹션 -->
-    <section class="mission-values">
-        <div class="container">
-            <h2 class="section-title">핵심 가치</h2>
-            <div class="values-grid">
+        <div class="about-section">
+            <h2 class="section-title">비전과 가치</h2>
+            <p class="about-content">동백일보는 '진실을 통해 더 나은 사회를 만든다'는 사명 아래, 정확하고 공정한 보도, 깊이 있는 분석, 그리고 독자와의 소통을 중요한 가치로 삼고 있습니다. 저희는 언론의 본질인 공정성과 독립성을 지키며, 사회 각계각층의 다양한 목소리를 담아내기 위해 노력합니다.</p>
+
+            <div class="mission-values">
                 <div class="value-card">
+                    <div class="value-icon">◯</div>
                     <h3 class="value-title">공정성</h3>
-                    <p>모든 관점을 균형 있게 다루고, 객관적이고 중립적인 보도를 추구합니다.</p>
+                    <p>모든 이슈와 사건에 대해 균형 잡힌 시각으로 접근하며, 특정 이해관계에 치우치지 않는 객관적 보도를 지향합니다.</p>
                 </div>
                 <div class="value-card">
-                    <h3 class="value-title">진실성</h3>
-                    <p>정확하고 검증된 정보를 바탕으로 깊이 있는 보도를 제공합니다.</p>
+                    <div class="value-icon">◯</div>
+                    <h3 class="value-title">독립성</h3>
+                    <p>어떠한 정치적, 경제적 압력으로부터 자유로운 독립적인 편집 방침을 유지하며 언론의 본질을 지켜갑니다.</p>
                 </div>
                 <div class="value-card">
-                    <h3 class="value-title">책임감</h3>
-                    <p>사회적 책임을 인식하고, 국가와 국민을 위한 언론의 역할을 다합니다.</p>
-                </div>
-                <div class="value-card">
+                    <div class="value-icon">◯</div>
                     <h3 class="value-title">혁신</h3>
-                    <p>디지털 시대에 맞는 혁신적인 저널리즘을 추구합니다.</p>
+                    <p>디지털 시대에 맞는 새로운 뉴스 전달 방식을 끊임없이 연구하며, 독자와의 소통 채널을 다양화합니다.</p>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- 팀 섹션 -->
-    <section class="container team-section">
-        <h2 class="section-title">우리의 전문가들</h2>
-        <div class="team-grid">
-            <div class="team-member">
-                <img src="/images/staff.jpg" alt="김정호 편집장" class="team-photo">
-                <h3 class="team-name">김정호</h3>
-                <div class="team-position">편집장</div>
-                <p>30년 언론 경력, 전 중앙일보 정치부장</p>
-            </div>
-            <div class="team-member">
-                <img src="/images/reporter.png" alt="이태규 정치부장" class="team-photo">
-                <h3 class="team-name">이태규</h3>
-                <div class="team-position">정치부장</div>
-                <p>20년 정치 현장 취재 경험</p>
-            </div>
-            <div class="team-member">
-                <img src="/images/reporter.png" alt="박경제 경제부장" class="team-photo">
-                <h3 class="team-name">박경제</h3>
-                <div class="team-position">경제부장</div>
-                <p>경제학 박사, 전 한국경제 논설위원</p>
-            </div>
-            <div class="team-member">
-                <img src="/images/reporter.png" alt="정세계 국제부장" class="team-photo">
-                <h3 class="team-name">정세계</h3>
-                <div class="team-position">국제부장</div>
-                <p>전 워싱턴 특파원, 외교안보 전문가</p>
-            </div>
-        </div>
-    </section>
+        <div class="about-section">
+            <h2 class="section-title">조직 구성</h2>
+            <p class="about-content">동백일보는 본사를 서울에 두고, 전국 6개 지역 지사와 해외 10개국에 특파원을 파견하고 있습니다. 총 500여 명의 기자와 편집인력이 24시간 뉴스를 생산하고 있으며, 디지털 미디어 전문가, 데이터 분석팀, 영상 제작팀 등 다양한 전문 인력이 함께하고 있습니다.</p>
 
-    <!-- CTA 섹션 -->
-    <section class="cta-section">
-        <h2>독립신문과 함께 성장하세요</h2>
-        <p>우리의 저널리즘에 동참하고 대한민국의 미래를 함께 만들어가세요.</p>
-        <a href="/subscribe" class="cta-button">구독하기</a>
-    </section>
-</main>
+            <p class="about-content">저희는 국내 최고의 전문가들로 구성된 편집위원회를 통해 심층적인 분석 기사와 오피니언을 제공하며, 독립적인 편집권을 보장하는 조직 구조를 갖추고 있습니다. 또한 독자 의견 수렴을 위한 독자위원회를 운영하며, 보도의 공정성과 정확성을 위한 팩트체크팀을 별도로 두고 있습니다.</p>
+        </div>
 
-<!-- 푸터 -->
-<footer class="footer">
-    <div class="footer-content">
-        <div class="footer-col">
-            <a href="/static" class="footer-logo">獨立新聞</a>
-            <p class="footer-about">독립신문은 진실과 공정한 보도를 통해 올바른 여론 형성에 기여하고 사회 발전에 이바지하고자 합니다.</p>
-            <div class="footer-social">
-                <a href="https://www.facebook.com" target="_blank" class="social-icon"><img src="images/facebook.svg" alt="Facebook"></a>
-                <a href="https://www.instagram.com/novu_naga" target="_blank" class="social-icon"><img src="images/instagram.svg" alt="Instagram"></a>
-                <a href="https://www.youtube.com" target="_blank" class="social-icon"><img src="images/youtube.svg" alt="YouTube"></a>
-                <a href="https://twitter.com" target="_blank" class="social-icon"><img src="images/x.svg" alt="X"></a>
-            </div>
-        </div>
-        <div class="footer-col">
-            <h3>카테고리</h3>
-            <ul class="footer-links">
-                <li><a href="/articles?category=politics">정치</a></li>
-                <li><a href="/articles?category=economy">경제</a></li>
-                <li><a href="/articles?category=society">사회</a></li>
-                <li><a href="/articles?category=culture">문화</a></li>
-                <li><a href="/articles?category=international">국제</a></li>
-                <li><a href="/articles?category=tech">기술/과학</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h3>독립신문 소개</h3>
-            <ul class="footer-links">
-                <li><a href="/about">소개</a></li>
-                <li><a href="/team">팀원 소개</a></li>
-                <li><a href="/mission">미션과 비전</a></li>
-                <li><a href="/history">연혁</a></li>
-                <li><a href="/jobs">채용정보</a></li>
-            </ul>
-        </div>
-        <div class="footer-col">
-            <h3>고객센터</h3>
-            <ul class="footer-links">
-                <li><a href="/contact">문의하기</a></li>
-                <li><a href="/faq">자주 묻는 질문</a></li>
-                <li><a href="/contact#donation">후원하기</a></li>
-                <li><a href="/privacy">개인정보처리방침</a></li>
-                <li><a href="/terms">이용약관</a></li>
-            </ul>
+        <div class="about-cta">
+            <h2 class="cta-title">동백일보와 함께해 주세요</h2>
+            <p class="cta-text">정확한 뉴스와 깊이 있는 분석을 매일 받아보세요. 종이신문 구독, 디지털 멤버십, 뉴스레터 등 다양한 방법으로 동백일보를 만나실 수 있습니다.</p>
+            <a href="#" class="cta-button">구독 신청하기</a>
         </div>
     </div>
-    <div class="footer-bottom">
-        <p>&copy; 2025 獨立新聞 (독립신문). All Rights Reserved. | 서울특별시 종로구 세종대로 123 | 대표번호: 02-123-4567</p>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>동백일보 소개</h3>
+            <p>동백일보는 1956년 창간된 대한민국의 대표적인 일간지로, 공정하고 신뢰할 수 있는 보도를 통해 독자들에게 가치 있는 정보를 제공합니다.</p>
+            <p>우리는 언론의 독립성과 공정성을 최우선 가치로 삼고 있습니다.</p>
+        </div>
+        <div class="footer-section">
+            <h3>구독 안내</h3>
+            <ul class="footer-links">
+                <li><a href="#">종이신문 구독신청</a></li>
+                <li><a href="#">디지털 구독신청</a></li>
+                <li><a href="#">해외 구독신청</a></li>
+                <li><a href="#">구독료 결제</a></li>
+                <li><a href="#">구독 문의</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>서비스</h3>
+            <ul class="footer-links">
+                <li><a href="#">모바일 앱</a></li>
+                <li><a href="#">기사 제보</a></li>
+                <li><a href="#">광고 문의</a></li>
+                <li><a href="#">개인정보처리방침</a></li>
+                <li><a href="#">이용약관</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>연락처</h3>
+            <p>서울특별시 중구 세종대로 110</p>
+            <p>전화: 02-123-4567</p>
+            <p>이메일: info@dongbaek.news</p>
+            <p>팩스: 02-123-4568</p>
+        </div>
+    </div>
+    <div class="copyright">
+        Copyright © 1956-2025 동백일보. All rights reserved.
     </div>
 </footer>
 
-<button id="top-button" title="맨 위로">↑</button>
-
 <script>
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-    const navMenu = document.getElementById('nav-menu');
+    // 현재 날짜 표시
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateElement = document.getElementById('current-date');
+        const now = new Date();
 
-    mobileMenuBtn.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-    });
+        const days = ['일', '월', '화', '수', '목', '금', '토'];
+        const dayOfWeek = days[now.getDay()];
 
-    // Show/hide back to top button
-    const topButton = document.getElementById('top-button');
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
 
-    window.addEventListener('scroll', () => {
-        if (window.pageYOffset > 300) {
-            topButton.classList.add('visible');
-        } else {
-            topButton.classList.remove('visible');
-        }
-    });
-
-    topButton.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        dateElement.textContent = `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
     });
 </script>
+</body>
+</html>

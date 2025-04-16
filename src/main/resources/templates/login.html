@@ -5,105 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>로그인</title>
   <link rel="icon" href="/images/icon.jpg" type="image/jpeg">
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f7f7f7; /* 밝은 회색 배경 */
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .login-container {
-      background-color: #ffffff;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-      width: 360px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center; /* 중앙 정렬 */
-      text-align: center;
-    }
-
-    h2 {
-      margin-bottom: 30px;
-      font-size: 26px;
-      color: #333333; /* 짙은 회색 */
-      font-weight: 600;
-    }
-
-    input, button {
-      width: 100%;
-      padding: 14px;
-      margin: 12px 0;
-      border-radius: 8px;
-      font-size: 16px;
-      color: #555; /* 연한 회색 텍스트 */
-      transition: all 0.3s ease;
-      box-sizing: border-box; /* 테두리와 패딩을 포함한 전체 너비 계산 */
-    }
-
-    input {
-      border: 1px solid #ddd; /* 회색 테두리 */
-      background-color: #f9f9f9; /* 밝은 회색 배경 */
-    }
-
-    input:focus {
-      outline: none;
-      border-color: #888; /* 어두운 회색 포커스 */
-      background-color: #ffffff;
-    }
-
-    button {
-      background-color: #333333; /* 짙은 회색 버튼 */
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      margin-bottom: 20px; /* 버튼과 비밀번호 찾기 링크 사이 여유 공간 */
-    }
-
-    button:hover {
-      background-color: #555555; /* 버튼 hover 시 색상 변경 */
-    }
-
-    .error {
-      color: #e74c3c;
-      font-size: 14px;
-      display: none;
-      margin-top: 10px;
-    }
-
-    .forgot-password {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #888; /* 연한 회색 텍스트 */
-      cursor: pointer;
-      transition: color 0.3s ease;
-      display: block;
-    }
-
-    .forgot-password:hover {
-      color: #333333; /* 클릭 시 짙은 회색으로 변경 */
-    }
-    .signup-container {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #888; /* 연한 회색 텍스트 */
-      cursor: pointer;
-      transition: color 0.3s ease;
-      display: block;
-    }
-
-    .signup-container:hover {
-      color: #333333; /* 클릭 시 짙은 회색으로 변경 */
-    }
-
-  </style>
+  <link rel="stylesheet" href="/css/login.css">
 </head>
 <body>
 
@@ -119,32 +21,6 @@
   <a class="kakao-login" href="/oauth2/authorization/kakao">카카오 로그인</a>
   <a class="signup-container" href="signup">회원가입</a>
 </div>
-
-<script>
-  const form = document.getElementById('loginForm');
-  const errorMessage = document.getElementById('errorMessage');
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    // 로그인 유효성 검사 (예시: 사용자명 = 'user', 비밀번호 = 'password')
-    if (username === 'user' && password === 'password') {
-      alert('로그인 성공!');
-      return "article";
-      // 로그인 성공 후 처리 로직 (예: 다른 페이지로 리디렉션)
-    } else {
-      errorMessage.style.display = 'block';
-      window.location.href = '/main';
-    }
-  });
-  const forgotPasswordLink = document.querySelector('.forgot-password');
-  forgotPasswordLink.addEventListener('click', function(e) {
-    e.preventDefault(); 
-    alert('어쩌라구요 기억해내세요.');
-  });
-</script>
-
+<script src="/js/login.js"></script>
 </body>
 </html>
