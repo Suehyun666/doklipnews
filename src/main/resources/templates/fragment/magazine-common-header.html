@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Header Fragment -->
+<header class="header" th:fragment="header">
+    <div class="header-content">
+        <a href="/" class="logo">BEAT MAGAZINE</a>
+        <nav class="nav">
+            <a href="/" class="active">홈</a>
+            <a href="/reviews">리뷰</a>
+            <a href="/interviews">인터뷰</a>
+            <a href="/charts">차트</a>
+            <a href="/rhythm-games">리듬게임</a>
+            <a href="/events">이벤트</a>
+        </nav>
+        <div class="header-actions">
+            <button class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <nav class="mobile-nav">
+            <a href="/">홈</a>
+            <a href="/reviews">리뷰</a>
+            <a href="/interviews">인터뷰</a>
+            <a href="/charts">차트</a>
+            <a href="/rhythm-games">리듬게임</a>
+            <a href="/events">이벤트</a>
+        </nav>
+    </div>
+</header>
+
+</html>

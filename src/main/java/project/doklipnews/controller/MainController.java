@@ -193,4 +193,8 @@ public class MainController {
     public String privacy() {return "customer/privacy";}
     @GetMapping("/terms")
     public String terms() {return "customer/terms";}
+
+    @GetMapping("/example")
+    public String example() {return "magazine-index";}
+
 } 

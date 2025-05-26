@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEAT MAGAZINE - 음악 & 리듬게임 매거진</title>
+  <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+  <meta name="description" content="음악과 리듬게임의 모든 것. 최신 앨범 리뷰, 아티스트 인터뷰, 리듬게임 가이드까지">
+  <meta name="keywords" content="음악, 리듬게임, 앨범리뷰, K-POP, DJMAX, 비트세이버">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/magazine-style.css">
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<!-- Header -->
+<div th:replace="~{fragment/magazine-common-header :: header}"></div>
+
+<!-- Main Content -->
+<div class="container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-main">
+      <div class="hero-content">
+        <h1>NewJeans의 새로운 도전, 'Get Up'에서 발견한 리듬게임의 미래</h1>
+        <p>Y2K 사운드와 모던 프로덕션이 만나 탄생한 완벽한 조화. 각 트랙이 리듬게임에서 어떤 가능성을 보여주는지 심층 분석했습니다.</p>
+        <div class="hero-meta">
+          <span>ALBUM REVIEW</span>
+          <span>•</span>
+          <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy.MM.dd')}">2025.05.26</span>
+          <span>•</span>
+          <span>8분 읽기</span>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img th:src="${featuredArticle?.imageUrl ?: '/images/placeholder/hero-default.jpg'}"
+             th:alt="${featuredArticle?.title ?: 'Featured Article'}"
+             loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <div class="main-layout">
+    <!-- Main Content -->
+    <main>
+      <!-- Album Reviews Section -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">최신 앨범 리뷰</h2>
+          <a href="/reviews" class="section-link">전체 보기 →</a>
+        </div>
+        <div class="album-grid">
+          <!-- Thymeleaf로 앨범 데이터 출력 -->
+          <div class="album-card"
+               th:each="album, stat : ${@articleService.findLatestArticlesByCategory('review')}"
+               th:if="${stat.index < 3}"
+               th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${album.id})} + '\''">
+            <div class="album-cover">
+              <div class="album-rating" th:if="${album.rating != null}"
+                   th:text="${album.rating}">9.2</div>
+              <img th:src="${album.imageUrl ?: '/images/placeholder/album-default.jpg'}"
+                   th:alt="${album.title}"
+                   loading="lazy">
+            </div>
+            <div class="album-info">
+              <h3 th:text="${album.title}">앨범 제목</h3>
+              <div class="album-artist" th:text="${album.artistName ?: '아티스트'}">아티스트명</div>
+              <div class="album-meta">
+                <span th:text="${#temporals.format(album.createdAt, 'yyyy.MM.dd')}">2025.05.20</span>
+                <span th:text="${album.category}">K-POP</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 데이터가 없을 때 기본 카드들 -->
+          <div class="album-card" th:if="${#lists.isEmpty(@articleService.findLatestArticlesByCategory('review'))}">
+            <div class="album-cover">
+              <div class="album-rating">9.2</div>
+              <img src="/images/placeholder/album-default.jpg" alt="Default Album" loading="lazy">
+            </div>
+            <div class="album-info">
+              <h3>I'VE MINE</h3>
+              <div class="album-artist">아이브 (IVE)</div>
+              <div class="album-meta">
+                <span>2025.05.20</span>
+                <span>K-POP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latest Articles Section -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">최신 기사</h2>
+          <a href="/articles" class="section-link">전체 보기 →</a>
+        </div>
+        <div class="article-grid">
+          <!-- Thymeleaf로 기사 데이터 출력 -->
+          <article class="article-card"
+                   th:each="article, stat : ${@articleService.findLatestArticles()}"
+                   th:if="${stat.index < 4}"
+                   th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
+            <div class="article-image">
+              <img th:src="${article.imageUrl ?: '/images/placeholder/article-default.jpg'}"
+                   th:alt="${article.title}"
+                   loading="lazy">
+            </div>
+            <div class="article-category" th:text="${article.category}">RHYTHM GAME</div>
+            <h3 class="article-title" th:text="${article.title}">기사 제목</h3>
+            <p class="article-excerpt" th:text="${#strings.abbreviate(article.summary, 120)}">기사 요약 내용...</p>
+            <div class="article-meta">
+              <span class="article-date" th:text="${#temporals.format(article.createdAt, 'yyyy.MM.dd')}">2025.05.26</span>
+              <span class="article-reading-time">5분 읽기</span>
+            </div>
+          </article>
+
+          <!-- 데이터가 없을 때 기본 기사들 -->
+          <article class="article-card" th:if="${#lists.isEmpty(@articleService.findLatestArticles())}">
+            <div class="article-image">
+              <img src="/images/placeholder/article-default.jpg" alt="Default Article" loading="lazy">
+            </div>
+            <div class="article-category">RHYTHM GAME</div>
+            <h3 class="article-title">DJMAX RESPECT V 'Cosmic Mind' 완전 정복 가이드</h3>
+            <p class="article-excerpt">최고 난이도 15레벨의 신곡을 마스터하는 법. 노트 패턴 분석부터 실전 팁까지 상세히 다룹니다.</p>
+            <div class="article-meta">
+              <span class="article-date">2025.05.26</span>
+              <span class="article-reading-time">5분 읽기</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Newsletter -->
+      <section class="section">
+        <div class="newsletter">
+          <h3>BEAT MAGAZINE 뉴스레터</h3>
+          <p>최신 앨범 리뷰와 리듬게임 소식을 가장 빠르게 받아보세요</p>
+          <form class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="이메일 주소를 입력하세요" required>
+            <button type="submit" class="newsletter-button">구독하기</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">인기 급상승</h3>
+        <ul class="trending-list">
+          <!-- Thymeleaf로 인기 기사 출력 -->
+          <li class="trending-item"
+              th:each="trending, stat : ${@articleService.findTrendingArticles()}"
+              th:if="${stat.index < 5}"
+              th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${trending.id})} + '\''">
+            <span class="trending-number" th:text="${stat.count}">1</span>
+            <span class="trending-title" th:text="${trending.title}">인기 기사 제목</span>
+          </li>
+
+          <!-- 기본 트렌딩 아이템들 (데이터가 없을 때) -->
+          <li class="trending-item" th:if="${#lists.isEmpty(@articleService.findTrendingArticles())}">
+            <span class="trending-number">1</span>
+            <span class="trending-title">aespa 'Spicy' 리듬게임 패턴 완전 분석</span>
+          </li>
+          <li class="trending-item" th:if="${#lists.isEmpty(@articleService.findTrendingArticles())}">
+            <span class="trending-number">2</span>
+            <span class="trending-title">DJMAX 새 작품 개발 중? 공식 힌트 해석</span>
+          </li>
+          <li class="trending-item" th:if="${#lists.isEmpty(@articleService.findTrendingArticles())}">
+            <span class="trending-number">3</span>
+            <span class="trending-title">비트세이버 MOD 추천 BEST 10</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">이번 주 리듬게임 차트</h3>
+        <!-- 차트 데이터 출력 -->
+        <div class="chart-item"
+             th:each="chart, stat : ${@articleService.findLatestArticlesByCategory('rhythm-game')}"
+             th:if="${stat.index < 3}">
+          <span class="chart-number" th:text="${stat.count}">1</span>
+          <div class="chart-cover">
+            <img th:src="${chart.imageUrl ?: '/images/placeholder/chart-default.jpg'}"
+                 th:alt="${chart.title}"
+                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+          </div>
+          <div class="chart-info">
+            <h4 th:text="${chart.title}">곡 제목</h4>
+            <div class="chart-artist" th:text="${chart.artistName ?: 'Various Games'}">게임명</div>
+          </div>
+        </div>
+
+        <!-- 기본 차트 (데이터가 없을 때) -->
+        <div class="chart-item" th:if="${#lists.isEmpty(@articleService.findLatestArticlesByCategory('rhythm-game'))}">
+          <span class="chart-number">1</span>
+          <div class="chart-cover"></div>
+          <div class="chart-info">
+            <h4>NewJeans - Get Up</h4>
+            <div class="chart-artist">DJMAX, TAPSONIC</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragment/magazine-common-footer :: footer}"></div>
+<div th:replace="~{fragment/magazine-common-footer :: footer}"></div>
+
+<!-- JavaScript -->
+<script src="/js/magazine-common-script.js"></script>
+<script>
+  // 페이지별 특화 스크립트
+  document.addEventListener('DOMContentLoaded', function() {
+    // 히어로 섹션 애니메이션
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+      heroContent.classList.add('animate-on-scroll');
+    }
+
+    // 앨범/기사 카드들에 애니메이션 클래스 추가
+    const cards = document.querySelectorAll('.album-card, .article-card');
+    cards.forEach((card, index) => {
+      card.classList.add('animate-on-scroll');
+      card.style.animationDelay = `${index * 0.1}s`;
+    });
+  });
+</script>
+</body>
+</html>
