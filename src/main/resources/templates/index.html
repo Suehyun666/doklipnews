@@ -69,19 +69,19 @@
           <!-- 첫 번째 열 -->
           <div class="newsletter-column">
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('politic')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('politic').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('politic')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">한미, 북핵 공동대응 연구반 가동… "2차 공격도 모색"</h3>
             </div>
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('economy')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('economy').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('economy')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">요양병원·시설 야간 간호인력 배치 의무화, 1년 연기</h3>
             </div>
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('world')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('world').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('world')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">유엔 "美, 이스라엘에 무기 판매 중단해야"…미국 "부적절한 요구"</h3>
@@ -91,19 +91,19 @@
           <!-- 두 번째 열 -->
           <div class="newsletter-column">
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('foreign')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('foreign').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('foreign')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">연예인 사칭 보이스피싱… 평균 피해액 1인당 254만원</h3>
             </div>
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('economy')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('economy').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('economy')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">대우건설, 최대주주 변경 후 첫 임원인사… 신임 CFO 중심 조직안정</h3>
             </div>
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('industry'))}"
+                 th:if="${@articleService.findLatestArticlesByCategory('industry').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('industry')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">현대차 N 라인, 전기차로 확장… 첫 모델은 아이오닉 5</h3>
@@ -113,19 +113,20 @@
           <!-- 세 번째 열 -->
           <div class="newsletter-column">
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('column')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('column').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('column')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">칼럼 | 디지털 플랫폼 기업의 사회적 책임</h3>
             </div>
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('video')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('video').size() > 0}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('video')[0]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">코로나19 재유행 신호?… "재택치료 문의 급증"</h3>
             </div>
+            <!-- 129번째 줄 문제 해결: 3개 이상 있을 때만 표시 -->
             <div class="newsletter-item"
-                 th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('world')) }"
+                 th:if="${@articleService.findLatestArticlesByCategory('world').size() > 2}"
                  th:with="article=${@articleService.findLatestArticlesByCategory('world')[2]}"
                  th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
               <h3 class="newsletter-title" th:text="${article.title}">푸틴, 무슬림 반발에 "이슬람과 싸우는 것 아냐" 진화</h3>
@@ -139,7 +140,7 @@
         <h2 class="section-title">주요 기사 포커스</h2>
         <div class="focus-news">
           <!-- 문화 카테고리 기사 -->
-          <div class="focus-item" th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('culture')) && @articleService.findLatestArticlesByCategory('culture').size() > 1}"
+          <div class="focus-item" th:if="${@articleService.findLatestArticlesByCategory('culture').size() > 0}"
                th:with="article=${@articleService.findLatestArticlesByCategory('culture')[0]}"
                th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
             <img th:src="${article.imageUrl != null ? article.imageUrl : '/images/placeholder/default.svg'}"
@@ -151,7 +152,7 @@
           </div>
 
           <!-- 국제 카테고리 기사 -->
-          <div class="focus-item" th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('world')) && @articleService.findLatestArticlesByCategory('world').size() > 2}"
+          <div class="focus-item" th:if="${@articleService.findLatestArticlesByCategory('world').size() > 1}"
                th:with="article=${@articleService.findLatestArticlesByCategory('world')[1]}"
                th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
             <img th:src="${article.imageUrl != null ? article.imageUrl : '/images/placeholder/default.svg'}"
@@ -163,7 +164,7 @@
           </div>
 
           <!-- 칼럼 카테고리 기사 -->
-          <div class="focus-item" th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('column')) && @articleService.findLatestArticlesByCategory('column').size() > 2}"
+          <div class="focus-item" th:if="${@articleService.findLatestArticlesByCategory('column').size() > 1}"
                th:with="article=${@articleService.findLatestArticlesByCategory('column')[1]}"
                th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${article.id})} + '\''">
             <img th:src="${article.imageUrl != null ? article.imageUrl : '/images/placeholder/default.svg'}"
@@ -308,7 +309,7 @@
       <section class="sidebar-section">
         <h3 class="sidebar-title">인기 영상</h3>
         <div class="sidebar-content">
-          <div class="video-sidebar-item" th:if="${not #lists.isEmpty(@articleService.findLatestArticlesByCategory('video'))}"
+          <div class="video-sidebar-item" th:if="${@articleService.findLatestArticlesByCategory('video').size() > 0}"
                th:with="video=${@articleService.findLatestArticlesByCategory('video')[0]}"
                th:onclick="'window.location.href = \'' + @{/articles/{id}(id=${video.id})} + '\''">
             <div class="video-sidebar-thumb" style="position: relative; margin-bottom: 10px;">
