@@ -1,0 +1,1186 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZENERATE - Electronic Music & Culture Magazine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a0a0a;
+            --secondary: #1a1a1a;
+            --accent: #00ff88;
+            --accent-blue: #0084ff;
+            --accent-purple: #8b5cf6;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --border: #2a2a2a;
+            --gradient-1: linear-gradient(135deg, #00ff88 0%, #0084ff 100%);
+            --gradient-2: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+            --gradient-3: linear-gradient(135deg, #0084ff 0%, #8b5cf6 100%);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background:
+                radial-gradient(circle at 20% 50%, #00ff88 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, #0084ff 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, #8b5cf6 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 32px;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            color: var(--text-primary);
+        }
+
+        .nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-1);
+            border-radius: 1px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-left: 24px;
+        }
+
+        .search-input {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 10px 16px 10px 40px;
+            border-radius: 12px;
+            font-size: 14px;
+            width: 240px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 120px;
+            position: relative;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(48px, 5vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .meta-tag {
+            background: var(--gradient-1);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-info {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-1);
+            color: var(--primary);
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .hero-visual {
+            position: relative;
+            aspect-ratio: 1;
+            background: var(--secondary);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .visual-overlay {
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-3);
+            opacity: 0.1;
+            mix-blend-mode: overlay;
+        }
+
+        .visual-content {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .waveform {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(90deg,
+                var(--accent) 0%,
+                var(--accent-blue) 25%,
+                var(--accent-purple) 50%,
+                var(--accent-blue) 75%,
+                var(--accent) 100%);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .waveform::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: wave-scan 3s infinite;
+        }
+
+        @keyframes wave-scan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 80px;
+            margin-bottom: 120px;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .section-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .section-link:hover {
+            gap: 12px;
+        }
+
+        /* Release Grid */
+        .release-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .release-card {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .release-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .release-cover {
+            aspect-ratio: 1;
+            background: var(--gradient-2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .release-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .release-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .release-rating {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent);
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .release-info {
+            padding: 24px;
+        }
+
+        .release-genre {
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .release-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+        }
+
+        .release-artist {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .release-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Article Grid */
+        .article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .article-card {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-blue);
+        }
+
+        .article-image {
+            aspect-ratio: 16/10;
+            background: var(--gradient-3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .article-content {
+            padding: 24px;
+        }
+
+        .article-category {
+            color: var(--accent-blue);
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .article-title {
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .article-excerpt {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            padding-top: 0;
+        }
+
+        .sidebar-section {
+            background: var(--secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        /* Trending List */
+        .trending-list {
+            list-style: none;
+        }
+
+        .trending-item {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .trending-item:hover {
+            background: rgba(0, 255, 136, 0.05);
+            margin: 0 -24px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-number {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-1);
+            color: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .trending-title {
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        /* Chart */
+        .chart-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .chart-item:hover {
+            background: rgba(0, 132, 255, 0.05);
+            margin: 0 -24px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .chart-item:last-child {
+            border-bottom: none;
+        }
+
+        .chart-number {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--accent-blue);
+            width: 32px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .chart-cover {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-2);
+            border-radius: 8px;
+            margin: 0 16px;
+        }
+
+        .chart-info h4 {
+            font-weight: 500;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .chart-artist {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        /* Newsletter */
+        .newsletter {
+            background: linear-gradient(135deg, var(--secondary) 0%, #1a1a2e 100%);
+            border: 1px solid var(--border);
+            padding: 48px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .newsletter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--gradient-1);
+        }
+
+        .newsletter h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .newsletter p {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-size: 15px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 16px 20px;
+            background: var(--primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .newsletter-button {
+            background: var(--gradient-1);
+            color: var(--primary);
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Live Indicator */
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #ff3333;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .live-text {
+            color: #ff3333;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 16px 20px;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 48px;
+                text-align: center;
+            }
+
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .hero-actions {
+                justify-content: center;
+            }
+
+            .section {
+                margin-bottom: 48px;
+            }
+
+            .release-grid,
+            .article-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">ZENERATE</a>
+            <nav class="nav">
+                <a href="#" class="active">Home</a>
+                <a href="#">Reviews</a>
+                <a href="#">Artists</a>
+                <a href="#">Charts</a>
+                <a href="#">Events</a>
+                <a href="#">Radio</a>
+            </nav>
+            <div class="search-box">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search artists, tracks, labels...">
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1>Aphex Twin의 새로운 앰비언트 실험</h1>
+                    <p class="hero-subtitle">30년 경력의 전자음악 거장이 선보이는 AI와 인간의 창작 경계선. 'Selected Ambient Works Volume 3'에서 발견한 미래 사운드스케이프.</p>
+
+                    <div class="hero-meta">
+                        <span class="meta-tag">ALBUM REVIEW</span>
+                        <span class="meta-info">2025.05.27 • 12 min read</span>
+                    </div>
+
+                    <div class="hero-actions">
+                        <a href="#" class="btn-primary">
+                            <i class="fas fa-play"></i>
+                            Listen Now
+                        </a>
+                        <a href="#" class="btn-secondary">Read Review</a>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <div class="visual-overlay"></div>
+                    <div class="visual-content">
+                        <div class="waveform"></div>
+                        <h3 style="margin-top: 24px; font-size: 18px; color: var(--text-primary);">Live Spectrum Analysis</h3>
+                        <p style="margin-top: 8px; color: var(--text-secondary); font-size: 14px;">Real-time audio visualization</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-layout">
+            <!-- Main Content -->
+            <main>
+                <!-- Latest Releases -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Latest Releases</h2>
+                        <a href="#" class="section-link">
+                            View All
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="release-grid">
+                        <div class="release-card">
+                            <div class="release-cover">
+                                <div class="release-rating">9.4</div>
+                                <div class="play-overlay">
+                                    <div class="play-btn">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="release-info">
+                                <div class="release-genre">AMBIENT TECHNO</div>
+                                <h3 class="release-title">Digital Consciousness</h3>
+                                <div class="release-artist">Burial x Four Tet</div>
+                                <div class="release-meta">
+                                    <span>2025.05.25</span>
+                                    <span>Hyperdub</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="release-card">
+                            <div class="release-cover">
+                                <div class="release-rating">8.9</div>
+                                <div class="play-overlay">
+                                    <div class="play-btn">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="release-info">
+                                <div class="release-genre">BREAKBEAT</div>
+                                <h3 class="release-title">Neurofunk Sessions Vol.2</h3>
+                                <div class="release-artist">Noisia</div>
+                                <div class="release-meta">
+                                    <span>2025.05.23</span>
+                                    <span>Vision</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="release-card">
+                            <div class="release-cover">
+                                <div class="release-rating">9.1</div>
+                                <div class="play-overlay">
+                                    <div class="play-btn">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="release-info">
+                                <div class="release-genre">MINIMAL HOUSE</div>
+                                <h3 class="release-title">Echoes in the Machine</h3>
+                                <div class="release-artist">Max Richter</div>
+                                <div class="release-meta">
+                                    <span>2025.05.20</span>
+                                    <span>130701</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Latest Articles -->
+                <section class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Features & Interviews</h2>
+                        <a href="#" class="section-link">
+                            All Articles
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                    <div class="article-grid">
+                        <article class="article-card">
+                            <div class="article-image"></div>
+                            <div class="article-content">
+                                <div class="article-category">TECHNOLOGY</div>
+                                <h3 class="article-title">AI가 바꾸는 전자음악의 미래: 창작자와 기계의 협업</h3>
+                                <p class="article-excerpt">머신러닝과 신경망이 음악 창작에 미치는 영향을 심층 분석. 아티스트들이 AI를 도구로 활용하는 새로운 방식들을 탐구합니다.</p>
+                                <div class="article-meta">
+                                    <span>2025.05.26</span>
+                                    <span>15 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card">
+                            <div class="article-image"></div>
+                            <div class="article-content">
+                                <div class="article-category">INTERVIEW</div>
+                                <h3 class="article-title">Bicep과의 대화: 아날로그와 디지털의 완벽한 융합</h3>
+                                <p class="article-excerpt">북아일랜드 듀오가 말하는 하드웨어 신디사이저와 소프트웨어의 조화. 그들만의 독특한 사운드 제작 과정을 공개합니다.</p>
+                                <div class="article-meta">
+                                    <span>2025.05.24</span>
+                                    <span>22 min read</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card">
+                            <div class="article-image"></div>
+                            <div class="article-content">
+                                <div class="article-category">SCENE REPORT</div>
+                                <h3 class="article-title">베를린 클럽 씬의 부활: 팬데믹 이후의 새로운 언더그라운드</h3>
+                                <p class="article-excerpt">Berghain, Tresor, Watergate... 세계 전자음악의 성지가 다시 깨어나고 있습니다. 현지 리포트와 함께 살펴보는 변화의 현장.</p>
+                                <div class="article-meta">
+                                    <span>2025.05.22</span>
+                                    <span>18 min read</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- Newsletter -->
+                <section class="section">
+                    <div class="newsletter">
+                        <h3>ZENERATE WEEKLY</h3>
+                        <p>전자음악의 최신 트렌드와 숨겨진 명작들을 매주 큐레이션해서 전달드립니다</p>
+                        <div class="newsletter-form">
+                            <input type="email" class="newsletter-input" placeholder="your@email.com">
+                            <button class="newsletter-button">Subscribe</button>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Live Radio -->
+                <div class="sidebar-section">
+                    <div class="live-indicator">
+                        <div class="live-dot"></div>
+                        <span class="live-text">Live Now</span>
+                    </div>
+                    <h3 class="sidebar-title">ZENERATE Radio</h3>
+                    <div style="background: var(--primary); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;">
+                        <div style="width: 60px; height: 60px; background: var(--gradient-1); border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 24px;">
+                            <i class="fas fa-radio"></i>
+                        </div>
+                        <h4 style="color: var(--text-primary); margin-bottom: 8px; font-size: 16px;">Deep Focus Mix</h4>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">Curated by DJ Shadow</p>
+                        <button style="background: var(--gradient-1); color: var(--primary); border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%;">
+                            <i class="fas fa-play"></i> Listen Live
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Trending -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Trending Now</h3>
+                    <ul class="trending-list">
+                        <li class="trending-item">
+                            <span class="trending-number">1</span>
+                            <span class="trending-title">Aphex Twin 신작 앨범 심층 리뷰</span>
+                        </li>
+                        <li class="trending-item">
+                            <span class="trending-number">2</span>
+                            <span class="trending-title">모듈러 신디사이저 입문 가이드 2025</span>
+                        </li>
+                        <li class="trending-item">
+                            <span class="trending-number">3</span>
+                            <span class="trending-title">Charlotte de Witte 단독 인터뷰</span>
+                        </li>
+                        <li class="trending-item">
+                            <span class="trending-number">4</span>
+                            <span class="trending-title">Ultra Music Festival 2025 리뷰</span>
+                        </li>
+                        <li class="trending-item">
+                            <span class="trending-number">5</span>
+                            <span class="trending-title">Ableton Live 12 베타 첫 인상</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Electronic Charts -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Electronic Charts</h3>
+                    <div class="chart-item">
+                        <span class="chart-number">1</span>
+                        <div class="chart-cover"></div>
+                        <div class="chart-info">
+                            <h4>Resonance</h4>
+                            <div class="chart-artist">Home</div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <span class="chart-number">2</span>
+                        <div class="chart-cover"></div>
+                        <div class="chart-info">
+                            <h4>Midnight City</h4>
+                            <div class="chart-artist">M83</div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <span class="chart-number">3</span>
+                        <div class="chart-cover"></div>
+                        <div class="chart-info">
+                            <h4>Strobe</h4>
+                            <div class="chart-artist">Deadmau5</div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <span class="chart-number">4</span>
+                        <div class="chart-cover"></div>
+                        <div class="chart-info">
+                            <h4>Windowlicker</h4>
+                            <div class="chart-artist">Aphex Twin</div>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <span class="chart-number">5</span>
+                        <div class="chart-cover"></div>
+                        <div class="chart-info">
+                            <h4>Genesis</h4>
+                            <div class="chart-artist">Justice</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Events -->
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Upcoming Events</h3>
+                    <div style="space-y: 16px;">
+                        <div style="padding: 16px; background: var(--primary); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px;">
+                            <div style="color: var(--accent); font-size: 12px; font-weight: 600; margin-bottom: 8px;">JUN 15, 2025</div>
+                            <h4 style="color: var(--text-primary); font-size: 14px; margin-bottom: 4px;">Fabric London</h4>
+                            <div style="color: var(--text-secondary); font-size: 12px;">Four Tet, Floating Points</div>
+                        </div>
+                        <div style="padding: 16px; background: var(--primary); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 16px;">
+                            <div style="color: var(--accent); font-size: 12px; font-weight: 600; margin-bottom: 8px;">JUN 22, 2025</div>
+                            <h4 style="color: var(--text-primary); font-size: 14px; margin-bottom: 4px;">Sonar Festival</h4>
+                            <div style="color: var(--text-secondary); font-size: 12px;">Barcelona, Spain</div>
+                        </div>
+                        <div style="padding: 16px; background: var(--primary); border: 1px solid var(--border); border-radius: 12px;">
+                            <div style="color: var(--accent); font-size: 12px; font-weight: 600; margin-bottom: 8px;">JUL 08, 2025</div>
+                            <h4 style="color: var(--text-primary); font-size: 14px; margin-bottom: 4px;">Movement Detroit</h4>
+                            <div style="color: var(--text-secondary); font-size: 12px;">Carl Craig, Jeff Mills</div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        // Simple interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hover effects for cards
+            const cards = document.querySelectorAll('.release-card, .article-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) {
+                searchInput.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                searchInput.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            }
+
+            // Newsletter form
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const button = this.querySelector('.newsletter-button');
+                    const originalText = button.textContent;
+                    button.textContent = 'Subscribed!';
+                    button.style.background = 'var(--accent)';
+                    setTimeout(() => {
+                        button.textContent = originalText;
+                        button.style.background = 'var(--gradient-1)';
+                    }, 2000);
+                });
+            }
+
+            // Play button interactions
+            const playButtons = document.querySelectorAll('.play-btn, .btn-primary');
+            playButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

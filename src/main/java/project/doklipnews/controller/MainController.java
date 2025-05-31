@@ -197,9 +197,7 @@ public class MainController {
     @GetMapping("/example")
     public String example() {return "etc/example";}
     @GetMapping("/example2")
-    public String example2() {return "example";}
+    public String example2() {return "etc/example2";}
     @GetMapping("/download")
     public String download() {return "etc/download";}
-
-
 } 
