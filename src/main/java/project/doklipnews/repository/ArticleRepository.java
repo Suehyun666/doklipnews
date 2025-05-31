@@ -123,6 +123,63 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             @Param("category") String category,
             @Param("excludeIds") List<Long> excludeIds,
             Pageable pageable);
+    /**
+     * 메인페이지에 필요한 모든 데이터를 한 번의 쿼리로 가져오기
+     * UNION ALL 사용으로 여러 쿼리를 하나로 통합
+     */
+    @Query(value = """
+        (SELECT 'featured' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article WHERE featured = 1 ORDER BY created_at DESC LIMIT 1)
+        UNION ALL
+        (SELECT 'trending' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article ORDER BY view_count DESC LIMIT 10)
+        UNION ALL
+        (SELECT 'liked' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article ORDER BY like_count DESC LIMIT 10)
+        UNION ALL
+        (SELECT 'latest' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article ORDER BY created_at DESC LIMIT 10)
+        """, nativeQuery = true)
+    List<Object[]> findMainPageDataUnified();
 
+    /**
+     * 카테고리별 메인페이지 데이터 한 번에 가져오기
+     */
+    @Query(value = """
+        (SELECT 'featured' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article WHERE featured = 1 ORDER BY created_at DESC LIMIT 1)
+        UNION ALL
+        (SELECT 'trending' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article WHERE category = :category ORDER BY view_count DESC LIMIT 10)
+        UNION ALL
+        (SELECT 'liked' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article ORDER BY like_count DESC LIMIT 10)
+        UNION ALL
+        (SELECT 'latest' as type, id, title, author, created_at, category, image_url, view_count, like_count, summary 
+         FROM article WHERE category = :category ORDER BY created_at DESC LIMIT 10)
+        """, nativeQuery = true)
+    List<Object[]> findMainPageDataByCategoryUnified(@Param("category") String category);
 
+    /**
+     * 배치로 여러 카테고리의 최신 기사들을 한 번에 가져오기
+     */
+    @Query(value = """
+        SELECT DISTINCT ON (category) category, id, title, author, created_at, image_url, view_count, like_count, summary
+        FROM article 
+        WHERE category IN :categories 
+        ORDER BY category, created_at DESC
+        """, nativeQuery = true)
+    List<Object[]> findLatestByCategories(@Param("categories") List<String> categories);
+
+    /**
+     * 사이드바용 차트 데이터 한 번에 가져오기
+     */
+    @Query(value = """
+        SELECT id, title, image_url, 'chart' as type
+        FROM article 
+        WHERE image_url IS NOT NULL 
+        ORDER BY view_count DESC 
+        LIMIT 5
+        """, nativeQuery = true)
+    List<Object[]> findChartData();
 }

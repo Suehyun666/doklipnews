@@ -61,4 +61,5 @@ public class ArticleMapper {
                 .map(ArticleMapper::toListDTO)
                 .collect(Collectors.toList());
     }
+
 }
