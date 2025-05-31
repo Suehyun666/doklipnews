@@ -1,591 +1,691 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEAT DROP - 음악 & 리듬게임 매거진</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEAT MAGAZINE - 음악 & 리듬게임 매거진</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
-            color: #ffffff;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
 
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
+    /* Header */
+    .header {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(10px);
+    }
 
-        .beat-line {
-            position: absolute;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(to bottom, transparent, #00ff88, transparent);
-            animation: beatMove 3s linear infinite;
-            opacity: 0.3;
-        }
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+    }
 
-        .beat-line:nth-child(1) { left: 10%; animation-delay: 0s; }
-        .beat-line:nth-child(2) { left: 30%; animation-delay: 0.5s; }
-        .beat-line:nth-child(3) { left: 70%; animation-delay: 1s; }
-        .beat-line:nth-child(4) { left: 90%; animation-delay: 1.5s; }
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #000;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
 
-        @keyframes beatMove {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
-        }
+    .nav {
+      display: flex;
+      gap: 32px;
+    }
 
-        /* Header */
-        .header {
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 2px solid #00ff88;
-        }
+    .nav a {
+      color: #666;
+      text-decoration: none;
+      font-weight: 400;
+      font-size: 15px;
+      transition: color 0.2s ease;
+    }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
+    .nav a:hover,
+    .nav a.active {
+      color: #000;
+    }
 
-        .logo {
-            font-family: 'Orbitron', monospace;
-            font-size: 28px;
-            font-weight: 900;
-            background: linear-gradient(45deg, #00ff88, #00ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
-        }
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
 
-        .nav {
-            display: flex;
-            gap: 30px;
-        }
+    /* Hero Section */
+    .hero {
+      padding: 60px 0 80px;
+      border-bottom: 1px solid #f0f0f0;
+    }
 
-        .nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: 500;
-            position: relative;
-            transition: all 0.3s ease;
-        }
+    .hero-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
 
-        .nav a:hover {
-            color: #00ff88;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.8);
-        }
+    .hero-content h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      color: #000;
+    }
 
-        .nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(45deg, #00ff88, #00ccff);
-            transition: width 0.3s ease;
-        }
+    .hero-content p {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 32px;
+      line-height: 1.7;
+    }
 
-        .nav a:hover::after {
-            width: 100%;
-        }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #999;
+      font-size: 14px;
+    }
 
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+    .hero-image {
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23ff0080" width="1200" height="600"/><circle fill="%2300ff88" cx="300" cy="150" r="50" opacity="0.3"/><circle fill="%2300ccff" cx="900" cy="300" r="80" opacity="0.2"/><polygon fill="%23ffff00" points="600,100 650,200 550,200" opacity="0.4"/></svg>');
-            background-size: cover;
-            background-position: center;
-            padding: 80px 40px;
-            border-radius: 20px;
-            margin-bottom: 60px;
-            position: relative;
-            overflow: hidden;
-        }
+    .hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                    90deg,
-                    transparent,
-                    transparent 10px,
-                    rgba(0, 255, 136, 0.1) 10px,
-                    rgba(0, 255, 136, 0.1) 12px
-            );
-            animation: scan 2s linear infinite;
-        }
+    /* Album Review Section */
+    .section {
+      padding: 80px 0;
+    }
 
-        @keyframes scan {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 48px;
+    }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: #000;
+    }
 
-        .hero h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 48px;
-            font-weight: 900;
-            margin-bottom: 20px;
-            background: linear-gradient(45deg, #ff0080, #00ff88, #00ccff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px rgba(255, 0, 128, 0.5);
-        }
+    .section-link {
+      color: #666;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+    }
 
-        .hero p {
-            font-size: 20px;
-            color: #cccccc;
-            line-height: 1.6;
-        }
+    .section-link:hover {
+      color: #000;
+    }
 
-        /* Article Grid */
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
+    /* Album Grid */
+    .album-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+    }
 
-        .article-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-        }
+    .album-card {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
 
-        .article-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
+    .album-card:hover {
+      transform: translateY(-4px);
+    }
 
-        .article-card:hover::before {
-            left: 100%;
-        }
+    .album-cover {
+      aspect-ratio: 1;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow: hidden;
+      position: relative;
+    }
 
-        .article-card:hover {
-            transform: translateY(-10px);
-            border-color: #00ff88;
-            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
-        }
+    .album-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        .article-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
+    .album-rating {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+    }
 
-        .category {
-            background: linear-gradient(45deg, #ff0080, #00ff88);
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    .album-info h3 {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 4px;
+      color: #000;
+    }
 
-        .date {
-            color: #888;
-            font-size: 14px;
-        }
+    .album-artist {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
 
-        .article-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            color: #ffffff;
-        }
+    .album-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #999;
+    }
 
-        .article-summary {
-            color: #cccccc;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
+    /* Article Grid */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 48px;
+    }
 
-        .article-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+    .article-card {
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
 
-        .author {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    .article-card:hover {
+      transform: translateY(-2px);
+    }
 
-        .author-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #00ff88, #00ccff);
-        }
+    .article-image {
+      aspect-ratio: 16/10;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
 
-        .stats {
-            display: flex;
-            gap: 15px;
-            color: #888;
-        }
+    .article-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
+    .article-category {
+      color: #666;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
 
-        /* Sidebar */
-        .sidebar {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 30px;
-            border: 1px solid rgba(0, 255, 136, 0.2);
-        }
+    .article-title {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 1.3;
+      margin-bottom: 12px;
+      color: #000;
+    }
 
-        .sidebar h3 {
-            font-family: 'Orbitron', monospace;
-            color: #00ff88;
-            margin-bottom: 20px;
-            font-size: 18px;
-        }
+    .article-excerpt {
+      color: #666;
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
 
-        .trending-item {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    .article-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #999;
+    }
 
-        .trending-item:hover {
-            color: #00ff88;
-            padding-left: 10px;
-        }
+    .article-date {
+      font-weight: 400;
+    }
 
-        .trending-item:last-child {
-            border-bottom: none;
-        }
+    .article-reading-time {
+      font-weight: 400;
+    }
 
-        .trending-number {
-            background: linear-gradient(45deg, #ff0080, #00ccff);
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 12px;
-            margin-right: 10px;
-        }
+    /* Sidebar */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 80px;
+    }
 
-        /* Layout */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 40px;
-        }
+    .sidebar {
+      padding-top: 80px;
+    }
 
-        /* Special Effects */
-        .glow-text {
-            text-shadow: 0 0 20px currentColor;
-        }
+    .sidebar-section {
+      margin-bottom: 48px;
+    }
 
-        .pulse {
-            animation: pulse 2s infinite;
-        }
+    .sidebar-title {
+      font-weight: 600;
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #000;
+    }
 
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+    .trending-list {
+      list-style: none;
+    }
 
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .main-layout {
-                grid-template-columns: 1fr;
-            }
+    .trending-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
 
-            .nav {
-                display: none;
-            }
+    .trending-item:hover {
+      color: #666;
+    }
 
-            .hero h1 {
-                font-size: 32px;
-            }
+    .trending-item:last-child {
+      border-bottom: none;
+    }
 
-            .articles-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    .trending-number {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background: #000;
+      color: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+
+    .trending-title {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    /* Chart Section */
+    .chart-item {
+      display: flex;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .chart-item:last-child {
+      border-bottom: none;
+    }
+
+    .chart-number {
+      font-weight: 700;
+      font-size: 18px;
+      color: #000;
+      width: 32px;
+    }
+
+    .chart-cover {
+      width: 48px;
+      height: 48px;
+      background: #f8f9fa;
+      border-radius: 4px;
+      margin: 0 16px;
+    }
+
+    .chart-info h4 {
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 2px;
+      color: #000;
+    }
+
+    .chart-artist {
+      color: #666;
+      font-size: 12px;
+    }
+
+    /* Newsletter */
+    .newsletter {
+      background: #f8f9fa;
+      padding: 48px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .newsletter h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #000;
+    }
+
+    .newsletter p {
+      color: #666;
+      margin-bottom: 24px;
+      font-size: 15px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .newsletter-button {
+      background: #000;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .newsletter-button:hover {
+      background: #333;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 16px 20px;
+      }
+
+      .container {
+        padding: 0 20px;
+      }
+
+      .nav {
+        display: none;
+      }
+
+      .hero-main {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        text-align: center;
+      }
+
+      .hero-content h1 {
+        font-size: 36px;
+      }
+
+      .main-layout {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .sidebar {
+        padding-top: 0;
+      }
+
+      .section {
+        padding: 48px 0;
+      }
+
+      .album-grid,
+      .article-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+  </style>
 </head>
 <body>
-<!-- Animated Background -->
-<div class="bg-animation">
-    <div class="beat-line"></div>
-    <div class="beat-line"></div>
-    <div class="beat-line"></div>
-    <div class="beat-line"></div>
-</div>
-
 <!-- Header -->
 <header class="header">
-    <div class="header-content">
-        <div class="logo glow-text">BEAT DROP</div>
-        <nav class="nav">
-            <a href="#"><i class="fas fa-home"></i> 홈</a>
-            <a href="#"><i class="fas fa-music"></i> 리뷰</a>
-            <a href="#"><i class="fas fa-gamepad"></i> 리듬게임</a>
-            <a href="#"><i class="fas fa-headphones"></i> 인터뷰</a>
-            <a href="#"><i class="fas fa-chart-line"></i> 차트</a>
-            <a href="#"><i class="fas fa-calendar"></i> 이벤트</a>
-        </nav>
-    </div>
+  <div class="header-content">
+    <a href="#" class="logo">BEAT MAGAZINE</a>
+    <nav class="nav">
+      <a href="#" class="active">홈</a>
+      <a href="#">리뷰</a>
+      <a href="#">인터뷰</a>
+      <a href="#">차트</a>
+      <a href="#">리듬게임</a>
+      <a href="#">이벤트</a>
+    </nav>
+  </div>
 </header>
 
 <!-- Main Content -->
 <div class="container">
-    <!-- Hero Section -->
-    <section class="hero pulse">
-        <div class="hero-content">
-            <h1>🎵 NEW ALBUM REVIEW 🎵</h1>
-            <p>아이브(IVE)의 새 앨범 'I'VE MINE'에 대한 심층 분석과 리듬게임 수록곡 추천!
-                K-POP과 게임의 완벽한 조화를 만나보세요.</p>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-main">
+      <div class="hero-content">
+        <h1>NewJeans의 새로운 도전, 'Get Up'에서 발견한 리듬게임의 미래</h1>
+        <p>Y2K 사운드와 모던 프로덕션이 만나 탄생한 완벽한 조화. 각 트랙이 리듬게임에서 어떤 가능성을 보여주는지 심층 분석했습니다.</p>
+        <div class="hero-meta">
+          <span>ALBUM REVIEW</span>
+          <span>•</span>
+          <span>2025.05.26</span>
+          <span>•</span>
+          <span>8분 읽기</span>
         </div>
-    </section>
-
-    <!-- Main Layout -->
-    <div class="main-layout">
-        <!-- Articles -->
-        <main>
-            <div class="articles-grid">
-                <article class="article-card">
-                    <div class="article-meta">
-                        <span class="category">🎮 RHYTHM GAME</span>
-                        <span class="date">2025.05.26</span>
-                    </div>
-                    <h2 class="article-title">DJMAX RESPECT V 신곡 'Cosmic Mind' 퍼펙트 공략법</h2>
-                    <p class="article-summary">
-                        최고 난이도 15레벨의 신곡을 완전정복하는 법! 노트 패턴 분석부터 손가락 운지법까지 완벽 가이드.
-                    </p>
-                    <div class="article-footer">
-                        <div class="author">
-                            <div class="author-avatar"></div>
-                            <span>RhythmMaster</span>
-                        </div>
-                        <div class="stats">
-                            <div class="stat">
-                                <i class="fas fa-heart"></i>
-                                <span>1.2K</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-comment"></i>
-                                <span>89</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-meta">
-                        <span class="category">🎵 ALBUM REVIEW</span>
-                        <span class="date">2025.05.25</span>
-                    </div>
-                    <h2 class="article-title">NewJeans 'Get Up' - 하이퍼팝의 새로운 지평</h2>
-                    <p class="article-summary">
-                        Y2K 감성과 현대적 프로덕션의 완벽한 결합. 각 트랙별 상세 분석과 리듬게임 적합도 평가.
-                    </p>
-                    <div class="article-footer">
-                        <div class="author">
-                            <div class="author-avatar"></div>
-                            <span>MusicCritic</span>
-                        </div>
-                        <div class="stats">
-                            <div class="stat">
-                                <i class="fas fa-heart"></i>
-                                <span>2.8K</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-comment"></i>
-                                <span>156</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-meta">
-                        <span class="category">🎤 INTERVIEW</span>
-                        <span class="date">2025.05.24</span>
-                    </div>
-                    <h2 class="article-title">TAPSONICⓇ 프로듀서 독점 인터뷰: 미래의 모바일 리듬게임</h2>
-                    <p class="article-summary">
-                        차세대 모바일 리듬게임의 방향성과 K-POP 콜라보레이션의 비하인드 스토리를 공개합니다.
-                    </p>
-                    <div class="article-footer">
-                        <div class="author">
-                            <div class="author-avatar"></div>
-                            <span>GameJournalist</span>
-                        </div>
-                        <div class="stats">
-                            <div class="stat">
-                                <i class="fas fa-heart"></i>
-                                <span>956</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-comment"></i>
-                                <span>67</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-meta">
-                        <span class="category">📊 CHART</span>
-                        <span class="date">2025.05.23</span>
-                    </div>
-                    <h2 class="article-title">이번 주 리듬게임 인기곡 TOP 10</h2>
-                    <p class="article-summary">
-                        DJMAX, 펌프, 비트세이버까지! 전 장르 리듬게임의 주간 인기곡 순위와 플레이 통계 분석.
-                    </p>
-                    <div class="article-footer">
-                        <div class="author">
-                            <div class="author-avatar"></div>
-                            <span>ChartAnalyst</span>
-                        </div>
-                        <div class="stats">
-                            <div class="stat">
-                                <i class="fas fa-heart"></i>
-                                <span>1.5K</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-comment"></i>
-                                <span>94</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </main>
-
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h3><i class="fas fa-fire"></i> 인기 급상승</h3>
-            <div class="trending-item">
-                <span class="trending-number">1</span>
-                aespa 'Spicy' 리듬게임 패턴 분석
-            </div>
-            <div class="trending-item">
-                <span class="trending-number">2</span>
-                DJMAX 신작 발표 임박?
-            </div>
-            <div class="trending-item">
-                <span class="trending-number">3</span>
-                비트세이버 MOD 추천 BEST 5
-            </div>
-            <div class="trending-item">
-                <span class="trending-number">4</span>
-                리듬게임 실력 향상의 과학적 방법
-            </div>
-            <div class="trending-item">
-                <span class="trending-number">5</span>
-                K-POP 안무와 리듬감의 상관관계
-            </div>
-
-            <h3 style="margin-top: 40px;"><i class="fas fa-calendar-alt"></i> 이번 주 이벤트</h3>
-            <div class="trending-item">
-                🎯 DJMAX 온라인 토너먼트
-            </div>
-            <div class="trending-item">
-                🎵 신곡 First Listen 이벤트
-            </div>
-            <div class="trending-item">
-                🏆 커뮤니티 챌린지 Week
-            </div>
-        </aside>
+      </div>
+      <div class="hero-image">
+        <img src="/images/albums/newjeans-getup.webp" alt="NewJeans Get Up Album Cover">
+      </div>
     </div>
+  </section>
+
+  <div class="main-layout">
+    <!-- Main Content -->
+    <main>
+      <!-- Album Reviews Section -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">최신 앨범 리뷰</h2>
+          <a href="#" class="section-link">전체 보기 →</a>
+        </div>
+        <div class="album-grid">
+          <div class="album-card">
+            <div class="album-cover">
+              <div class="album-rating">9.2</div>
+              <img src="/images/albums/ive-mine.webp" alt="IVE I'VE MINE Album Cover">
+            </div>
+            <div class="album-info">
+              <h3>I'VE MINE</h3>
+              <div class="album-artist">아이브 (IVE)</div>
+              <div class="album-meta">
+                <span>2025.05.20</span>
+                <span>K-POP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="album-card">
+            <div class="album-cover">
+              <div class="album-rating">8.7</div>
+              <img src="/images/albums/lesserafim-unforgiven.webp" alt="LE SSERAFIM UNFORGIVEN Album Cover">
+            </div>
+            <div class="album-info">
+              <h3>UNFORGIVEN</h3>
+              <div class="album-artist">르세라핌 (LE SSERAFIM)</div>
+              <div class="album-meta">
+                <span>2025.05.18</span>
+                <span>K-POP</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="album-card">
+            <div class="album-cover">
+              <div class="album-rating">9.5</div>
+              <img src="/images/albums/straykids-rockstar.webp" alt="Stray Kids ROCK-STAR Album Cover">
+            </div>
+            <div class="album-info">
+              <h3>ROCK-STAR</h3>
+              <div class="album-artist">스트레이 키즈 (Stray Kids)</div>
+              <div class="album-meta">
+                <span>2025.05.15</span>
+                <span>K-POP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latest Articles Section -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">최신 기사</h2>
+          <a href="#" class="section-link">전체 보기 →</a>
+        </div>
+        <div class="article-grid">
+          <article class="article-card">
+            <div class="article-image">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'%3E%3Crect fill='%23f0f0f0' width='320' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-family='sans-serif' font-size='14' fill='%23666'%3EDJMAX 신곡%3C/text%3E%3C/svg%3E" alt="DJMAX Article">
+            </div>
+            <div class="article-category">RHYTHM GAME</div>
+            <h3 class="article-title">DJMAX RESPECT V 'Cosmic Mind' 완전 정복 가이드</h3>
+            <p class="article-excerpt">최고 난이도 15레벨의 신곡을 마스터하는 법. 노트 패턴 분석부터 실전 팁까지 상세히 다룹니다.</p>
+            <div class="article-meta">
+              <span class="article-date">2025.05.26</span>
+              <span class="article-reading-time">5분 읽기</span>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-image">
+              <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200'%3E%3Crect fill='%23f8f8f8' width='320' height='200'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-family='sans-serif' font-size='14' fill='%23666'%3E프로듀서 인터뷰%3C/text%3E%3C/svg%3E" alt="Producer Interview">
+            </div>
+            <div class="article-category">INTERVIEW</div>
+            <h3 class="article-title">TAPSONIC 프로듀서가 말하는 모바일 리듬게임의 미래</h3>
+            <p class="article-excerpt">차세대 모바일 리듬게임이 나아갈 방향과 K-POP 콜라보레이션의 비하인드 스토리.</p>
+            <div class="article-meta">
+              <span class="article-date">2025.05.25</span>
+              <span class="article-reading-time">7분 읽기</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Newsletter -->
+      <section class="section">
+        <div class="newsletter">
+          <h3>BEAT MAGAZINE 뉴스레터</h3>
+          <p>최신 앨범 리뷰와 리듬게임 소식을 가장 빠르게 받아보세요</p>
+          <div class="newsletter-form">
+            <input type="email" class="newsletter-input" placeholder="이메일 주소를 입력하세요">
+            <button class="newsletter-button">구독하기</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">인기 급상승</h3>
+        <ul class="trending-list">
+          <li class="trending-item">
+            <span class="trending-number">1</span>
+            <span class="trending-title">aespa 'Spicy' 리듬게임 패턴 완전 분석</span>
+          </li>
+          <li class="trending-item">
+            <span class="trending-number">2</span>
+            <span class="trending-title">DJMAX 새 작품 개발 중? 공식 힌트 해석</span>
+          </li>
+          <li class="trending-item">
+            <span class="trending-number">3</span>
+            <span class="trending-title">비트세이버 MOD 추천 BEST 10</span>
+          </li>
+          <li class="trending-item">
+            <span class="trending-number">4</span>
+            <span class="trending-title">리듬감 향상을 위한 과학적 연습법</span>
+          </li>
+          <li class="trending-item">
+            <span class="trending-number">5</span>
+            <span class="trending-title">K-POP 안무와 BPM의 상관관계 연구</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">이번 주 리듬게임 차트</h3>
+        <div class="chart-item">
+          <span class="chart-number">1</span>
+          <div class="chart-cover"></div>
+          <div class="chart-info">
+            <h4>NewJeans - Get Up</h4>
+            <div class="chart-artist">DJMAX, TAPSONIC</div>
+          </div>
+        </div>
+        <div class="chart-item">
+          <span class="chart-number">2</span>
+          <div class="chart-cover"></div>
+          <div class="chart-info">
+            <h4>aespa - Spicy</h4>
+            <div class="chart-artist">DJMAX, Pump It Up</div>
+          </div>
+        </div>
+        <div class="chart-item">
+          <span class="chart-number">3</span>
+          <div class="chart-cover"></div>
+          <div class="chart-info">
+            <h4>IVE - I AM</h4>
+            <div class="chart-artist">TAPSONIC, Muse Dash</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
 </div>
-
-<script>
-    // 마우스 움직임에 따른 글로우 효과
-    document.addEventListener('mousemove', function(e) {
-        const cards = document.querySelectorAll('.article-card');
-        cards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            if (x >= 0 && x <= rect.width && y >= 0 && y <= rect.height) {
-                card.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(0,255,136,0.1) 0%, rgba(255,255,255,0.05) 100%)`;
-            } else {
-                card.style.background = 'rgba(255, 255, 255, 0.05)';
-            }
-        });
-    });
-
-    // 카드 클릭 애니메이션
-    document.querySelectorAll('.article-card').forEach(card => {
-        card.addEventListener('click', function() {
-            this.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = 'translateY(-10px)';
-            }, 100);
-        });
-    });
-</script>
 </body>
 </html>

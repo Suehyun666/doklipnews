@@ -195,9 +195,11 @@ public class MainController {
     public String terms() {return "customer/terms";}
 
     @GetMapping("/example")
-    public String example() {return "etc/example2";}
+    public String example() {return "etc/example";}
     @GetMapping("/example2")
-    public String example2(){return "etc/example3";}
-    @GetMapping("download")
-    public String download(){return "etc/download";}
+    public String example2() {return "example";}
+    @GetMapping("/download")
+    public String download() {return "etc/download";}
+
+
 } 

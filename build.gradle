@@ -24,34 +24,49 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    // Spring Boot Starters
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
-    //jwt
+    // JPA + Hibernate (버전 명시)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation('org.hibernate.orm:hibernate-core:6.4.4.Final') {
+        exclude group: 'org.hibernate.common', module: 'hibernate-commons-annotations'
+    }
+    implementation 'org.hibernate.common:hibernate-commons-annotations:6.0.6.Final'
+    implementation 'org.hibernate:hibernate-validator:8.0.1.Final'
+
+    // MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
+
+    // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
-    //bucket4j 처리율
+
+    // bucket4j
     implementation 'com.bucket4j:bucket4j-core:8.9.0'
     implementation 'com.bucket4j:bucket4j-redis:8.9.0'
-    //webp
+
+    // 이미지 처리
     implementation 'org.sejda.imageio:webp-imageio:0.1.6'
-    //
     implementation 'org.jsoup:jsoup:1.15.3'
-    //
+
+    // Lombok
     compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
+
+    // 개발 도구
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // 테스트
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
+
 test {
     enabled = false
 }
