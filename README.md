@@ -1,8 +1,11 @@
 # doklipnews
 언론사 프로젝트입니다.
 링크 참고 : https://dongbaeknews.com/main
+//index
+![Image](https://github.com/user-attachments/assets/5980de62-ca71-49ff-bdb5-5b27cba5eded)
+//category
+![Image](https://github.com/user-attachments/assets/69482122-f0a7-498a-b9cb-4c8c2698249f)
 
-#img에서 lazing을 처리하여 재방문 시에는 로딩이 빠르지만 초기 로딩 속도가 느림.(20250319)
 
 #현재 이미지 로딩 속도에 따른 해결책 분석
 | 최적화 방법 | 장점 | 단점 | 구현 복잡도 | 효과 정도 | 적합한 상황 |
