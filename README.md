@@ -2,9 +2,9 @@
 언론사 프로젝트입니다.
 링크 참고 : https://dongbaeknews.com/main
 //index
-![Image](https://github.com/user-attachments/assets/5980de62-ca71-49ff-bdb5-5b27cba5eded)
-//category
-![Image](https://github.com/user-attachments/assets/69482122-f0a7-498a-b9cb-4c8c2698249f)
+![Image](https://github.com/user-attachments/assets/5980de62-ca71-49ff-bdb5-5b27cba5eded width="400" height="770")
+//categor
+![Image](https://github.com/user-attachments/assets/69482122-f0a7-498a-b9cb-4c8c2698249f width="400" height="770")
 
 
 #현재 이미지 로딩 속도에 따른 해결책 분석
